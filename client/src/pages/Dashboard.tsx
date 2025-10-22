@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
-import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2, Mail, Search, SlidersHorizontal, Calendar, AlertCircle, CheckCircle2, Archive, X } from "lucide-react";
+import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2, Mail, Search, Calendar, AlertCircle } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -108,40 +108,51 @@ export default function Dashboard() {
     return sorted;
   }, [proposals, statusFilter, searchQuery, sortBy]);
 
-  // Calculate stats - MUST be before early returns
+  // Calculate stats
   const stats = useMemo(() => {
     if (!proposals) return { total: 0, draft: 0, published: 0, archived: 0, expiringSoon: 0 };
     
     const now = new Date();
-    const expiringSoon = proposals.filter(p => {
-      const daysUntilExpiry = differenceInDays(new Date(p.validUntil), now);
-      return daysUntilExpiry >= 0 && daysUntilExpiry <= 7 && p.status === "published";
-    }).length;
-
     return {
       total: proposals.length,
       draft: proposals.filter(p => p.status === "draft").length,
       published: proposals.filter(p => p.status === "published").length,
       archived: proposals.filter(p => p.status === "archived").length,
-      expiringSoon,
+      expiringSoon: proposals.filter(p => {
+        const daysUntilExpiry = differenceInDays(new Date(p.validUntil), now);
+        return p.status === "published" && daysUntilExpiry >= 0 && daysUntilExpiry <= 7;
+      }).length,
     };
   }, [proposals]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#ffdfb5]">
+      <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    window.location.href = getLoginUrl();
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Card className="w-full max-w-md mx-4">
+          <CardHeader>
+            <CardTitle>Sign in to continue</CardTitle>
+            <CardDescription>Access your proposals and create new ones</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild className="w-full">
+              <a href={getLoginUrl()}>Sign in with Google</a>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
-  const handleDelete = (id: number, projectName: string) => {
-    if (confirm(`Are you sure you want to delete "${projectName}"? This cannot be undone.`)) {
+  const handleDelete = (id: number) => {
+    if (confirm("Are you sure you want to delete this proposal?")) {
       setDeletingId(id);
       deleteMutation.mutate({ id });
     }
@@ -151,7 +162,6 @@ export default function Dashboard() {
     duplicateMutation.mutate({ id });
   };
 
-  // Bulk actions
   const toggleSelection = (id: number) => {
     const newSelected = new Set(selectedIds);
     if (newSelected.has(id)) {
@@ -162,55 +172,47 @@ export default function Dashboard() {
     setSelectedIds(newSelected);
   };
 
-  const toggleSelectAll = () => {
-    if (selectedIds.size === filteredAndSortedProposals.length) {
-      setSelectedIds(new Set());
-    } else {
-      setSelectedIds(new Set(filteredAndSortedProposals.map(p => p.id)));
-    }
-  };
-
   const handleBulkDelete = () => {
     if (selectedIds.size === 0) return;
-    if (confirm(`Are you sure you want to delete ${selectedIds.size} proposal(s)? This cannot be undone.`)) {
-      selectedIds.forEach(id => {
-        deleteMutation.mutate({ id });
-      });
+    if (confirm(`Delete ${selectedIds.size} selected proposal(s)?`)) {
+      selectedIds.forEach(id => deleteMutation.mutate({ id }));
       setSelectedIds(new Set());
     }
   };
 
   const getStatusBadge = (status: string) => {
-    const variants: Record<string, { label: string; className: string }> = {
-      draft: { label: "Draft", className: "bg-gray-200 text-gray-800" },
-      published: { label: "Published", className: "bg-green-100 text-green-800" },
-      archived: { label: "Archived", className: "bg-orange-100 text-orange-800" },
-    };
-    
-    const config = variants[status] || variants.draft;
+    const config = {
+      draft: { label: "Draft", className: "bg-gray-100 text-gray-700" },
+      published: { label: "Published", className: "bg-green-100 text-green-700" },
+      archived: { label: "Archived", className: "bg-gray-100 text-gray-500" },
+    }[status] || { label: status, className: "" };
+
     return <Badge className={config.className}>{config.label}</Badge>;
   };
 
   return (
-    <div className="min-h-screen bg-[#ffdfb5]" style={{backgroundColor: '#fdf8f2'}}>
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-white">
+      {/* Header - Minimal */}
+      <header className="border-b border-gray-200">
+        <div className="container mx-auto px-6 py-5 flex items-center justify-between">
           <Link href="/">
-            <div className="flex items-center gap-2 cursor-pointer">
-              <FileText className="w-8 h-8 text-[#644a40]" />
-              <span className="text-2xl font-bold text-gray-900">Tempo</span>
+            <div className="flex items-center gap-3 cursor-pointer">
+              <div className="w-8 h-8 bg-black flex items-center justify-center">
+                <FileText className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-semibold tracking-tight">Tempo</span>
             </div>
           </Link>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-500 hidden sm:block">
               {user?.name || user?.email}
             </span>
             <Button
               onClick={() => setLocation("/create-ai")}
-              className="bg-[#644a40] hover:bg-[#4a3530] text-white gap-2"
+              size="sm"
+              className="bg-black hover:bg-gray-800 text-white h-9"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 mr-1.5" />
               New Proposal
             </Button>
           </div>
@@ -218,120 +220,63 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 md:px-6 py-6 md:py-8">
-        <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Your Proposals</h1>
-          <p className="text-sm md:text-base text-gray-600">Manage and track all your proposals in one place</p>
+      <main className="container mx-auto px-6 py-12">
+        {/* Title */}
+        <div className="mb-12">
+          <h1 className="text-3xl font-semibold tracking-tight text-gray-900 mb-2">Proposals</h1>
+          <p className="text-gray-500">Manage and track all your proposals</p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-6">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardDescription className="text-xs">Total</CardDescription>
-              <CardTitle className="text-2xl">{stats.total}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card className="cursor-pointer" onClick={() => setStatusFilter("draft")}>
-            <CardHeader className="pb-3">
-              <CardDescription className="text-xs">Drafts</CardDescription>
-              <CardTitle className="text-2xl flex items-center gap-2">
-                {stats.draft}
-                <Edit className="w-4 h-4 text-gray-400" />
-              </CardTitle>
-            </CardHeader>
-          </Card>
-          <Card className="cursor-pointer" onClick={() => setStatusFilter("published")}>
-            <CardHeader className="pb-3">
-              <CardDescription className="text-xs">Published</CardDescription>
-              <CardTitle className="text-2xl flex items-center gap-2">
-                {stats.published}
-                <CheckCircle2 className="w-4 h-4 text-green-600" />
-              </CardTitle>
-            </CardHeader>
-          </Card>
-          <Card className="cursor-pointer" onClick={() => setStatusFilter("archived")}>
-            <CardHeader className="pb-3">
-              <CardDescription className="text-xs">Archived</CardDescription>
-              <CardTitle className="text-2xl flex items-center gap-2">
-                {stats.archived}
-                <Archive className="w-4 h-4 text-gray-400" />
-              </CardTitle>
-            </CardHeader>
-          </Card>
+        {/* Stats - Minimal Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
+          <div className="border border-gray-200 p-4">
+            <div className="text-sm text-gray-500 mb-1">Total</div>
+            <div className="text-3xl font-semibold">{stats.total}</div>
+          </div>
+          <div 
+            className="border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
+            onClick={() => setStatusFilter("draft")}
+          >
+            <div className="text-sm text-gray-500 mb-1">Drafts</div>
+            <div className="text-3xl font-semibold">{stats.draft}</div>
+          </div>
+          <div 
+            className="border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
+            onClick={() => setStatusFilter("published")}
+          >
+            <div className="text-sm text-gray-500 mb-1">Published</div>
+            <div className="text-3xl font-semibold">{stats.published}</div>
+          </div>
+          <div 
+            className="border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
+            onClick={() => setStatusFilter("archived")}
+          >
+            <div className="text-sm text-gray-500 mb-1">Archived</div>
+            <div className="text-3xl font-semibold">{stats.archived}</div>
+          </div>
           {stats.expiringSoon > 0 && (
-            <Card className="bg-orange-50 border-orange-200">
-              <CardHeader className="pb-3">
-                <CardDescription className="text-xs text-orange-700">Expiring Soon</CardDescription>
-                <CardTitle className="text-2xl flex items-center gap-2 text-orange-700">
-                  {stats.expiringSoon}
-                  <AlertCircle className="w-4 h-4" />
-                </CardTitle>
-              </CardHeader>
-            </Card>
+            <div className="border border-orange-300 bg-orange-50 p-4">
+              <div className="text-sm text-orange-700 mb-1">Expiring Soon</div>
+              <div className="text-3xl font-semibold text-orange-700">{stats.expiringSoon}</div>
+            </div>
           )}
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow active:scale-98" onClick={() => setLocation("/create-ai")}>
-            <CardHeader className="pb-4">
-              <CardTitle className="text-base md:text-lg flex items-center gap-2">
-                <Plus className="w-5 h-5 text-[#644a40]" />
-                Generate with AI
-              </CardTitle>
-              <CardDescription>Create proposals in seconds with AI assistance</CardDescription>
-            </CardHeader>
-          </Card>
-          
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow active:scale-98" onClick={() => setLocation("/templates")}>
-            <CardHeader className="pb-4">
-              <CardTitle className="text-base md:text-lg flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#644a40]" />
-                Browse Templates
-              </CardTitle>
-              <CardDescription>Start with professional industry templates</CardDescription>
-            </CardHeader>
-          </Card>
-          
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow active:scale-98" onClick={() => setLocation("/create")}>
-            <CardHeader className="pb-4">
-              <CardTitle className="text-base md:text-lg flex items-center gap-2">
-                <Edit className="w-5 h-5 text-[#644a40]" />
-                Create Manually
-              </CardTitle>
-              <CardDescription>Build a custom proposal from scratch</CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-
-        {/* Filters and Search */}
-        <div className="mb-6 space-y-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            {/* Search */}
+        {/* Filters - Clean */}
+        <div className="mb-8 space-y-4">
+          {/* Search and Sort */}
+          <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
-                type="text"
                 placeholder="Search proposals..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10" style={{height: '48px'}}
+                className="pl-9 h-10 border-gray-300"
               />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
             </div>
-
-            {/* Sort */}
             <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
-              <SelectTrigger className="w-full md:w-[200px]">
-                <SlidersHorizontal className="w-4 h-4 mr-2" />
+              <SelectTrigger className="w-full sm:w-48 h-10 border-gray-300">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
@@ -343,198 +288,170 @@ export default function Dashboard() {
             </Select>
           </div>
 
-          {/* Status Tabs */}
+          {/* Status Tabs - Minimal */}
           <Tabs value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
-            <TabsList className="grid w-full grid-cols-4" style={{borderRadius: '8px', padding: '4px 6px', margin: '4px', height: '48px'}}>
-              <TabsTrigger value="all">All ({stats.total})</TabsTrigger>
-              <TabsTrigger value="draft">Drafts ({stats.draft})</TabsTrigger>
-              <TabsTrigger value="published">Published ({stats.published})</TabsTrigger>
-              <TabsTrigger value="archived">Archived ({stats.archived})</TabsTrigger>
+            <TabsList className="border border-gray-200 bg-white p-1 h-10">
+              <TabsTrigger value="all" className="data-[state=active]:bg-black data-[state=active]:text-white">
+                All
+              </TabsTrigger>
+              <TabsTrigger value="draft" className="data-[state=active]:bg-black data-[state=active]:text-white">
+                Drafts
+              </TabsTrigger>
+              <TabsTrigger value="published" className="data-[state=active]:bg-black data-[state=active]:text-white">
+                Published
+              </TabsTrigger>
+              <TabsTrigger value="archived" className="data-[state=active]:bg-black data-[state=active]:text-white">
+                Archived
+              </TabsTrigger>
             </TabsList>
           </Tabs>
 
           {/* Bulk Actions */}
           {selectedIds.size > 0 && (
-            <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <div className="flex items-center gap-3">
-                <Checkbox
-                  checked={selectedIds.size === filteredAndSortedProposals.length}
-                  onCheckedChange={toggleSelectAll}
-                />
-                <span className="text-sm font-medium">
-                  {selectedIds.size} selected
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSelectedIds(new Set())}
-                >
-                  Clear Selection
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={handleBulkDelete}
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete Selected
-                </Button>
-              </div>
+            <div className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200">
+              <span className="text-sm text-gray-700">{selectedIds.size} selected</span>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={handleBulkDelete}
+              >
+                <Trash2 className="w-4 h-4 mr-1.5" />
+                Delete Selected
+              </Button>
             </div>
           )}
         </div>
 
-        {/* Proposals List */}
+        {/* Proposals List - Clean Cards */}
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
+            <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
           </div>
-        ) : filteredAndSortedProposals.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {filteredAndSortedProposals.map((proposal) => (
-              <Card key={proposal.id} className="hover:shadow-lg transition-shadow relative">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1 pl-8">
-                      {/* Checkbox for bulk selection */}
-                      <div className="absolute top-6 left-4">
-                        <Checkbox
-                          checked={selectedIds.has(proposal.id)}
-                          onCheckedChange={() => toggleSelection(proposal.id)}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </div>
-                      <div className="flex items-center gap-2 mb-2">
-                        {getStatusBadge(proposal.status)}
-                      </div>
-                      <CardTitle className="text-lg mb-1">{proposal.projectName}</CardTitle>
-                      <CardDescription>{proposal.clientName}</CardDescription>
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-10 w-10 md:h-8 md:w-8 p-0">
-                          <MoreVertical className="w-5 h-5 md:w-4 md:h-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48">
-                        <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}`)}>
-                          <Eye className="w-4 h-4 mr-2" />
-                          View Proposal
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}/edit`)}>
-                          <Edit className="w-4 h-4 mr-2" />
-                          Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}/analytics`)}>
-                          <BarChart3 className="w-4 h-4 mr-2" />
-                          Analytics
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => setSendDialogProposal({ id: proposal.id, title: proposal.title, clientName: proposal.clientName })}>
-                          <Mail className="w-4 h-4 mr-2" />
-                          Send to Client
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDuplicate(proposal.id)}>
-                          <Copy className="w-4 h-4 mr-2" />
-                          Duplicate
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleDelete(proposal.id, proposal.projectName)}
-                          className="text-red-600 focus:text-red-600"
-                          disabled={deletingId === proposal.id}
-                        >
-                          {deletingId === proposal.id ? (
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          ) : (
-                            <Trash2 className="w-4 h-4 mr-2" />
-                          )}
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2 text-sm text-gray-600">
-                    <div className="flex justify-between">
-                      <span>Created:</span>
-                      <span className="font-medium">{format(new Date(proposal.createdAt), "MMM d, yyyy")}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Valid Until:</span>
-                      <span className="font-medium">{format(new Date(proposal.validUntil), "MMM d, yyyy")}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Pricing Tiers:</span>
-                      <span className="font-medium">{proposal.pricingTiers.length}</span>
-                    </div>
-                  </div>
-                  <div className="mt-4 flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => setLocation(`/proposal/${proposal.id}`)}
-                    >
-                      <Eye className="w-4 h-4 mr-1" />
-                      View
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => setLocation(`/proposal/${proposal.id}/edit`)}
-                    >
-                      <Edit className="w-4 h-4 mr-1" />
-                      Edit
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+        ) : filteredAndSortedProposals.length === 0 ? (
+          <div className="text-center py-16 border border-dashed border-gray-300">
+            <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {searchQuery || statusFilter !== "all" ? "No proposals found" : "No proposals yet"}
+            </h3>
+            <p className="text-gray-500 mb-6">
+              {searchQuery || statusFilter !== "all" 
+                ? "Try adjusting your filters" 
+                : "Create your first proposal to get started"}
+            </p>
+            {!searchQuery && statusFilter === "all" && (
+              <Button onClick={() => setLocation("/create-ai")} className="bg-black hover:bg-gray-800">
+                <Plus className="w-4 h-4 mr-2" />
+                Create Proposal
+              </Button>
+            )}
           </div>
         ) : (
-          <Card className="py-12">
-            <CardContent className="text-center">
-              <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {searchQuery || statusFilter !== "all" ? "No proposals found" : "No proposals yet"}
-              </h3>
-              <p className="text-gray-600 mb-6">
-                {searchQuery || statusFilter !== "all"
-                  ? "Try adjusting your filters or search query"
-                  : "Get started by creating your first proposal"}
-              </p>
-              <div className="flex gap-3 justify-center">
-                <Button
-                  onClick={() => setLocation("/create-ai")}
-                  className="bg-[#644a40] hover:bg-[#4a3530] text-white gap-2"
+          <div className="space-y-3">
+            {filteredAndSortedProposals.map((proposal) => {
+              const daysUntilExpiry = differenceInDays(new Date(proposal.validUntil), new Date());
+              const isExpiringSoon = proposal.status === "published" && daysUntilExpiry >= 0 && daysUntilExpiry <= 7;
+
+              return (
+                <div
+                  key={proposal.id}
+                  className="border border-gray-200 hover:border-gray-400 transition-all p-5 group"
                 >
-                  <Plus className="w-4 h-4" />
-                  Generate with AI
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setLocation("/templates")}
-                >
-                  Browse Templates
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                  <div className="flex items-start gap-4">
+                    {/* Checkbox */}
+                    <div className="pt-1">
+                      <Checkbox
+                        checked={selectedIds.has(proposal.id)}
+                        onCheckedChange={() => toggleSelection(proposal.id)}
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4 mb-3">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-medium text-gray-900 mb-1 truncate">
+                            {proposal.title}
+                          </h3>
+                          <div className="flex items-center gap-3 text-sm text-gray-500">
+                            <span>{proposal.clientName}</span>
+                            <span>•</span>
+                            <span>{proposal.projectName}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {getStatusBadge(proposal.status)}
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <MoreVertical className="w-4 h-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}`)}>
+                                <Eye className="w-4 h-4 mr-2" />
+                                View
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}/edit`)}>
+                                <Edit className="w-4 h-4 mr-2" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}/analytics`)}>
+                                <BarChart3 className="w-4 h-4 mr-2" />
+                                Analytics
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => setSendDialogProposal({ id: proposal.id, title: proposal.title, clientName: proposal.clientName })}>
+                                <Mail className="w-4 h-4 mr-2" />
+                                Send to Client
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem onClick={() => handleDuplicate(proposal.id)}>
+                                <Copy className="w-4 h-4 mr-2" />
+                                Duplicate
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => handleDelete(proposal.id)}
+                                className="text-red-600"
+                              >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </div>
+
+                      {/* Meta Info */}
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span>Created {format(new Date(proposal.createdAt), "MMM d, yyyy")}</span>
+                        <span>•</span>
+                        <span>Expires {format(new Date(proposal.validUntil), "MMM d, yyyy")}</span>
+                        {isExpiringSoon && (
+                          <>
+                            <span>•</span>
+                            <span className="text-orange-600 flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3" />
+                              Expires in {daysUntilExpiry} days
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )}
       </main>
 
-      {/* Send Proposal Dialog */}
+      {/* Send Dialog */}
       {sendDialogProposal && (
         <SendProposalDialog
-          open={!!sendDialogProposal}
-          onOpenChange={(open) => !open && setSendDialogProposal(null)}
           proposalId={sendDialogProposal.id}
           proposalTitle={sendDialogProposal.title}
           clientName={sendDialogProposal.clientName}
+          open={!!sendDialogProposal}
+          onOpenChange={(open) => !open && setSendDialogProposal(null)}
         />
       )}
     </div>
