@@ -346,7 +346,7 @@ export default function ViewProposal() {
   const isSigned = !!signature;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div data-theme={proposal.theme || 'default'} className="min-h-screen bg-background">
       {/* Scroll Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-muted z-50">
         <div
@@ -427,12 +427,7 @@ export default function ViewProposal() {
       <section
         id="hero"
         data-section
-        className="min-h-screen flex items-center justify-center relative"
-        style={{
-          background: `linear-gradient(to bottom right, ${theme.colors.primary}, ${theme.colors.secondary})`,
-          color: theme.colors.accent,
-          fontFamily: theme.fonts.heading,
-        }}
+        className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-primary to-secondary text-accent"
       >
         <div className="container text-center space-y-6">
           <motion.div
