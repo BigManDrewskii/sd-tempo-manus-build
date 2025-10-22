@@ -26,6 +26,7 @@ function Router() {
       <Route path="/templates" component={Templates} />
       <Route path="/templates/:id/customize" component={CustomizeTemplate} />
        <Route path={"/proposal/:id/edit"} component={EditProposal} />
+      <Route path={"/edit/:id"} component={EditProposal} />
       <Route path={"/proposal/:id"} component={ViewProposal} />
       <Route path={"/proposal/:id/analytics"} component={ProposalAnalytics} />      <Route path={"/analytics/:id"} component={ProposalAnalytics} />
       <Route path={"/settings/branding"} component={BrandingSettings} />
