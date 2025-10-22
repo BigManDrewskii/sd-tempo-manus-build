@@ -419,7 +419,7 @@ export default function ViewProposal() {
             <Button
               variant="outline"
               size="sm"
-              className="bg-background/95 backdrop-blur-sm shadow-lg border-primary/20 h-auto py-2 px-3"
+              className="bg-white border border-gray-300 h-auto py-2 px-3"
               onClick={() => setShowAnalytics(false)}
             >
               <div className="flex items-center gap-2">
@@ -432,7 +432,7 @@ export default function ViewProposal() {
           </div>
           
           {/* Desktop: Full card */}
-          <Card className="hidden md:block w-64 shadow-lg border-primary/20">
+          <Card className="hidden md:block w-64 border border-gray-300 bg-white">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm flex items-center justify-between">
                 Engagement
@@ -473,7 +473,7 @@ export default function ViewProposal() {
               variant="outline"
               size="sm"
               onClick={() => setLocation("/dashboard")}
-              className="bg-background/95 backdrop-blur-sm h-10 w-10 p-0"
+              className="bg-background/95  h-10 w-10 p-0"
               title="Back to Dashboard"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -482,7 +482,7 @@ export default function ViewProposal() {
               variant="outline"
               size="sm"
               onClick={() => setSendDialogOpen(true)}
-              className="bg-background/95 backdrop-blur-sm h-10 w-10 p-0"
+              className="bg-background/95  h-10 w-10 p-0"
               title="Send to Client"
             >
               <Mail className="w-4 h-4" />
@@ -492,7 +492,7 @@ export default function ViewProposal() {
               size="sm"
               onClick={handleExportPDF}
               disabled={exportMutation.isPending}
-              className="bg-background/95 backdrop-blur-sm h-10 w-10 p-0"
+              className="bg-background/95  h-10 w-10 p-0"
               title="Export PDF"
             >
               {exportMutation.isPending ? (
@@ -509,7 +509,7 @@ export default function ViewProposal() {
               variant="outline"
               size="sm"
               onClick={() => setLocation("/dashboard")}
-              className="bg-background/80 backdrop-blur-sm"
+              className="bg-background/80 "
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
@@ -518,7 +518,7 @@ export default function ViewProposal() {
               variant="outline"
               size="sm"
               onClick={() => setSendDialogOpen(true)}
-              className="bg-background/80 backdrop-blur-sm"
+              className="bg-background/80 "
             >
               <Mail className="w-4 h-4 mr-2" />
               Send to Client
@@ -528,7 +528,7 @@ export default function ViewProposal() {
               size="sm"
               onClick={handleExportPDF}
               disabled={exportMutation.isPending}
-              className="bg-background/80 backdrop-blur-sm"
+              className="bg-background/80 "
             >
               {exportMutation.isPending ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -556,40 +556,32 @@ export default function ViewProposal() {
       <section
         id="hero"
         data-section
-        className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-primary to-secondary text-accent"
+        className="min-h-screen flex items-center justify-center relative bg-white border-b border-gray-200"
       >
-        <div className="container text-center space-y-6">
+        <div className="container max-w-4xl text-center space-y-8 px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.4 }}
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 px-4">{proposal.projectName}</h1>
-            <p className="text-xl sm:text-2xl mb-2 px-4">Proposal for {proposal.clientName}</p>
-            <p className="text-base sm:text-lg opacity-90 px-4">
+            <h1 className="text-5xl md:text-6xl font-semibold tracking-tight mb-6">{proposal.projectName}</h1>
+            <p className="text-xl text-gray-600 mb-4">Proposal for {proposal.clientName}</p>
+            <p className="text-sm text-gray-500">
               {format(new Date(), "MMMM d, yyyy")} • Valid until {format(new Date(proposal.validUntil), "MMMM d, yyyy")}
             </p>
             
             {isSigned && (
-              <Badge className="mt-4 bg-green-500 text-white">
-                <CheckCircle className="w-4 h-4 mr-1" />
+              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 text-green-700 text-sm">
+                <CheckCircle className="w-4 h-4" />
                 Signed
-              </Badge>
+              </div>
             )}
             {isExpired && !isSigned && (
-              <Badge variant="destructive" className="mt-4">
+              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-700 text-sm">
+                <AlertCircle className="w-4 h-4" />
                 Expired
-              </Badge>
+              </div>
             )}
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 1, repeat: Infinity, repeatType: "reverse" }}
-            className="absolute bottom-12"
-          >
-            <ChevronDown className="w-8 h-8" />
           </motion.div>
         </div>
       </section>
@@ -601,7 +593,7 @@ export default function ViewProposal() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">The Challenge</h2>
             <div className="grid md:grid-cols-2 gap-6">
@@ -616,9 +608,9 @@ export default function ViewProposal() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.6 }}
+                    transition={{ delay: index * 0.1, duration: 0.3 }}
                   >
-                    <Card className="h-full hover:shadow-lg transition-shadow">
+                    <Card className="h-full hover:border border-gray-200 transition-shadow">
                       <CardHeader>
                         <div className="w-12 h-12 rounded-lg bg-destructive/10 flex items-center justify-center mb-4">
                           <Icon className="w-6 h-6 text-destructive" />
@@ -636,13 +628,13 @@ export default function ViewProposal() {
       </section>
 
       {/* Solution Section */}
-      <section id="solution" data-section className="py-12 md:py-20 px-4 md:px-6 bg-card/50">
+      <section id="solution" data-section className="py-12 md:py-20 px-4 md:px-6 bg-gray-50">
         <div className="container max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Our Solution</h2>
             <div className="grid md:grid-cols-2 gap-12">
@@ -656,7 +648,7 @@ export default function ViewProposal() {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.6 }}
+                      transition={{ delay: index * 0.1, duration: 0.3 }}
                       className="flex items-start gap-4"
                     >
                       <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold flex-shrink-0">
@@ -681,7 +673,7 @@ export default function ViewProposal() {
                       initial={{ opacity: 0, x: 20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.6 }}
+                      transition={{ delay: index * 0.1, duration: 0.3 }}
                       className="flex items-center gap-3"
                     >
                       <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
@@ -702,7 +694,7 @@ export default function ViewProposal() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Investment Options</h2>
             
@@ -714,14 +706,14 @@ export default function ViewProposal() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
                   whileHover={{ scale: 1.02 }}
                   className="cursor-pointer"
                   onClick={() => handleTierChange(tier.name.toLowerCase())}
                 >
                   <Card className={`h-full transition-all ${
                     selectedTier === tier.name.toLowerCase()
-                      ? "border-primary shadow-lg ring-2 ring-primary"
+                      ? "border-primary border border-gray-200 ring-2 ring-primary"
                       : "hover:border-primary/50"
                   } ${tier.recommended ? "border-primary" : ""}`}>
                     <CardHeader className="pb-4">
@@ -804,13 +796,13 @@ export default function ViewProposal() {
 
       {/* Case Studies Section */}
       {proposal.caseStudies.length > 0 && (
-        <section id="case-studies" data-section className="py-20 px-6 bg-card/50">
+        <section id="case-studies" data-section className="py-20 px-6 bg-gray-50">
           <div className="container max-w-6xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.3 }}
             >
               <h2 className="text-4xl font-bold text-center mb-12">Proven Results</h2>
               <div className="grid md:grid-cols-2 gap-6">
@@ -820,10 +812,10 @@ export default function ViewProposal() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.6 }}
-                    whileHover={{ y: -4 }}
+                    transition={{ delay: index * 0.1, duration: 0.3 }}
+                    
                   >
-                    <Card className="h-full hover:shadow-lg transition-all">
+                    <Card className="h-full hover:border border-gray-200 transition-all">
                       <CardHeader>
                         <CardTitle>{study.title}</CardTitle>
                         <CardDescription>{study.description}</CardDescription>
@@ -855,7 +847,7 @@ export default function ViewProposal() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.3 }}
             >
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Accept & Sign</h2>
               
@@ -908,7 +900,7 @@ export default function ViewProposal() {
                   <div>
                     <Label className="text-base">Signature *</Label>
                     <p className="text-sm text-muted-foreground mt-1 mb-2">Draw your signature below</p>
-                    <div className="mt-2 border-2 border-border rounded-lg overflow-hidden bg-white">
+                    <div className="mt-2 border border-gray-300 overflow-hidden bg-white">
                       <canvas
                         ref={canvasRef}
                         width={800}
