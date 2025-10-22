@@ -41,10 +41,10 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href={isAuthenticated ? "/dashboard" : "/"}>
-            <a className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer">
               <FileText className="w-6 h-6 text-primary" />
               <span className="font-bold text-lg">{APP_TITLE}</span>
-            </a>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

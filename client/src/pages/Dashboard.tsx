@@ -68,31 +68,7 @@ export default function Dashboard() {
     },
   });
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#ffdfb5]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    window.location.href = getLoginUrl();
-    return null;
-  }
-
-  const handleDelete = (id: number, projectName: string) => {
-    if (confirm(`Are you sure you want to delete "${projectName}"? This cannot be undone.`)) {
-      setDeletingId(id);
-      deleteMutation.mutate({ id });
-    }
-  };
-
-  const handleDuplicate = (id: number) => {
-    duplicateMutation.mutate({ id });
-  };
-
-  // Filter and sort proposals
+  // Filter and sort proposals - MUST be before early returns
   const filteredAndSortedProposals = useMemo(() => {
     if (!proposals) return [];
 
@@ -132,7 +108,7 @@ export default function Dashboard() {
     return sorted;
   }, [proposals, statusFilter, searchQuery, sortBy]);
 
-  // Calculate stats
+  // Calculate stats - MUST be before early returns
   const stats = useMemo(() => {
     if (!proposals) return { total: 0, draft: 0, published: 0, archived: 0, expiringSoon: 0 };
     
@@ -150,6 +126,30 @@ export default function Dashboard() {
       expiringSoon,
     };
   }, [proposals]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#ffdfb5]">
+        <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    window.location.href = getLoginUrl();
+    return null;
+  }
+
+  const handleDelete = (id: number, projectName: string) => {
+    if (confirm(`Are you sure you want to delete "${projectName}"? This cannot be undone.`)) {
+      setDeletingId(id);
+      deleteMutation.mutate({ id });
+    }
+  };
+
+  const handleDuplicate = (id: number) => {
+    duplicateMutation.mutate({ id });
+  };
 
   // Bulk actions
   const toggleSelection = (id: number) => {
