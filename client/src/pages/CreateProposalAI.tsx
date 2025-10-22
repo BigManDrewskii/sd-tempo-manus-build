@@ -92,7 +92,7 @@ export default function CreateProposalAI() {
         addOns: generatedData.addOns,
       });
 
-      setLocation(`/proposal/${result.id}`);
+      setLocation(`/proposal/${result.id}/edit`);
     } catch (error) {
       console.error("Error creating proposal:", error);
       alert("Failed to create proposal. Please try again.");

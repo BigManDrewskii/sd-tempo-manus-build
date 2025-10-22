@@ -43,7 +43,7 @@ export default function CustomizeTemplate() {
         validUntil,
       });
       
-      setLocation(`/proposal/${result.proposalId}`);
+      setLocation(`/proposal/${result.proposalId}/edit`);
     } catch (error) {
       console.error("Error creating proposal from template:", error);
     }
