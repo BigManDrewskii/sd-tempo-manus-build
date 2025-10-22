@@ -13,7 +13,11 @@ import { useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
 
 export default function EditProposal() {
-  const [, params] = useRoute("/proposal/:id/edit");
+  // Try both route patterns
+  const [matchEdit, paramsEdit] = useRoute("/edit/:id");
+  const [matchProposal, paramsProposal] = useRoute("/proposal/:id/edit");
+  
+  const params = matchEdit ? paramsEdit : paramsProposal;
   const proposalId = params?.id ? parseInt(params.id) : null;
   const [, setLocation] = useLocation();
   const { isAuthenticated, loading: authLoading } = useAuth();
