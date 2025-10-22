@@ -18,6 +18,9 @@ const Templates = lazy(() => import("./pages/Templates"));
 const CustomizeTemplate = lazy(() => import("./pages/CustomizeTemplate"));
 const EditProposal = lazy(() => import("./pages/EditProposal"));
 const BrandingSettings = lazy(() => import("./pages/BrandingSettings"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Support = lazy(() => import("./pages/Support"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback component
@@ -38,10 +41,26 @@ function Router() {
       <Route path="/templates" component={Templates} />
       <Route path="/templates/:id/customize" component={CustomizeTemplate} />
        <Route path={"/proposal/:id/edit"} component={EditProposal} />
-      <Route path={"/edit/:id"} component={EditProposal} />
+      {/* Redirect old route to new semantic route */}
+      <Route path={"/edit/:id"}>
+        {(params) => {
+          window.location.href = `/proposal/${params.id}/edit`;
+          return null;
+        }}
+      </Route>
       <Route path={"/proposal/:id"} component={ViewProposal} />
-      <Route path={"/proposal/:id/analytics"} component={ProposalAnalytics} />      <Route path={"/analytics/:id"} component={ProposalAnalytics} />
+      <Route path={"/proposal/:id/analytics"} component={ProposalAnalytics} />
+      {/* Redirect old route to new semantic route */}
+      <Route path={"/analytics/:id"}>
+        {(params) => {
+          window.location.href = `/proposal/${params.id}/analytics`;
+          return null;
+        }}
+      </Route>
       <Route path={"/settings/branding"} component={BrandingSettings} />
+      <Route path={"/terms"} component={Terms} />
+      <Route path={"/privacy"} component={Privacy} />
+      <Route path={"/support"} component={Support} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
       </Switch>

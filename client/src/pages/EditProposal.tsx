@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { Loader2, Plus, Trash2, ArrowLeft, Save, Download, Palette } from "lucide-react";
 import { ThemeSelector } from "@/components/ThemeSelector";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
 
@@ -38,6 +38,10 @@ export default function EditProposal() {
   const [pricingTiers, setPricingTiers] = useState<Array<{ name: string; price: number; features: string[]; recommended?: boolean }>>([]);
   const [addOns, setAddOns] = useState<Array<{ id: string; name: string; price: number; description: string }>>([]);
   const [theme, setTheme] = useState<"default" | "modern" | "classic" | "bold" | "minimal" | "elegant">("default");
+  
+  // Track if form has unsaved changes
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const initialDataRef = useRef<string | null>(null);
 
   // Populate form when proposal loads
   useEffect(() => {
@@ -51,8 +55,53 @@ export default function EditProposal() {
       setPricingTiers(proposal.pricingTiers);
       setAddOns(proposal.addOns);
       setTheme(proposal.theme || "default");
+      
+      // Store initial data for comparison
+      initialDataRef.current = JSON.stringify({
+        clientName: proposal.clientName,
+        projectName: proposal.projectName,
+        validUntil: new Date(proposal.validUntil).toISOString().split("T")[0],
+        problems: proposal.problems,
+        phases: proposal.solutionPhases,
+        deliverables: proposal.deliverables,
+        pricingTiers: proposal.pricingTiers,
+        addOns: proposal.addOns,
+        theme: proposal.theme || "default"
+      });
     }
   }, [proposal]);
+  
+  // Track changes to form data
+  useEffect(() => {
+    if (!initialDataRef.current) return;
+    
+    const currentData = JSON.stringify({
+      clientName,
+      projectName,
+      validUntil,
+      problems,
+      phases,
+      deliverables,
+      pricingTiers,
+      addOns,
+      theme
+    });
+    
+    setHasUnsavedChanges(currentData !== initialDataRef.current);
+  }, [clientName, projectName, validUntil, problems, phases, deliverables, pricingTiers, addOns, theme]);
+  
+  // Warn before leaving page with unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges]);
 
   // Mutations
   const exportMutation = trpc.proposals.exportPDF.useMutation();
@@ -61,6 +110,7 @@ export default function EditProposal() {
   const updateMutation = trpc.proposals.update.useMutation({
     onSuccess: () => {
       toast.success("Proposal saved successfully");
+      setHasUnsavedChanges(false);
       setLocation("/dashboard");
     },
     onError: (error) => {
@@ -157,7 +207,15 @@ export default function EditProposal() {
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
-              onClick={() => setLocation("/dashboard")}
+              onClick={() => {
+                if (hasUnsavedChanges) {
+                  if (confirm('You have unsaved changes. Are you sure you want to leave?')) {
+                    setLocation("/dashboard");
+                  }
+                } else {
+                  setLocation("/dashboard");
+                }
+              }}
               className="gap-2"
             >
               <ArrowLeft className="w-4 h-4" />

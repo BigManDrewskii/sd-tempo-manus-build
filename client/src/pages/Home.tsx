@@ -441,8 +441,8 @@ export default function Home() {
               <h4 className="font-semibold mb-3 text-sm">Resources</h4>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li><a href="#how-it-works" className="hover:text-gray-900">How It Works</a></li>
-                <li><a href="#" className="hover:text-gray-900">Documentation</a></li>
-                <li><a href="#" className="hover:text-gray-900">Support</a></li>
+                <li><Link href="/#how-it-works" className="hover:text-gray-900">Documentation</Link></li>
+                <li><Link href="/support" className="hover:text-gray-900">Support</Link></li>
               </ul>
             </div>
 
@@ -450,9 +450,9 @@ export default function Home() {
             <div>
               <h4 className="font-semibold mb-3 text-sm">Company</h4>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900">About</a></li>
-                <li><a href="#" className="hover:text-gray-900">Privacy</a></li>
-                <li><a href="#" className="hover:text-gray-900">Terms</a></li>
+                <li><Link href="/#" className="hover:text-gray-900">About</Link></li>
+                <li><Link href="/privacy" className="hover:text-gray-900">Privacy</Link></li>
+                <li><Link href="/terms" className="hover:text-gray-900">Terms</Link></li>
               </ul>
             </div>
           </div>
@@ -460,9 +460,9 @@ export default function Home() {
           <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
             <div>© 2025 Tempo. Built for businesses that want to close more deals.</div>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-gray-900">Twitter</a>
-              <a href="#" className="hover:text-gray-900">LinkedIn</a>
-              <a href="#" className="hover:text-gray-900">GitHub</a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">Twitter</a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">LinkedIn</a>
+              <a href="https://github.com/BigManDrewskii/sd-tempo-manus-build" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">GitHub</a>
             </div>
           </div>
         </div>
