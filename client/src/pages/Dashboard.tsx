@@ -192,33 +192,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header - Minimal */}
-      <header className="border-b border-gray-200">
-        <div className="container mx-auto px-6 py-5 flex items-center justify-between">
-          <Link href="/">
-            <div className="flex items-center gap-3 cursor-pointer">
-              <div className="w-8 h-8 bg-black flex items-center justify-center">
-                <FileText className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-semibold tracking-tight">Tempo</span>
-            </div>
-          </Link>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500 hidden sm:block">
-              {user?.name || user?.email}
-            </span>
-            <Button
-              onClick={() => setLocation("/create-ai")}
-              size="sm"
-              className="bg-black hover:bg-gray-800 text-white h-9"
-            >
-              <Plus className="w-4 h-4 mr-1.5" />
-              New Proposal
-            </Button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
         {/* Title */}
