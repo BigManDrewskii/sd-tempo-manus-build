@@ -19,6 +19,25 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
 /**
+ * User branding table - stores custom branding preferences
+ */
+export const userBranding = mysqlTable("userBranding", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  logoUrl: varchar("logoUrl", { length: 500 }),
+  primaryColor: varchar("primaryColor", { length: 7 }).default("#644a40").notNull(),
+  secondaryColor: varchar("secondaryColor", { length: 7 }).default("#ffdfb5").notNull(),
+  accentColor: varchar("accentColor", { length: 7 }).default("#ffffff").notNull(),
+  fontFamily: varchar("fontFamily", { length: 100 }).default("Inter").notNull(),
+  companyName: varchar("companyName", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type UserBranding = typeof userBranding.$inferSelect;
+export type InsertUserBranding = typeof userBranding.$inferInsert;
+
+/**
  * Templates table - stores proposal templates
  */
 export const templates = mysqlTable("templates", {

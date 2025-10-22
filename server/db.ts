@@ -8,6 +8,8 @@ import {
   proposalViews,
   InsertProposalView,
   engagementEvents,
+  userBranding,
+  InsertUserBranding,
   InsertEngagementEvent,
   signatures,
   InsertSignature,
@@ -364,5 +366,44 @@ export async function duplicateProposal(proposalId: number, userId: number) {
   });
 
   return result[0].insertId;
+}
+
+
+
+// ==================== User Branding ====================
+
+export async function getUserBranding(userId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(userBranding)
+    .where(eq(userBranding.userId, userId))
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function upsertUserBranding(data: InsertUserBranding) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const existing = await getUserBranding(data.userId);
+  
+  if (existing) {
+    await db
+      .update(userBranding)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(userBranding.userId, data.userId));
+    
+    return getUserBranding(data.userId);
+  } else {
+    await db.insert(userBranding).values(data);
+    return getUserBranding(data.userId);
+  }
 }
 

@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
-import { FileText, LogOut, Menu, Plus, Sparkles, User, X } from "lucide-react";
+import { FileText, LogOut, Menu, Plus, Sparkles, User, X, Palette } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -125,9 +125,17 @@ export function Navbar() {
                       </div>
                     </div>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem className="cursor-pointer">
                       <Link href="/dashboard">
                         <a className="cursor-pointer w-full">Dashboard</a>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Link href="/settings/branding">
+                        <a className="cursor-pointer w-full flex items-center">
+                          <Palette className="w-4 h-4 mr-2" />
+                          Brand Settings
+                        </a>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />

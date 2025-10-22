@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
+import BrandingSettings from "@/pages/BrandingSettings";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -25,8 +26,8 @@ function Router() {
       <Route path="/templates" component={Templates} />
       <Route path="/templates/:id/customize" component={CustomizeTemplate} />
       <Route path={"/proposal/:id"} component={ViewProposal} />
-      <Route path={"/proposal/:id/analytics"} component={ProposalAnalytics} />
-      <Route path={"/proposal/:id/edit"} component={EditProposal} />
+      <Route path={"/proposal/:id/analytics"} component={ProposalAnalytics} />      <Route path={"/analytics/:id"} component={ProposalAnalytics} />
+      <Route path={"/settings/branding"} component={BrandingSettings} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

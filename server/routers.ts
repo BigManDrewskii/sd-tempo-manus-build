@@ -446,6 +446,56 @@ Include: 3-4 problems, 4-5 solution phases, 6-8 deliverables, 2 case studies, 3 
         return { proposalId };
       }),
   }),
+
+  branding: router({
+    // Get user's branding settings
+    get: protectedProcedure.query(async ({ ctx }) => {
+      const branding = await db.getUserBranding(ctx.user.id);
+      return branding || {
+        primaryColor: "#644a40",
+        secondaryColor: "#ffdfb5",
+        accentColor: "#ffffff",
+        fontFamily: "Inter",
+      };
+    }),
+
+    // Update branding settings
+    update: protectedProcedure
+      .input(
+        z.object({
+          logoUrl: z.string().optional(),
+          primaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+          secondaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+          accentColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+          fontFamily: z.string(),
+          companyName: z.string().optional(),
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        const branding = await db.upsertUserBranding({
+          userId: ctx.user.id,
+          ...input,
+        });
+        return branding;
+      }),
+
+    // Upload logo
+    uploadLogo: protectedProcedure
+      .input(
+        z.object({
+          fileName: z.string(),
+          fileData: z.string(), // base64
+          mimeType: z.string(),
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        const { storagePut } = await import("./storage");
+        const buffer = Buffer.from(input.fileData, "base64");
+        const key = `branding/${ctx.user.id}/${Date.now()}-${input.fileName}`;
+        const { url } = await storagePut(key, buffer, input.mimeType);
+        return { url };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
