@@ -12,6 +12,8 @@ import {
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2, Mail, Search, Calendar, AlertCircle } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Link, useLocation } from "wouter";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -34,6 +36,7 @@ export default function Dashboard() {
   const [, setLocation] = useLocation();
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [sendDialogProposal, setSendDialogProposal] = useState<{ id: number; title: string; clientName: string } | null>(null);
+  const [deleteDialogId, setDeleteDialogId] = useState<number | null>(null);
   
   // Filtering state
   const [statusFilter, setStatusFilter] = useState<"all" | "draft" | "published" | "archived">("all");
@@ -125,10 +128,44 @@ export default function Dashboard() {
     };
   }, [proposals]);
 
-  if (loading) {
+  if (loading || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
+      <div className="min-h-screen bg-white">
+        <div className="container mx-auto px-6 py-8">
+          {/* Stats skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            {[...Array(5)].map((_, i) => (
+              <Card key={i}>
+                <CardContent className="p-6">
+                  <Skeleton className="h-4 w-20 mb-2" />
+                  <Skeleton className="h-8 w-12" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          {/* Filters skeleton */}
+          <div className="space-y-4 mb-6">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+          
+          {/* Proposals skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i}>
+                <CardHeader>
+                  <Skeleton className="h-6 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-1/2" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-2/3" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -152,9 +189,14 @@ export default function Dashboard() {
   }
 
   const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this proposal?")) {
-      setDeletingId(id);
-      deleteMutation.mutate({ id });
+    setDeleteDialogId(id);
+  };
+  
+  const confirmDelete = () => {
+    if (deleteDialogId) {
+      setDeletingId(deleteDialogId);
+      deleteMutation.mutate({ id: deleteDialogId });
+      setDeleteDialogId(null);
     }
   };
 
@@ -427,6 +469,18 @@ export default function Dashboard() {
           onOpenChange={(open) => !open && setSendDialogProposal(null)}
         />
       )}
+      
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={deleteDialogId !== null}
+        onOpenChange={(open) => !open && setDeleteDialogId(null)}
+        onConfirm={confirmDelete}
+        title="Delete Proposal"
+        description="Are you sure you want to delete this proposal? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="destructive"
+      />
     </div>
   );
 }

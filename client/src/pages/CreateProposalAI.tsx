@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
 import { FileText, Loader2, Sparkles, Wand2 } from "lucide-react";
+import { toast } from "sonner";
 import { Link, useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
 
@@ -37,6 +38,32 @@ export default function CreateProposalAI() {
     if (!isAuthenticated) {
       console.log("User not authenticated, redirecting to login");
       window.location.href = getLoginUrl();
+      return;
+    }
+    
+    // Form validation
+    if (!clientName.trim()) {
+      toast.error("Client name is required");
+      return;
+    }
+    if (!projectName.trim()) {
+      toast.error("Project name is required");
+      return;
+    }
+    if (!industry) {
+      toast.error("Please select an industry");
+      return;
+    }
+    if (!projectDescription.trim() || projectDescription.length < 20) {
+      toast.error("Project description must be at least 20 characters");
+      return;
+    }
+    if (!serviceType) {
+      toast.error("Please select a service type");
+      return;
+    }
+    if (!validUntil) {
+      toast.error("Please set a valid until date");
       return;
     }
 
@@ -70,7 +97,9 @@ export default function CreateProposalAI() {
     } catch (error: any) {
       console.error("Error generating proposal:", error);
       console.error("Error details:", error.message, error.data);
-      alert(`Failed to generate proposal: ${error.message || "Unknown error"}. Please try again.`);
+      toast.error("Failed to generate proposal", {
+        description: error.message || "Please try again later",
+      });
       setStep("input");
     }
   };
