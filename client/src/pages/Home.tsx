@@ -54,12 +54,19 @@ export default function Home() {
 
           <div className="flex items-center justify-center gap-4 pt-4">
             {isAuthenticated ? (
-              <Link href="/create">
-                <Button size="lg" className="text-lg px-8">
-                  Create Your First Proposal
+            <div className="flex gap-4">
+              <Link href="/create-ai">
+                <Button size="lg" className="text-lg px-8 py-6">
+                  Generate with AI ✨
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
+              <Link href="/create">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+                  Create Manually
+                </Button>
+              </Link>
+            </div>
             ) : (
               <a href={getLoginUrl()}>
                 <Button size="lg" className="text-lg px-8">

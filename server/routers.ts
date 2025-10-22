@@ -1,9 +1,10 @@
 import { COOKIE_NAME } from "@shared/const";
-import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { invokeLLM } from "./_core/llm";
 import * as db from "./db";
+import { z } from "zod";
 
 export const appRouter = router({
   system: systemRouter,
@@ -140,6 +141,172 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return db.getProposalAnalytics(input.id);
       }),
+
+    // Generate proposal with AI
+    generateWithAI: protectedProcedure
+      .input(
+        z.object({
+          clientName: z.string().min(1),
+          projectName: z.string().min(1),
+          industry: z.string().min(1),
+          projectDescription: z.string().min(10),
+          budgetRange: z.enum(["low", "medium", "high"]),
+          timeline: z.enum(["urgent", "normal", "extended"]),
+          serviceType: z.string().min(1),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const systemPrompt = `You are an expert business proposal writer with 15+ years of experience.`;
+
+        const budgetRanges = {
+          low: { min: 5000, max: 15000 },
+          medium: { min: 15000, max: 50000 },
+          high: { min: 50000, max: 150000 },
+        };
+
+        const timelineMap = {
+          urgent: "1-2 weeks",
+          normal: "4-8 weeks",
+          extended: "3-6 months",
+        };
+
+        const userPrompt = `Generate a comprehensive business proposal for:
+
+Client: ${input.clientName}
+Project: ${input.projectName}
+Industry: ${input.industry}
+Description: ${input.projectDescription}
+Budget: $${budgetRanges[input.budgetRange].min.toLocaleString()} - $${budgetRanges[input.budgetRange].max.toLocaleString()}
+Timeline: ${timelineMap[input.timeline]}
+Service: ${input.serviceType}
+
+Include: 3-4 problems, 4-5 solution phases, 6-8 deliverables, 2 case studies, 3 pricing tiers, 3 add-ons.`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "proposal_content",
+              strict: true,
+              schema: {
+                type: "object",
+                properties: {
+                  problems: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        title: { type: "string" },
+                        description: { type: "string" },
+                        icon: { type: "string" },
+                      },
+                      required: ["title", "description", "icon"],
+                      additionalProperties: false,
+                    },
+                  },
+                  solutionPhases: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        title: { type: "string" },
+                        duration: { type: "string" },
+                      },
+                      required: ["title", "duration"],
+                      additionalProperties: false,
+                    },
+                  },
+                  deliverables: {
+                    type: "array",
+                    items: { type: "string" },
+                  },
+                  caseStudies: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        title: { type: "string" },
+                        description: { type: "string" },
+                        metrics: {
+                          type: "array",
+                          items: {
+                            type: "object",
+                            properties: {
+                              label: { type: "string" },
+                              value: { type: "string" },
+                            },
+                            required: ["label", "value"],
+                            additionalProperties: false,
+                          },
+                        },
+                      },
+                      required: ["title", "description", "metrics"],
+                      additionalProperties: false,
+                    },
+                  },
+                  pricingTiers: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        name: { type: "string" },
+                        price: { type: "number" },
+                        features: {
+                          type: "array",
+                          items: { type: "string" },
+                        },
+                        recommended: { type: "boolean" },
+                      },
+                      required: ["name", "price", "features"],
+                      additionalProperties: false,
+                    },
+                  },
+                  addOns: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        id: { type: "string" },
+                        name: { type: "string" },
+                        price: { type: "number" },
+                        description: { type: "string" },
+                      },
+                      required: ["id", "name", "price", "description"],
+                      additionalProperties: false,
+                    },
+                  },
+                },
+                required: [
+                  "problems",
+                  "solutionPhases",
+                  "deliverables",
+                  "caseStudies",
+                  "pricingTiers",
+                  "addOns",
+                ],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const content = response.choices[0].message.content;
+        if (!content || typeof content !== "string") {
+          throw new Error("No content generated");
+        }
+
+        const generatedData = JSON.parse(content);
+
+        return {
+          ...generatedData,
+          clientName: input.clientName,
+          projectName: input.projectName,
+        };
+      }),
   }),
 
   tracking: router({
@@ -174,6 +341,7 @@ export const appRouter = router({
         await db.createEngagementEvent(input);
         return { success: true };
       }),
+
   }),
 
   signatures: router({
