@@ -1,11 +1,21 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { 
+  InsertUser, 
+  users, 
+  proposals,
+  InsertProposal,
+  proposalViews,
+  InsertProposalView,
+  engagementEvents,
+  InsertEngagementEvent,
+  signatures,
+  InsertSignature
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
-// Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
@@ -17,6 +27,8 @@ export async function getDb() {
   }
   return _db;
 }
+
+// ===== User Management =====
 
 export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) {
@@ -89,4 +101,190 @@ export async function getUser(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ===== Proposal Management =====
+
+export async function createProposal(proposal: InsertProposal) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(proposals).values(proposal);
+  return result[0].insertId;
+}
+
+export async function getUserProposals(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(proposals)
+    .where(eq(proposals.userId, userId))
+    .orderBy(desc(proposals.createdAt));
+}
+
+export async function getProposalById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db
+    .select()
+    .from(proposals)
+    .where(eq(proposals.id, id))
+    .limit(1);
+
+  return result[0];
+}
+
+export async function updateProposal(id: number, data: Partial<InsertProposal>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db
+    .update(proposals)
+    .set({ ...data, updatedAt: new Date() })
+    .where(eq(proposals.id, id));
+}
+
+export async function deleteProposal(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.delete(proposals).where(eq(proposals.id, id));
+}
+
+// ===== Proposal Views =====
+
+export async function createOrUpdateProposalView(view: InsertProposalView) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Check if session already exists
+  const existing = await db
+    .select()
+    .from(proposalViews)
+    .where(
+      and(
+        eq(proposalViews.proposalId, view.proposalId),
+        eq(proposalViews.sessionId, view.sessionId)
+      )
+    )
+    .limit(1);
+
+  if (existing.length > 0) {
+    // Update last viewed time
+    await db
+      .update(proposalViews)
+      .set({ lastViewedAt: new Date() })
+      .where(eq(proposalViews.id, existing[0].id));
+    return existing[0].id;
+  } else {
+    // Create new view
+    const result = await db.insert(proposalViews).values(view);
+    return result[0].insertId;
+  }
+}
+
+export async function getProposalViews(proposalId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(proposalViews)
+    .where(eq(proposalViews.proposalId, proposalId))
+    .orderBy(desc(proposalViews.firstViewedAt));
+}
+
+// ===== Engagement Events =====
+
+export async function createEngagementEvent(event: InsertEngagementEvent) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(engagementEvents).values(event);
+  return result[0].insertId;
+}
+
+export async function getProposalEngagementEvents(proposalId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(engagementEvents)
+    .where(eq(engagementEvents.proposalId, proposalId))
+    .orderBy(desc(engagementEvents.createdAt));
+}
+
+export async function getSessionEngagementEvents(sessionId: string) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(engagementEvents)
+    .where(eq(engagementEvents.sessionId, sessionId))
+    .orderBy(engagementEvents.createdAt);
+}
+
+// ===== Signatures =====
+
+export async function createSignature(signature: InsertSignature) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(signatures).values(signature);
+  
+  // Update proposal status to signed
+  await db
+    .update(proposals)
+    .set({ status: "signed" })
+    .where(eq(proposals.id, signature.proposalId));
+
+  return result[0].insertId;
+}
+
+export async function getSignatureByProposalId(proposalId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db
+    .select()
+    .from(signatures)
+    .where(eq(signatures.proposalId, proposalId))
+    .limit(1);
+
+  return result[0];
+}
+
+// ===== Analytics =====
+
+export async function getProposalAnalytics(proposalId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Get view count and unique sessions
+  const viewStats = await db
+    .select({
+      totalViews: sql<number>`COUNT(*)`,
+      uniqueSessions: sql<number>`COUNT(DISTINCT ${proposalViews.sessionId})`,
+    })
+    .from(proposalViews)
+    .where(eq(proposalViews.proposalId, proposalId));
+
+  // Get event counts by type
+  const eventStats = await db
+    .select({
+      eventType: engagementEvents.eventType,
+      count: sql<number>`COUNT(*)`,
+    })
+    .from(engagementEvents)
+    .where(eq(engagementEvents.proposalId, proposalId))
+    .groupBy(engagementEvents.eventType);
+
+  return {
+    views: viewStats[0] || { totalViews: 0, uniqueSessions: 0 },
+    events: eventStats,
+  };
+}
+

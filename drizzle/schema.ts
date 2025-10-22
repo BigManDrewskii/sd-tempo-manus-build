@@ -1,20 +1,10 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, boolean, json } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
- * Extend this file with additional tables as your product grows.
- * Columns use camelCase to match both database fields and generated types.
  */
 export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
   id: int("id").autoincrement().primaryKey(),
-  /**
-   * Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user.
-   * This mirrors the Manus account and should be used for authentication lookups.
-   */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
@@ -28,4 +18,127 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Proposals table - stores proposal metadata and content
+ */
+export const proposals = mysqlTable("proposals", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(), // Creator of the proposal
+  
+  // Basic info
+  title: varchar("title", { length: 255 }).notNull(),
+  clientName: varchar("clientName", { length: 255 }).notNull(),
+  projectName: varchar("projectName", { length: 255 }).notNull(),
+  validUntil: timestamp("validUntil").notNull(),
+  
+  // Content sections (stored as JSON)
+  problems: json("problems").$type<Array<{ title: string; description: string; icon: string }>>().notNull(),
+  solutionPhases: json("solutionPhases").$type<Array<{ title: string; duration: string }>>().notNull(),
+  deliverables: json("deliverables").$type<Array<string>>().notNull(),
+  caseStudies: json("caseStudies").$type<Array<{ title: string; description: string; metrics: Array<{ label: string; value: string }> }>>().notNull(),
+  
+  // Pricing tiers
+  pricingTiers: json("pricingTiers").$type<Array<{ 
+    name: string; 
+    price: number; 
+    features: Array<string>;
+    recommended?: boolean;
+  }>>().notNull(),
+  
+  // Add-ons
+  addOns: json("addOns").$type<Array<{
+    id: string;
+    name: string;
+    price: number;
+    description: string;
+  }>>().notNull(),
+  
+  // Status
+  status: mysqlEnum("status", ["draft", "sent", "viewed", "signed", "expired"]).default("draft").notNull(),
+  
+  // Timestamps
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  sentAt: timestamp("sentAt"),
+});
+
+export type Proposal = typeof proposals.$inferSelect;
+export type InsertProposal = typeof proposals.$inferInsert;
+
+/**
+ * Proposal views - tracks when and how proposals are viewed
+ */
+export const proposalViews = mysqlTable("proposalViews", {
+  id: int("id").autoincrement().primaryKey(),
+  proposalId: int("proposalId").notNull(),
+  
+  // Viewer info (optional - may be anonymous)
+  viewerEmail: varchar("viewerEmail", { length: 320 }),
+  viewerIp: varchar("viewerIp", { length: 45 }),
+  
+  // Session tracking
+  sessionId: varchar("sessionId", { length: 64 }).notNull(),
+  
+  // Timestamps
+  firstViewedAt: timestamp("firstViewedAt").defaultNow().notNull(),
+  lastViewedAt: timestamp("lastViewedAt").defaultNow().notNull(),
+});
+
+export type ProposalView = typeof proposalViews.$inferSelect;
+export type InsertProposalView = typeof proposalViews.$inferInsert;
+
+/**
+ * Engagement events - tracks user interactions with proposals
+ */
+export const engagementEvents = mysqlTable("engagementEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  proposalId: int("proposalId").notNull(),
+  sessionId: varchar("sessionId", { length: 64 }).notNull(),
+  
+  // Event details
+  eventType: mysqlEnum("eventType", [
+    "section_viewed",
+    "pricing_changed",
+    "addon_toggled",
+    "signature_started",
+    "form_filled"
+  ]).notNull(),
+  
+  eventData: json("eventData").$type<Record<string, any>>(),
+  
+  // Timestamp
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type EngagementEvent = typeof engagementEvents.$inferSelect;
+export type InsertEngagementEvent = typeof engagementEvents.$inferInsert;
+
+/**
+ * Signatures - stores signed proposals
+ */
+export const signatures = mysqlTable("signatures", {
+  id: int("id").autoincrement().primaryKey(),
+  proposalId: int("proposalId").notNull().unique(), // One signature per proposal
+  
+  // Signer info
+  signerName: varchar("signerName", { length: 255 }).notNull(),
+  signerEmail: varchar("signerEmail", { length: 320 }).notNull(),
+  
+  // Signature data (base64 encoded image)
+  signatureData: text("signatureData").notNull(),
+  
+  // Selected pricing
+  selectedTier: varchar("selectedTier", { length: 100 }).notNull(),
+  selectedAddOns: json("selectedAddOns").$type<Array<string>>().notNull(),
+  totalPrice: int("totalPrice").notNull(), // Store in cents
+  
+  // IP for legal purposes
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  
+  // Timestamp
+  signedAt: timestamp("signedAt").defaultNow().notNull(),
+});
+
+export type Signature = typeof signatures.$inferSelect;
+export type InsertSignature = typeof signatures.$inferInsert;
+
