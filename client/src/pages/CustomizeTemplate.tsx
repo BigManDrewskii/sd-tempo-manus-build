@@ -53,7 +53,7 @@ export default function CustomizeTemplate() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#644a40] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
           <p className="text-gray-600">Loading template...</p>
         </div>
       </div>
@@ -128,7 +128,7 @@ export default function CustomizeTemplate() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-[#644a40] hover:bg-[#4a3530]"
+                  className="w-full bg-black hover:bg-gray-800"
                   disabled={cloneTemplate.isPending}
                 >
                   {cloneTemplate.isPending ? (
@@ -185,7 +185,7 @@ export default function CustomizeTemplate() {
                   {template.pricingTiers.map((tier, i) => (
                     <li key={i}>
                       • {tier.name}: ${tier.price.toLocaleString()}
-                      {tier.recommended && <span className="text-[#644a40] font-medium"> (Recommended)</span>}
+                      {tier.recommended && <span className="text-black font-medium"> (Recommended)</span>}
                     </li>
                   ))}
                 </ul>

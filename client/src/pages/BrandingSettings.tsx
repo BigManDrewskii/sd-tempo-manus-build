@@ -23,8 +23,8 @@ export default function BrandingSettings() {
   // Local state
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    primaryColor: branding?.primaryColor || "#644a40",
-    secondaryColor: branding?.secondaryColor || "#ffdfb5",
+    primaryColor: branding?.primaryColor || "#000000",
+    secondaryColor: branding?.secondaryColor || "#f5f5f5",
     accentColor: branding?.accentColor || "#ffffff",
     fontFamily: branding?.fontFamily || "Inter",
     companyName: (branding && 'companyName' in branding && branding.companyName) || "",
@@ -147,8 +147,8 @@ export default function BrandingSettings() {
 
   const handleReset = () => {
     setFormData({
-      primaryColor: "#644a40",
-      secondaryColor: "#ffdfb5",
+      primaryColor: "#000000",
+      secondaryColor: "#f5f5f5",
       accentColor: "#ffffff",
       fontFamily: "Inter",
       companyName: "",
@@ -157,7 +157,7 @@ export default function BrandingSettings() {
   };
 
   return (
-    <div className="min-h-screen bg-[#ffdfb5] py-12 px-4">
+    <div className="min-h-screen bg-white py-12 px-4">
       <div className="container max-w-6xl">
         {/* Header */}
         <div className="mb-8">
@@ -168,7 +168,7 @@ export default function BrandingSettings() {
           >
             ← Back to Dashboard
           </Button>
-          <h1 className="text-4xl font-bold text-[#644a40]">Brand Settings</h1>
+          <h1 className="text-4xl font-bold text-black">Brand Settings</h1>
           <p className="text-gray-700 mt-2">
             Customize how your proposals look with your brand identity
           </p>
@@ -180,8 +180,8 @@ export default function BrandingSettings() {
             {/* Logo Upload */}
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Upload className="w-5 h-5 text-[#644a40]" />
-                <h2 className="text-xl font-semibold text-[#644a40]">Logo</h2>
+                <Upload className="w-5 h-5 text-black" />
+                <h2 className="text-xl font-semibold text-black">Logo</h2>
               </div>
               
               <div className="space-y-4">
@@ -230,8 +230,8 @@ export default function BrandingSettings() {
             {/* Colors */}
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Palette className="w-5 h-5 text-[#644a40]" />
-                <h2 className="text-xl font-semibold text-[#644a40]">Colors</h2>
+                <Palette className="w-5 h-5 text-black" />
+                <h2 className="text-xl font-semibold text-black">Colors</h2>
               </div>
               
               <div className="space-y-4">
@@ -309,8 +309,8 @@ export default function BrandingSettings() {
             {/* Typography & Company */}
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Type className="w-5 h-5 text-[#644a40]" />
-                <h2 className="text-xl font-semibold text-[#644a40]">Typography & Company</h2>
+                <Type className="w-5 h-5 text-black" />
+                <h2 className="text-xl font-semibold text-black">Typography & Company</h2>
               </div>
               
               <div className="space-y-4">
@@ -354,7 +354,7 @@ export default function BrandingSettings() {
               <Button
                 onClick={handleSave}
                 disabled={updateBranding.isPending}
-                className="flex-1 bg-[#644a40] hover:bg-[#533a32] text-white"
+                className="flex-1 bg-black hover:bg-gray-800 text-white"
               >
                 {updateBranding.isPending ? "Saving..." : "Save Changes"}
               </Button>
@@ -371,7 +371,7 @@ export default function BrandingSettings() {
           {/* Live Preview */}
           <div>
             <Card className="p-6 sticky top-6">
-              <h2 className="text-xl font-semibold text-[#644a40] mb-4">Preview</h2>
+              <h2 className="text-xl font-semibold text-black mb-4">Preview</h2>
               
               <div
                 className="rounded-lg p-8 text-center"

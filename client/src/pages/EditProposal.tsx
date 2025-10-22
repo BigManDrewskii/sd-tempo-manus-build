@@ -130,15 +130,15 @@ export default function EditProposal() {
 
   if (isLoading || authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#ffdfb5]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="w-8 h-8 animate-spin text-black" />
       </div>
     );
   }
 
   if (!proposal) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#ffdfb5]">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <Card>
           <CardHeader>
             <CardTitle>Proposal Not Found</CardTitle>
@@ -192,7 +192,7 @@ export default function EditProposal() {
             <Button
               onClick={(e) => handleSubmit(e, "published")}
               disabled={updateMutation.isPending}
-              className="bg-[#644a40] hover:bg-[#4a3530] text-white gap-2"
+              className="bg-black hover:bg-gray-800 text-white gap-2"
             >
               {updateMutation.isPending ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -249,7 +249,7 @@ export default function EditProposal() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Palette className="w-5 h-5 text-[#644a40]" />
+                <Palette className="w-5 h-5 text-black" />
                 <CardTitle>Proposal Theme</CardTitle>
               </div>
               <CardDescription>
