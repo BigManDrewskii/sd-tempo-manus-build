@@ -25,8 +25,8 @@ export function Navbar() {
   const isViewing = location.match(/^\/proposal\/\d+$/);
   const isTemplates = location.includes("/templates");
 
-  // Don't show navbar on public proposal view (client-facing)
-  if (isViewing && !location.includes("/edit") && !location.includes("/analytics")) {
+  // Don't show navbar on public proposal view (client-facing) or home page (has custom navbar)
+  if (isHome || (isViewing && !location.includes("/edit") && !location.includes("/analytics"))) {
     return null;
   }
 

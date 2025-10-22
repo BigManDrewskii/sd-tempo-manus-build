@@ -52,30 +52,30 @@ export default function Home() {
               {isAuthenticated ? (
                 <>
                   <Link href="/dashboard">
-                    <Button variant="ghost" size="sm">
-                      Dashboard
-                    </Button>
+                    <div>
+                      <Button variant="ghost" size="sm">
+                        Dashboard
+                      </Button>
+                    </div>
                   </Link>
                   <Link href="/create-ai">
-                    <Button size="sm" className="bg-black hover:bg-gray-800">
-                      Create Proposal
-                      <ArrowRight className="w-4 h-4 ml-1.5" />
-                    </Button>
+                    <div>
+                      <Button size="sm" className="bg-black hover:bg-gray-800">
+                        Create Proposal
+                        <ArrowRight className="w-4 h-4 ml-1.5" />
+                      </Button>
+                    </div>
                   </Link>
                 </>
               ) : (
                 <>
-                  <a href={getLoginUrl()}>
-                    <Button variant="ghost" size="sm">
-                      Sign In
-                    </Button>
-                  </a>
-                  <a href={getLoginUrl()}>
-                    <Button size="sm" className="bg-black hover:bg-gray-800">
-                      Get Started
-                      <ArrowRight className="w-4 h-4 ml-1.5" />
-                    </Button>
-                  </a>
+                  <Button variant="ghost" size="sm" onClick={() => window.location.href = getLoginUrl()}>
+                    Sign In
+                  </Button>
+                  <Button size="sm" className="bg-black hover:bg-gray-800" onClick={() => window.location.href = getLoginUrl()}>
+                    Get Started
+                    <ArrowRight className="w-4 h-4 ml-1.5" />
+                  </Button>
                 </>
               )}
             </div>
