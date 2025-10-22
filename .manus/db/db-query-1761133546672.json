@@ -1,0 +1,55 @@
+{
+  "query": "SELECT id, name, industry FROM templates;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user REX6DRAh92xmf1o.root --database YkUUEQgXturuqP4kV3ko25 --execute SELECT id, name, industry FROM templates;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Web Design & Development",
+      "industry": "web-design"
+    },
+    {
+      "id": "2",
+      "name": "Business Consulting",
+      "industry": "consulting"
+    },
+    {
+      "id": "3",
+      "name": "SaaS Product Development",
+      "industry": "saas"
+    },
+    {
+      "id": "30001",
+      "name": "SaaS Product Proposal",
+      "industry": "saas"
+    },
+    {
+      "id": "30002",
+      "name": "Business Consulting Proposal",
+      "industry": "consulting"
+    },
+    {
+      "id": "30003",
+      "name": "Marketing Campaign Proposal",
+      "industry": "marketing"
+    },
+    {
+      "id": "30004",
+      "name": "SaaS Product Proposal",
+      "industry": "saas"
+    },
+    {
+      "id": "30005",
+      "name": "Business Consulting Proposal",
+      "industry": "consulting"
+    },
+    {
+      "id": "30006",
+      "name": "Marketing Campaign Proposal",
+      "industry": "marketing"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tindustry\n1\tWeb Design & Development\tweb-design\n2\tBusiness Consulting\tconsulting\n3\tSaaS Product Development\tsaas\n30001\tSaaS Product Proposal\tsaas\n30002\tBusiness Consulting Proposal\tconsulting\n30003\tMarketing Campaign Proposal\tmarketing\n30004\tSaaS Product Proposal\tsaas\n30005\tBusiness Consulting Proposal\tconsulting\n30006\tMarketing Campaign Proposal\tmarketing\n",
+  "stderr": "",
+  "execution_time_ms": 460
+}

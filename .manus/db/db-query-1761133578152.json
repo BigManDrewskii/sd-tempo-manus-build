@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM templates;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user REX6DRAh92xmf1o.root --database YkUUEQgXturuqP4kV3ko25 --execute DELETE FROM templates;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 53
+}
