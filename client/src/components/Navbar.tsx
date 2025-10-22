@@ -36,14 +36,14 @@ export function Navbar() {
   };
 
   return (
-    <nav className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-50">
+    <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href={isAuthenticated ? "/dashboard" : "/"}>
-            <div className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer">
-              <FileText className="w-6 h-6 text-primary" />
-              <span className="font-bold text-lg">{APP_TITLE}</span>
+            <div className="flex items-center gap-2 hover:opacity-70 transition-opacity cursor-pointer">
+              <FileText className="w-6 h-6 text-black" />
+              <span className="font-bold text-lg text-black">{APP_TITLE}</span>
             </div>
           </Link>
 
@@ -54,7 +54,7 @@ export function Navbar() {
                 {/* Dashboard Link */}
                 {!isDashboard && !isCreating && (
                   <Link href="/dashboard">
-                    <span className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">
+                    <span className="text-sm font-medium text-gray-700 hover:text-black transition-colors cursor-pointer">
                       Dashboard
                     </span>
                   </Link>
@@ -63,7 +63,7 @@ export function Navbar() {
                 {/* Templates Link */}
                 {!isTemplates && !isCreating && (
                   <Link href="/templates">
-                    <span className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">
+                    <span className="text-sm font-medium text-gray-700 hover:text-black transition-colors cursor-pointer">
                       Templates
                     </span>
                   </Link>
@@ -73,19 +73,19 @@ export function Navbar() {
                 {!isCreating && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="default" size="sm" className="gap-2">
+                      <Button variant="default" size="sm" className="gap-2 bg-black text-white hover:bg-gray-800">
                         <Plus className="w-4 h-4" />
                         Create Proposal
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuContent align="end" className="w-56 border-gray-200">
                       <DropdownMenuItem asChild>
                         <Link href="/create-ai">
                           <div className="flex items-center gap-2 w-full cursor-pointer">
                             <Sparkles className="w-4 h-4" />
                             <div>
                               <div className="font-medium">Generate with AI</div>
-                              <div className="text-xs text-muted-foreground">
+                              <div className="text-xs text-gray-600">
                                 AI-powered proposal
                               </div>
                             </div>
@@ -98,7 +98,7 @@ export function Navbar() {
                             <FileText className="w-4 h-4" />
                             <div>
                               <div className="font-medium">Use Template</div>
-                              <div className="text-xs text-muted-foreground">
+                              <div className="text-xs text-gray-600">
                                 Start from industry template
                               </div>
                             </div>
@@ -112,15 +112,15 @@ export function Navbar() {
                 {/* User Menu */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="gap-2">
+                    <Button variant="ghost" size="sm" className="gap-2 hover:bg-gray-100">
                       <User className="w-4 h-4" />
                       <span className="hidden lg:inline">{user?.name || "Account"}</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuContent align="end" className="w-48 border-gray-200">
                     <div className="px-2 py-1.5 text-sm">
                       <div className="font-medium">{user?.name}</div>
-                      <div className="text-xs text-muted-foreground truncate">
+                      <div className="text-xs text-gray-600 truncate">
                         {user?.email}
                       </div>
                     </div>
@@ -147,7 +147,7 @@ export function Navbar() {
                 </DropdownMenu>
               </>
             ) : (
-              <Button asChild variant="default" size="sm">
+              <Button asChild variant="default" size="sm" className="bg-black text-white hover:bg-gray-800">
                 <a href={getLoginUrl()}>Login</a>
               </Button>
             )}
@@ -159,6 +159,7 @@ export function Navbar() {
               variant="ghost"
               size="sm"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="hover:bg-gray-100"
             >
               {mobileMenuOpen ? (
                 <X className="w-5 h-5" />
@@ -171,12 +172,12 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border py-4 space-y-3">
+          <div className="md:hidden border-t border-gray-200 py-4 space-y-3">
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
                   <div
-                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md cursor-pointer"
+                    className="block px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md cursor-pointer"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Dashboard
@@ -184,19 +185,19 @@ export function Navbar() {
                 </Link>
                 <Link href="/templates">
                   <div
-                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md cursor-pointer"
+                    className="block px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md cursor-pointer"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Templates
                   </div>
                 </Link>
                 <div className="px-4 py-2 space-y-2">
-                  <div className="text-xs font-semibold text-muted-foreground uppercase">
+                  <div className="text-xs font-semibold text-gray-600 uppercase">
                     Create Proposal
                   </div>
                   <Link href="/create-ai">
                     <div
-                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md cursor-pointer"
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md cursor-pointer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Sparkles className="w-4 h-4" />
@@ -205,7 +206,7 @@ export function Navbar() {
                   </Link>
                   <Link href="/templates">
                     <div
-                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md cursor-pointer"
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md cursor-pointer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <FileText className="w-4 h-4" />
@@ -213,17 +214,17 @@ export function Navbar() {
                     </div>
                   </Link>
                 </div>
-                <div className="border-t border-border pt-3 mt-3">
+                <div className="border-t border-gray-200 pt-3 mt-3">
                   <div className="px-4 py-2 text-sm">
                     <div className="font-medium">{user?.name}</div>
-                    <div className="text-xs text-muted-foreground">{user?.email}</div>
+                    <div className="text-xs text-gray-600">{user?.email}</div>
                   </div>
                   <button
                     onClick={() => {
                       handleLogout();
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full text-left px-4 py-2 text-sm font-medium hover:bg-accent rounded-md flex items-center gap-2"
+                    className="w-full text-left px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md flex items-center gap-2"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout
@@ -232,7 +233,7 @@ export function Navbar() {
               </>
             ) : (
               <div className="px-4">
-                <Button asChild variant="default" size="sm" className="w-full">
+                <Button asChild variant="default" size="sm" className="w-full bg-black text-white hover:bg-gray-800">
                   <a href={getLoginUrl()}>Login</a>
                 </Button>
               </div>
