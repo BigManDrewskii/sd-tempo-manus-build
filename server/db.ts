@@ -255,7 +255,7 @@ export async function createSignature(signature: InsertSignature) {
 
 export async function getSignatureByProposalId(proposalId: number) {
   const db = await getDb();
-  if (!db) return undefined;
+  if (!db) return null;
 
   const result = await db
     .select()
@@ -263,7 +263,7 @@ export async function getSignatureByProposalId(proposalId: number) {
     .where(eq(signatures.proposalId, proposalId))
     .limit(1);
 
-  return result[0];
+  return result[0] || null;
 }
 
 // ===== Analytics =====
