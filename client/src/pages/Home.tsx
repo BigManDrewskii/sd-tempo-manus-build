@@ -9,32 +9,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-secondary/10">
-      {/* Header */}
-      <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50 bg-background/80">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FileText className="w-8 h-8 text-primary" />
-            <span className="text-2xl font-bold text-foreground">Tempo</span>
-          </div>
-          <nav className="flex items-center gap-4">
-            {isAuthenticated ? (
-              <>
-                <Link href="/dashboard">
-                  <Button variant="ghost">Dashboard</Button>
-                </Link>
-                <Link href="/create">
-                  <Button>Create Proposal</Button>
-                </Link>
-              </>
-            ) : (
-              <a href={getLoginUrl()}>
-                <Button>Sign In</Button>
-              </a>
-            )}
-          </nav>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="flex-1 flex items-center justify-center py-20 px-6">
         <div className="max-w-5xl mx-auto text-center space-y-8">
