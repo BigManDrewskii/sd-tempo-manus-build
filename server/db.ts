@@ -1,4 +1,4 @@
-import { eq, desc, and, sql } from "drizzle-orm";
+import { eq, desc, and, sql, isNull } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -22,6 +22,7 @@ import {
   InsertEmailTrackingEvent
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
+import { TRPCError } from '@trpc/server';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -127,7 +128,12 @@ export async function getUserProposals(userId: number) {
   return db
     .select()
     .from(proposals)
-    .where(eq(proposals.userId, userId))
+    .where(
+      and(
+        eq(proposals.userId, userId),
+        isNull(proposals.deletedAt) // Exclude soft-deleted
+      )
+    )
     .orderBy(desc(proposals.createdAt));
 }
 
@@ -144,6 +150,27 @@ export async function getProposalById(id: number) {
   return result[0];
 }
 
+// Verify proposal ownership and return proposal
+export async function requireProposalOwnership(proposalId: number, userId: number) {
+  const proposal = await getProposalById(proposalId);
+  
+  if (!proposal) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: 'Proposal not found',
+    });
+  }
+  
+  if (proposal.userId !== userId) {
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'You do not have permission to access this proposal',
+    });
+  }
+  
+  return proposal;
+}
+
 export async function updateProposal(id: number, data: Partial<InsertProposal>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -158,7 +185,11 @@ export async function deleteProposal(id: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  await db.delete(proposals).where(eq(proposals.id, id));
+  // Soft delete: set deletedAt instead of removing from database
+  await db
+    .update(proposals)
+    .set({ deletedAt: new Date() })
+    .where(eq(proposals.id, id));
 }
 
 // ===== Proposal Views =====

@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, boolean, json } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, boolean, json, index } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -69,6 +69,7 @@ export const templates = mysqlTable("templates", {
   
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  deletedAt: timestamp("deletedAt"), // Soft delete support
 });
 
 export type Template = typeof templates.$inferSelect;
@@ -118,7 +119,15 @@ export const proposals = mysqlTable("proposals", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   sentAt: timestamp("sentAt"),
-});
+  deletedAt: timestamp("deletedAt"), // Soft delete support
+}, (table) => ({
+  // Indexes for performance
+  userIdIdx: index("idx_proposals_user_id").on(table.userId),
+  statusIdx: index("idx_proposals_status").on(table.status),
+  validUntilIdx: index("idx_proposals_valid_until").on(table.validUntil),
+  deletedAtIdx: index("idx_proposals_deleted_at").on(table.deletedAt),
+  clientNameIdx: index("idx_proposals_client_name").on(table.clientName),
+}));
 
 export type Proposal = typeof proposals.$inferSelect;
 export type InsertProposal = typeof proposals.$inferInsert;

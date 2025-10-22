@@ -5,6 +5,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
 import * as db from "./db";
 import { z } from "zod";
+import { sanitizeObject } from "../shared/sanitize";
 
 export const appRouter = router({
   system: systemRouter,
@@ -72,10 +73,13 @@ export const appRouter = router({
         })),
       }))
       .mutation(async ({ ctx, input }) => {
+        // Sanitize user input to prevent XSS
+        const sanitizedInput = sanitizeObject(input, ['description']);
+        
         const id = await db.createProposal({
           userId: ctx.user.id,
           status: "draft",
-          ...input,
+          ...sanitizedInput,
         });
         return { id };
       }),
@@ -123,15 +127,23 @@ export const appRouter = router({
           })).optional(),
         }),
       }))
-      .mutation(async ({ input }) => {
-        await db.updateProposal(input.id, input.data);
+      .mutation(async ({ input, ctx }) => {
+        // Verify ownership
+        await db.requireProposalOwnership(input.id, ctx.user.id);
+        
+        // Sanitize user input to prevent XSS
+        const sanitizedData = sanitizeObject(input.data, ['description']);
+        
+        await db.updateProposal(input.id, sanitizedData);
         return { success: true };
       }),
 
     // Delete proposal
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
+        // Verify ownership
+        await db.requireProposalOwnership(input.id, ctx.user.id);
         await db.deleteProposal(input.id);
         return { success: true };
       }),
@@ -147,7 +159,9 @@ export const appRouter = router({
     // Get analytics for a proposal
     analytics: protectedProcedure
       .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
+      .query(async ({ input, ctx }) => {
+        // Verify ownership
+        await db.requireProposalOwnership(input.id, ctx.user.id);
         return db.getProposalAnalytics(input.id);
       }),
 
@@ -156,11 +170,8 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input, ctx }) => {
         const { generateProposalPDF } = await import("./utils/pdfGenerator");
-        const proposal = await db.getProposalById(input.id);
-        
-        if (!proposal) {
-          throw new Error("Proposal not found");
-        }
+        // Verify ownership
+        const proposal = await db.requireProposalOwnership(input.id, ctx.user.id);
         
         const pdfBuffer = await generateProposalPDF(proposal);
         const base64PDF = pdfBuffer.toString("base64");
@@ -191,16 +202,8 @@ export const appRouter = router({
           getProposalUrlWithTracking,
         } = await import("./email");
 
-        // Get proposal
-        const proposal = await db.getProposalById(input.proposalId);
-        if (!proposal) {
-          throw new Error("Proposal not found");
-        }
-
-        // Verify ownership
-        if (proposal.userId !== ctx.user.id) {
-          throw new Error("Unauthorized");
-        }
+        // Verify ownership and get proposal
+        const proposal = await db.requireProposalOwnership(input.proposalId, ctx.user.id);
 
         // Generate tracking token
         const trackingToken = generateTrackingToken();
@@ -278,7 +281,9 @@ export const appRouter = router({
     // Get email delivery stats for a proposal
     getEmailStats: protectedProcedure
       .input(z.object({ proposalId: z.number() }))
-      .query(async ({ input }) => {
+      .query(async ({ input, ctx }) => {
+        // Verify ownership
+        await db.requireProposalOwnership(input.proposalId, ctx.user.id);
         const deliveries = await db.getEmailDeliveriesByProposal(
           input.proposalId
         );
