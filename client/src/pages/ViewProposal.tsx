@@ -17,7 +17,8 @@ import {
   CheckCircle, 
   ChevronDown,
   Loader2,
-  ArrowLeft 
+  ArrowLeft,
+  Download 
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -43,6 +44,7 @@ export default function ViewProposal() {
   const trackViewMutation = trpc.tracking.trackView.useMutation();
   const trackEventMutation = trpc.tracking.trackEvent.useMutation();
   const submitSignatureMutation = trpc.signatures.submit.useMutation();
+  const exportMutation = trpc.proposals.exportPDF.useMutation();
 
   const [scrollProgress, setScrollProgress] = useState(0);
   const [sectionsViewed, setSectionsViewed] = useState<Set<string>>(new Set());
@@ -282,6 +284,34 @@ export default function ViewProposal() {
     return `${mins}m ${secs}s`;
   };
 
+  const handleExportPDF = async () => {
+    try {
+      const result = await exportMutation.mutateAsync({ id: proposalId });
+      
+      // Convert base64 to blob and download
+      const byteCharacters = atob(result.data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = result.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      alert('Failed to export PDF. Please try again.');
+    }
+  };
+
   const calculateEngagementScore = () => {
     const totalSections = 6;
     const viewedCount = sectionsViewed.size;
@@ -362,9 +392,9 @@ export default function ViewProposal() {
         </motion.div>
       )}
 
-      {/* Back Button */}
+      {/* Action Buttons */}
       {user && (
-        <div className="fixed top-20 left-6 z-40">
+        <div className="fixed top-20 left-6 z-40 flex gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -373,6 +403,20 @@ export default function ViewProposal() {
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleExportPDF}
+            disabled={exportMutation.isPending}
+            className="bg-background/80 backdrop-blur-sm"
+          >
+            {exportMutation.isPending ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4 mr-2" />
+            )}
+            Export PDF
           </Button>
         </div>
       )}

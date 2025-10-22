@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Plus, Trash2, ArrowLeft, Save } from "lucide-react";
+import { Loader2, Plus, Trash2, ArrowLeft, Save, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
@@ -47,6 +47,9 @@ export default function EditProposal() {
     }
   }, [proposal]);
 
+  // Mutations
+  const exportMutation = trpc.proposals.exportPDF.useMutation();
+  
   // Update mutation
   const updateMutation = trpc.proposals.update.useMutation({
     onSuccess: () => {
@@ -58,7 +61,39 @@ export default function EditProposal() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent, status: "draft" | "published") => {
+  const handleExportPDF = async () => {
+    if (!proposalId) return;
+    
+    try {
+      const result = await exportMutation.mutateAsync({ id: proposalId });
+      
+      // Convert base64 to blob and download
+      const byteCharacters = atob(result.data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = result.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('PDF exported successfully');
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      toast.error('Failed to export PDF. Please try again.');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent, status: "draft" | "published") => {
     e.preventDefault();
     
     if (!proposalId) return;
@@ -126,6 +161,19 @@ export default function EditProposal() {
             </div>
           </div>
           <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={handleExportPDF}
+              disabled={exportMutation.isPending}
+              className="gap-2"
+            >
+              {exportMutation.isPending ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4" />
+              )}
+              Export PDF
+            </Button>
             <Button
               variant="outline"
               onClick={(e) => handleSubmit(e, "draft")}

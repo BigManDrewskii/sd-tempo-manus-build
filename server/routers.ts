@@ -150,6 +150,26 @@ export const appRouter = router({
         return db.getProposalAnalytics(input.id);
       }),
 
+    // Export proposal as PDF
+    exportPDF: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        const { generateProposalPDF } = await import("./utils/pdfGenerator");
+        const proposal = await db.getProposalById(input.id);
+        
+        if (!proposal) {
+          throw new Error("Proposal not found");
+        }
+        
+        const pdfBuffer = await generateProposalPDF(proposal);
+        const base64PDF = pdfBuffer.toString("base64");
+        
+        return {
+          filename: `${proposal.projectName.replace(/[^a-z0-9]/gi, '_')}_proposal.pdf`,
+          data: base64PDF,
+        };
+      }),
+
     // Generate proposal with AI
     generateWithAI: protectedProcedure
       .input(
