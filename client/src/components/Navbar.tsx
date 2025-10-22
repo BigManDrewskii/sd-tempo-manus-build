@@ -54,18 +54,18 @@ export function Navbar() {
                 {/* Dashboard Link */}
                 {!isDashboard && !isCreating && (
                   <Link href="/dashboard">
-                    <a className="text-sm font-medium hover:text-primary transition-colors">
+                    <span className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">
                       Dashboard
-                    </a>
+                    </span>
                   </Link>
                 )}
 
                 {/* Templates Link */}
                 {!isTemplates && !isCreating && (
                   <Link href="/templates">
-                    <a className="text-sm font-medium hover:text-primary transition-colors">
+                    <span className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">
                       Templates
-                    </a>
+                    </span>
                   </Link>
                 )}
 
@@ -81,7 +81,7 @@ export function Navbar() {
                     <DropdownMenuContent align="end" className="w-56">
                       <DropdownMenuItem asChild>
                         <Link href="/create-ai">
-                          <a className="flex items-center gap-2 w-full cursor-pointer">
+                          <div className="flex items-center gap-2 w-full cursor-pointer">
                             <Sparkles className="w-4 h-4" />
                             <div>
                               <div className="font-medium">Generate with AI</div>
@@ -89,12 +89,12 @@ export function Navbar() {
                                 AI-powered proposal
                               </div>
                             </div>
-                          </a>
+                          </div>
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Link href="/templates">
-                          <a className="flex items-center gap-2 w-full cursor-pointer">
+                          <div className="flex items-center gap-2 w-full cursor-pointer">
                             <FileText className="w-4 h-4" />
                             <div>
                               <div className="font-medium">Use Template</div>
@@ -102,7 +102,7 @@ export function Navbar() {
                                 Start from industry template
                               </div>
                             </div>
-                          </a>
+                          </div>
                         </Link>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -125,17 +125,17 @@ export function Navbar() {
                       </div>
                     </div>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem asChild>
                       <Link href="/dashboard">
-                        <a className="cursor-pointer w-full">Dashboard</a>
+                        <span className="cursor-pointer w-full">Dashboard</span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem asChild>
                       <Link href="/settings/branding">
-                        <a className="cursor-pointer w-full flex items-center">
+                        <span className="cursor-pointer w-full flex items-center">
                           <Palette className="w-4 h-4 mr-2" />
                           Brand Settings
-                        </a>
+                        </span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -175,42 +175,42 @@ export function Navbar() {
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
-                  <a
-                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md"
+                  <div
+                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md cursor-pointer"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Dashboard
-                  </a>
+                  </div>
                 </Link>
                 <Link href="/templates">
-                  <a
-                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md"
+                  <div
+                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md cursor-pointer"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Templates
-                  </a>
+                  </div>
                 </Link>
                 <div className="px-4 py-2 space-y-2">
                   <div className="text-xs font-semibold text-muted-foreground uppercase">
                     Create Proposal
                   </div>
                   <Link href="/create-ai">
-                    <a
-                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
+                    <div
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md cursor-pointer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Sparkles className="w-4 h-4" />
                       Generate with AI
-                    </a>
+                    </div>
                   </Link>
                   <Link href="/templates">
-                    <a
-                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
+                    <div
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md cursor-pointer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <FileText className="w-4 h-4" />
                       Use Template
-                    </a>
+                    </div>
                   </Link>
                 </div>
                 <div className="border-t border-border pt-3 mt-3">
