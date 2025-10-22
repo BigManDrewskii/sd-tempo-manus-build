@@ -43,6 +43,13 @@
       "when": 1761128526694,
       "tag": "0005_aromatic_crystal",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1761129076234,
+      "tag": "0006_aberrant_crusher_hogan",
+      "breakpoints": true
     }
   ]
 }

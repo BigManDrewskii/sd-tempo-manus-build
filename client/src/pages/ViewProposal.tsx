@@ -21,6 +21,7 @@ import {
   Download 
 } from "lucide-react";
 import { format } from "date-fns";
+import { getTheme } from "@shared/themes";
 
 // Generate session ID for tracking
 const getSessionId = () => {
@@ -39,6 +40,7 @@ export default function ViewProposal() {
   const { user } = useAuth();
   
   const { data: proposal, isLoading } = trpc.proposals.get.useQuery({ id: proposalId });
+  const theme = proposal ? getTheme(proposal.theme || "default") : getTheme("default");
   const { data: signature } = trpc.signatures.get.useQuery({ proposalId });
   
   const trackViewMutation = trpc.tracking.trackView.useMutation();
@@ -425,7 +427,12 @@ export default function ViewProposal() {
       <section
         id="hero"
         data-section
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-primary/90 to-secondary text-primary-foreground relative"
+        className="min-h-screen flex items-center justify-center relative"
+        style={{
+          background: `linear-gradient(to bottom right, ${theme.colors.primary}, ${theme.colors.secondary})`,
+          color: theme.colors.accent,
+          fontFamily: theme.fonts.heading,
+        }}
       >
         <div className="container text-center space-y-6">
           <motion.div

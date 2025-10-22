@@ -88,6 +88,7 @@ export const proposals = mysqlTable("proposals", {
   validUntil: timestamp("validUntil").notNull(),
   status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),
   lastEditedAt: timestamp("lastEditedAt").defaultNow().notNull(),
+  theme: mysqlEnum("theme", ["default", "modern", "classic", "bold", "minimal", "elegant"]).default("default").notNull(),
   
   // Content sections (stored as JSON)
   problems: json("problems").$type<Array<{ title: string; description: string; icon: string }>>().notNull(),

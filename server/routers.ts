@@ -90,6 +90,7 @@ export const appRouter = router({
           projectName: z.string().optional(),
           validUntil: z.date().optional(),
           status: z.enum(["draft", "published", "archived"]).optional(),
+          theme: z.enum(["default", "modern", "classic", "bold", "minimal", "elegant"]).optional(),
           problems: z.array(z.object({
             title: z.string(),
             description: z.string(),

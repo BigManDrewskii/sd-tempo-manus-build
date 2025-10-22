@@ -1,0 +1,1 @@
+ALTER TABLE `proposals` ADD `theme` enum('default','modern','classic','bold','minimal','elegant') DEFAULT 'default' NOT NULL;

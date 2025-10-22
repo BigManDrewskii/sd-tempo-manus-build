@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Plus, Trash2, ArrowLeft, Save, Download } from "lucide-react";
+import { Loader2, Plus, Trash2, ArrowLeft, Save, Download, Palette } from "lucide-react";
+import { ThemeSelector } from "@/components/ThemeSelector";
 import { useEffect, useState } from "react";
 import { useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ export default function EditProposal() {
   const [deliverables, setDeliverables] = useState<string[]>([]);
   const [pricingTiers, setPricingTiers] = useState<Array<{ name: string; price: number; features: string[]; recommended?: boolean }>>([]);
   const [addOns, setAddOns] = useState<Array<{ id: string; name: string; price: number; description: string }>>([]);
+  const [theme, setTheme] = useState<"default" | "modern" | "classic" | "bold" | "minimal" | "elegant">("default");
 
   // Populate form when proposal loads
   useEffect(() => {
@@ -44,6 +46,7 @@ export default function EditProposal() {
       setDeliverables(proposal.deliverables);
       setPricingTiers(proposal.pricingTiers);
       setAddOns(proposal.addOns);
+      setTheme(proposal.theme || "default");
     }
   }, [proposal]);
 
@@ -105,6 +108,7 @@ export default function EditProposal() {
         projectName,
         validUntil: new Date(validUntil),
         status,
+        theme,
         problems,
         solutionPhases: phases,
         deliverables,
@@ -234,6 +238,22 @@ export default function EditProposal() {
                   required
                 />
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Theme Selection */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Palette className="w-5 h-5 text-[#644a40]" />
+                <CardTitle>Proposal Theme</CardTitle>
+              </div>
+              <CardDescription>
+                Choose a visual theme for your proposal. This only affects how the proposal looks to clients.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ThemeSelector selectedTheme={theme} onThemeChange={setTheme} />
             </CardContent>
           </Card>
 
