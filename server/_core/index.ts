@@ -35,6 +35,9 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+  // Email tracking routes
+  const trackingRouter = await import("../tracking");
+  app.use("/api/track", trackingRouter.default);
   // tRPC API
   app.use(
     "/api/trpc",

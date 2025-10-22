@@ -15,7 +15,11 @@ import {
   InsertSignature,
   templates,
   InsertTemplate,
-  Template
+  Template,
+  emailDeliveries,
+  InsertEmailDelivery,
+  emailTrackingEvents,
+  InsertEmailTrackingEvent
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -405,5 +409,146 @@ export async function upsertUserBranding(data: InsertUserBranding) {
     await db.insert(userBranding).values(data);
     return getUserBranding(data.userId);
   }
+}
+
+
+
+// ==================== Email Deliveries ====================
+
+export async function createEmailDelivery(delivery: InsertEmailDelivery) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(emailDeliveries).values(delivery);
+  return result[0].insertId;
+}
+
+export async function getEmailDeliveryByToken(trackingToken: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db
+    .select()
+    .from(emailDeliveries)
+    .where(eq(emailDeliveries.trackingToken, trackingToken))
+    .limit(1);
+
+  return result[0];
+}
+
+export async function getEmailDeliveriesByProposal(proposalId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(emailDeliveries)
+    .where(eq(emailDeliveries.proposalId, proposalId))
+    .orderBy(desc(emailDeliveries.createdAt));
+}
+
+export async function updateEmailDelivery(id: number, data: Partial<InsertEmailDelivery>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db
+    .update(emailDeliveries)
+    .set({ ...data, updatedAt: new Date() })
+    .where(eq(emailDeliveries.id, id));
+}
+
+export async function markEmailAsOpened(trackingToken: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const delivery = await getEmailDeliveryByToken(trackingToken);
+  if (!delivery) return;
+
+  // Only update if not already opened
+  if (!delivery.openedAt) {
+    await db
+      .update(emailDeliveries)
+      .set({
+        openedAt: new Date(),
+        status: "opened",
+        updatedAt: new Date(),
+      })
+      .where(eq(emailDeliveries.trackingToken, trackingToken));
+  }
+}
+
+export async function markEmailAsViewed(trackingToken: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const delivery = await getEmailDeliveryByToken(trackingToken);
+  if (!delivery) return;
+
+  await db
+    .update(emailDeliveries)
+    .set({
+      lastViewedAt: new Date(),
+      viewCount: delivery.viewCount + 1,
+      status: "viewed",
+      updatedAt: new Date(),
+    })
+    .where(eq(emailDeliveries.trackingToken, trackingToken));
+}
+
+export async function updateEmailTimeSpent(trackingToken: string, additionalSeconds: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const delivery = await getEmailDeliveryByToken(trackingToken);
+  if (!delivery) return;
+
+  await db
+    .update(emailDeliveries)
+    .set({
+      totalTimeSpent: delivery.totalTimeSpent + additionalSeconds,
+      updatedAt: new Date(),
+    })
+    .where(eq(emailDeliveries.trackingToken, trackingToken));
+}
+
+// ==================== Email Tracking Events ====================
+
+export async function createEmailTrackingEvent(event: InsertEmailTrackingEvent) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(emailTrackingEvents).values(event);
+  return result[0].insertId;
+}
+
+export async function getEmailTrackingEvents(deliveryId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(emailTrackingEvents)
+    .where(eq(emailTrackingEvents.deliveryId, deliveryId))
+    .orderBy(desc(emailTrackingEvents.timestamp));
+}
+
+export async function getProposalEmailActivity(proposalId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  // Get all deliveries for this proposal
+  const deliveries = await getEmailDeliveriesByProposal(proposalId);
+  
+  // Get all tracking events for these deliveries
+  const allEvents = [];
+  for (const delivery of deliveries) {
+    const events = await getEmailTrackingEvents(delivery.id);
+    allEvents.push(...events.map(e => ({ ...e, delivery })));
+  }
+
+  // Sort by timestamp descending
+  return allEvents.sort((a, b) => 
+    new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+  );
 }
 

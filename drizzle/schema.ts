@@ -200,3 +200,63 @@ export const signatures = mysqlTable("signatures", {
 export type Signature = typeof signatures.$inferSelect;
 export type InsertSignature = typeof signatures.$inferInsert;
 
+/**
+ * Email deliveries - tracks proposal emails sent to clients
+ */
+export const emailDeliveries = mysqlTable("emailDeliveries", {
+  id: int("id").autoincrement().primaryKey(),
+  proposalId: int("proposalId").notNull(),
+  userId: int("userId").notNull(), // Sender
+  
+  // Recipient info
+  recipientEmail: varchar("recipientEmail", { length: 320 }).notNull(),
+  recipientName: varchar("recipientName", { length: 255 }),
+  
+  // Email content
+  subject: text("subject").notNull(),
+  message: text("message"), // Custom message from sender
+  
+  // Tracking
+  trackingToken: varchar("trackingToken", { length: 64 }).notNull().unique(),
+  status: mysqlEnum("status", ["pending", "sent", "opened", "viewed", "signed", "failed"]).default("pending").notNull(),
+  
+  // Engagement metrics
+  sentAt: timestamp("sentAt"),
+  openedAt: timestamp("openedAt"),
+  lastViewedAt: timestamp("lastViewedAt"),
+  viewCount: int("viewCount").default(0).notNull(),
+  totalTimeSpent: int("totalTimeSpent").default(0).notNull(), // in seconds
+  
+  // Reminders
+  reminderSent: boolean("reminderSent").default(false).notNull(),
+  
+  // Timestamps
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type EmailDelivery = typeof emailDeliveries.$inferSelect;
+export type InsertEmailDelivery = typeof emailDeliveries.$inferInsert;
+
+/**
+ * Email tracking events - detailed tracking of email and proposal interactions
+ */
+export const emailTrackingEvents = mysqlTable("emailTrackingEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  deliveryId: int("deliveryId").notNull(),
+  
+  // Event details
+  eventType: mysqlEnum("eventType", ["open", "view", "scroll", "interaction", "time_update"]).notNull(),
+  eventData: json("eventData").$type<Record<string, any>>(),
+  
+  // Technical details
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: text("userAgent"),
+  
+  // Timestamp
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+});
+
+export type EmailTrackingEvent = typeof emailTrackingEvents.$inferSelect;
+export type InsertEmailTrackingEvent = typeof emailTrackingEvents.$inferInsert;
+

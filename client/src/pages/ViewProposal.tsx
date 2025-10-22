@@ -18,10 +18,12 @@ import {
   ChevronDown,
   Loader2,
   ArrowLeft,
-  Download 
+  Download,
+  Mail
 } from "lucide-react";
 import { format } from "date-fns";
 import { getTheme } from "@shared/themes";
+import { SendProposalDialog } from "@/components/SendProposalDialog";
 
 // Generate session ID for tracking
 const getSessionId = () => {
@@ -63,10 +65,17 @@ export default function ViewProposal() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [hasSignature, setHasSignature] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sendDialogOpen, setSendDialogOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const sessionId = useMemo(() => getSessionId(), []);
   const startTimeRef = useRef(Date.now());
+  
+  // Get tracking token from URL if present
+  const trackingToken = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('t');
+  }, []);
 
   // Track view on mount
   useEffect(() => {
@@ -76,7 +85,14 @@ export default function ViewProposal() {
         sessionId,
       });
     }
-  }, [proposalId, sessionId]);
+    
+    // Track email view if tracking token present
+    if (trackingToken) {
+      fetch(`/api/track/view/${trackingToken}`, {
+        method: 'POST',
+      }).catch(err => console.error('Failed to track email view:', err));
+    }
+  }, [proposalId, sessionId, trackingToken]);
 
   // Scroll progress tracking
   useEffect(() => {
@@ -102,6 +118,42 @@ export default function ViewProposal() {
 
     return () => clearInterval(interval);
   }, []);
+  
+  // Email time tracking - send updates every 30 seconds
+  useEffect(() => {
+    if (!trackingToken) return;
+    
+    let lastSentTime = 0;
+    const trackTime = () => {
+      const currentTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      const timeSpent = currentTime - lastSentTime;
+      
+      if (timeSpent > 0) {
+        fetch(`/api/track/time/${trackingToken}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ timeSpent }),
+        }).catch(err => console.error('Failed to track time:', err));
+        
+        lastSentTime = currentTime;
+      }
+    };
+    
+    // Track every 30 seconds
+    const interval = setInterval(trackTime, 30000);
+    
+    // Track on page unload
+    const handleUnload = () => {
+      trackTime();
+    };
+    window.addEventListener('beforeunload', handleUnload);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('beforeunload', handleUnload);
+      trackTime(); // Final update
+    };
+  }, [trackingToken]);
 
   // Section visibility tracking
   useEffect(() => {
@@ -409,6 +461,15 @@ export default function ViewProposal() {
           <Button
             variant="outline"
             size="sm"
+            onClick={() => setSendDialogOpen(true)}
+            className="bg-background/80 backdrop-blur-sm"
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            Send to Client
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleExportPDF}
             disabled={exportMutation.isPending}
             className="bg-background/80 backdrop-blur-sm"
@@ -421,6 +482,17 @@ export default function ViewProposal() {
             Export PDF
           </Button>
         </div>
+      )}
+
+      {/* Send Proposal Dialog */}
+      {user && proposal && (
+        <SendProposalDialog
+          open={sendDialogOpen}
+          onOpenChange={setSendDialogOpen}
+          proposalId={proposalId}
+          proposalTitle={proposal.title}
+          clientName={proposal.clientName}
+        />
       )}
 
       {/* Hero Section */}

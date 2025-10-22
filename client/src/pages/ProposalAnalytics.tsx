@@ -12,7 +12,10 @@ import {
   Users, 
   MousePointerClick,
   ArrowLeft,
-  Loader2
+  Loader2,
+  Mail,
+  MailOpen,
+  Timer
 } from "lucide-react";
 import { format } from "date-fns";
 import { getLoginUrl } from "@/const";
@@ -33,6 +36,16 @@ export default function ProposalAnalytics() {
   );
 
   const { data: signature } = trpc.signatures.get.useQuery(
+    { proposalId },
+    { enabled: isAuthenticated }
+  );
+  
+  const { data: emailStats } = trpc.proposals.getEmailStats.useQuery(
+    { proposalId },
+    { enabled: isAuthenticated }
+  );
+  
+  const { data: emailActivity } = trpc.proposals.getEmailActivity.useQuery(
     { proposalId },
     { enabled: isAuthenticated }
   );
@@ -133,6 +146,96 @@ export default function ProposalAnalytics() {
           </div>
         </div>
 
+        {/* Email Delivery Stats */}
+        {emailStats && emailStats.totalSent > 0 && (
+          <Card className="mb-8 border-blue-200 bg-blue-50/50 dark:bg-blue-950/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Mail className="w-5 h-5" />
+                Email Delivery & Tracking
+              </CardTitle>
+              <CardDescription>
+                Track how clients engage with emailed proposals
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-4 gap-6">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                    <Mail className="w-4 h-4" />
+                    Emails Sent
+                  </div>
+                  <div className="text-3xl font-bold">{emailStats.totalSent}</div>
+                </div>
+                
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                    <MailOpen className="w-4 h-4" />
+                    Open Rate
+                  </div>
+                  <div className="text-3xl font-bold text-blue-600">{emailStats.openRate}%</div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {emailStats.totalOpened} opened
+                  </p>
+                </div>
+                
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                    <Eye className="w-4 h-4" />
+                    View Rate
+                  </div>
+                  <div className="text-3xl font-bold text-green-600">{emailStats.viewRate}%</div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {emailStats.totalViewed} viewed
+                  </p>
+                </div>
+                
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                    <Timer className="w-4 h-4" />
+                    Avg. Time Spent
+                  </div>
+                  <div className="text-3xl font-bold">
+                    {Math.floor(emailStats.avgTimeSpent / 60)}m {emailStats.avgTimeSpent % 60}s
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Per view
+                  </p>
+                </div>
+              </div>
+              
+              {/* Email Activity Timeline */}
+              {emailActivity && emailActivity.length > 0 && (
+                <div className="mt-6 pt-6 border-t">
+                  <h4 className="font-semibold mb-4">Recent Activity</h4>
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {emailActivity.slice(0, 10).map((activity: any, idx: number) => (
+                      <div key={idx} className="flex items-start gap-3 text-sm">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5" />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium capitalize">
+                              {activity.eventType.replace('_', ' ')}
+                            </span>
+                            {activity.delivery && (
+                              <span className="text-muted-foreground">
+                                • {activity.delivery.recipientEmail}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {format(new Date(activity.timestamp), "MMM d, yyyy 'at' h:mm a")}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+        
         {/* Key Metrics */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <Card>

@@ -171,6 +171,147 @@ export const appRouter = router({
         };
       }),
 
+    // Send proposal via email
+    sendEmail: protectedProcedure
+      .input(
+        z.object({
+          proposalId: z.number(),
+          recipientEmail: z.string().email(),
+          recipientName: z.string().optional(),
+          subject: z.string().optional(),
+          message: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input, ctx }) => {
+        const {
+          generateTrackingToken,
+          buildProposalEmailHtml,
+          sendProposalEmail,
+          getTrackingPixelUrl,
+          getProposalUrlWithTracking,
+        } = await import("./email");
+
+        // Get proposal
+        const proposal = await db.getProposalById(input.proposalId);
+        if (!proposal) {
+          throw new Error("Proposal not found");
+        }
+
+        // Verify ownership
+        if (proposal.userId !== ctx.user.id) {
+          throw new Error("Unauthorized");
+        }
+
+        // Generate tracking token
+        const trackingToken = generateTrackingToken();
+
+        // Create email delivery record
+        const deliveryId = await db.createEmailDelivery({
+          proposalId: input.proposalId,
+          userId: ctx.user.id,
+          recipientEmail: input.recipientEmail,
+          recipientName: input.recipientName || null,
+          subject: input.subject || `Proposal: ${proposal.title}`,
+          message: input.message || null,
+          trackingToken,
+          status: "pending",
+        });
+
+        // Build email HTML
+        const proposalUrl = getProposalUrlWithTracking(
+          input.proposalId,
+          trackingToken
+        );
+        const trackingPixelUrl = getTrackingPixelUrl(trackingToken);
+
+        const emailHtml = buildProposalEmailHtml({
+          proposalTitle: proposal.title,
+          senderName: ctx.user.name || "Your Partner",
+          clientName: input.recipientName || proposal.clientName,
+          projectName: proposal.projectName,
+          expirationDate: new Date(proposal.validUntil).toLocaleDateString(
+            "en-US",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          ),
+          customMessage: input.message,
+          proposalUrl,
+          trackingPixelUrl,
+        });
+
+        // Send email
+        const result = await sendProposalEmail({
+          to: input.recipientEmail,
+          subject: input.subject || `Proposal: ${proposal.title}`,
+          html: emailHtml,
+        });
+
+        // Update delivery status
+        if (result.success) {
+          await db.updateEmailDelivery(deliveryId, {
+            status: "sent",
+            sentAt: new Date(),
+          });
+
+          // Track event
+          await db.createEmailTrackingEvent({
+            deliveryId,
+            eventType: "open",
+            eventData: { action: "email_sent" },
+          });
+        } else {
+          await db.updateEmailDelivery(deliveryId, {
+            status: "failed",
+          });
+        }
+
+        return {
+          success: result.success,
+          error: result.error,
+          deliveryId,
+        };
+      }),
+
+    // Get email delivery stats for a proposal
+    getEmailStats: protectedProcedure
+      .input(z.object({ proposalId: z.number() }))
+      .query(async ({ input }) => {
+        const deliveries = await db.getEmailDeliveriesByProposal(
+          input.proposalId
+        );
+
+        const totalSent = deliveries.length;
+        const totalOpened = deliveries.filter((d) => d.openedAt).length;
+        const totalViewed = deliveries.filter((d) => d.lastViewedAt).length;
+        const totalTimeSpent = deliveries.reduce(
+          (sum, d) => sum + d.totalTimeSpent,
+          0
+        );
+
+        return {
+          totalSent,
+          totalOpened,
+          totalViewed,
+          openRate:
+            totalSent > 0 ? Math.round((totalOpened / totalSent) * 100) : 0,
+          viewRate:
+            totalSent > 0 ? Math.round((totalViewed / totalSent) * 100) : 0,
+          avgTimeSpent:
+            totalViewed > 0 ? Math.round(totalTimeSpent / totalViewed) : 0,
+          deliveries,
+        };
+      }),
+
+    // Get email activity timeline
+    getEmailActivity: protectedProcedure
+      .input(z.object({ proposalId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getProposalEmailActivity(input.proposalId);
+      }),
+
     // Generate proposal with AI
     generateWithAI: protectedProcedure
       .input(
@@ -388,14 +529,51 @@ Include: 3-4 problems, 4-5 solution phases, 6-8 deliverables, 2 case studies, 3 
         })
       )
       .mutation(async ({ input }) => {
-        return db.createSignature(input);
+        // Transform selectedAddOns from Record<string, boolean> to string[]
+        const selectedAddOnsList = Object.keys(input.selectedAddOns).filter(
+          key => input.selectedAddOns[key]
+        );
+        
+        return db.createSignature({
+          proposalId: input.proposalId,
+          signerName: input.fullName,
+          signerEmail: input.email,
+          signatureData: input.signatureData,
+          selectedTier: input.selectedTier,
+          selectedAddOns: selectedAddOnsList,
+          totalPrice: input.totalPrice,
+        });
       }),
 
     // Get signature for proposal
+    get: publicProcedure
+      .input(z.object({ proposalId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getSignatureByProposalId(input.proposalId);
+      }),
+    
+    // Alias for backward compatibility
     getByProposalId: publicProcedure
       .input(z.object({ proposalId: z.number() }))
       .query(async ({ input }) => {
         return db.getSignatureByProposalId(input.proposalId);
+      }),
+    
+    // Submit signature (alias for create)
+    submit: publicProcedure
+      .input(
+        z.object({
+          proposalId: z.number(),
+          signerName: z.string().min(1),
+          signerEmail: z.string().email(),
+          signatureData: z.string().min(1),
+          selectedTier: z.string(),
+          selectedAddOns: z.array(z.string()),
+          totalPrice: z.number(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return db.createSignature(input);
       }),
   }),
 

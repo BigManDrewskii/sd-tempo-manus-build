@@ -11,16 +11,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
-import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2 } from "lucide-react";
+import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2, Mail } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { useState } from "react";
+import { SendProposalDialog } from "@/components/SendProposalDialog";
 
 export default function Dashboard() {
   const { user, isAuthenticated, loading } = useAuth();
   const [, setLocation] = useLocation();
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [sendDialogProposal, setSendDialogProposal] = useState<{ id: number; title: string; clientName: string } | null>(null);
   
   const { data: proposals, isLoading, refetch } = trpc.proposals.list.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -188,6 +190,10 @@ export default function Dashboard() {
                           Analytics
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => setSendDialogProposal({ id: proposal.id, title: proposal.title, clientName: proposal.clientName })}>
+                          <Mail className="w-4 h-4 mr-2" />
+                          Send to Client
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleDuplicate(proposal.id)}>
                           <Copy className="w-4 h-4 mr-2" />
                           Duplicate
@@ -272,6 +278,17 @@ export default function Dashboard() {
           </Card>
         )}
       </main>
+
+      {/* Send Proposal Dialog */}
+      {sendDialogProposal && (
+        <SendProposalDialog
+          open={!!sendDialogProposal}
+          onOpenChange={(open) => !open && setSendDialogProposal(null)}
+          proposalId={sendDialogProposal.id}
+          proposalTitle={sendDialogProposal.title}
+          clientName={sendDialogProposal.clientName}
+        />
+      )}
     </div>
   );
 }
