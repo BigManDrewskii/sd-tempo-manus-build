@@ -22,6 +22,20 @@
       "when": 1761122734163,
       "tag": "0002_flimsy_catseye",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1761123897112,
+      "tag": "0003_nice_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1761123938325,
+      "tag": "0004_short_hercules",
+      "breakpoints": true
     }
   ]
 }

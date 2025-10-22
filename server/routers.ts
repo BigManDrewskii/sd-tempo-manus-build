@@ -89,7 +89,7 @@ export const appRouter = router({
           clientName: z.string().optional(),
           projectName: z.string().optional(),
           validUntil: z.date().optional(),
-          status: z.enum(["draft", "sent", "viewed", "signed", "expired"]).optional(),
+          status: z.enum(["draft", "published", "archived"]).optional(),
           problems: z.array(z.object({
             title: z.string(),
             description: z.string(),
@@ -133,6 +133,14 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await db.deleteProposal(input.id);
         return { success: true };
+      }),
+
+    // Duplicate proposal
+    duplicate: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        const newId = await db.duplicateProposal(input.id, ctx.user.id);
+        return { id: newId };
       }),
 
     // Get analytics for a proposal

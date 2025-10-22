@@ -12,6 +12,7 @@ import ViewProposal from "./pages/ViewProposal";
 import ProposalAnalytics from "./pages/ProposalAnalytics";
 import Templates from "./pages/Templates";
 import CustomizeTemplate from "./pages/CustomizeTemplate";
+import EditProposal from "./pages/EditProposal";
 
 function Router() {
   return (
@@ -23,7 +24,8 @@ function Router() {
       <Route path="/templates" component={Templates} />
       <Route path="/templates/:id/customize" component={CustomizeTemplate} />
       <Route path={"/proposal/:id"} component={ViewProposal} />
-      <Route path={"/analytics/:id"} component={ProposalAnalytics} />
+      <Route path={"/proposal/:id/analytics"} component={ProposalAnalytics} />
+      <Route path={"/proposal/:id/edit"} component={EditProposal} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -33,10 +35,7 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        switchable
-      >
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <Router />

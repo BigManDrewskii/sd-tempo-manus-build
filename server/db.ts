@@ -241,7 +241,7 @@ export async function createSignature(signature: InsertSignature) {
   // Update proposal status to signed
   await db
     .update(proposals)
-    .set({ status: "signed" })
+    .set({ status: "published" })
     .where(eq(proposals.id, signature.proposalId));
 
   return result[0].insertId;
@@ -325,6 +325,44 @@ export async function createTemplate(template: InsertTemplate) {
   if (!db) throw new Error("Database not available");
 
   const result = await db.insert(templates).values(template);
+  return result[0].insertId;
+}
+
+
+
+export async function duplicateProposal(proposalId: number, userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Get original proposal
+  const original = await db
+    .select()
+    .from(proposals)
+    .where(eq(proposals.id, proposalId))
+    .limit(1);
+
+  if (original.length === 0) {
+    throw new Error("Proposal not found");
+  }
+
+  const prop = original[0];
+
+  // Create duplicate with " (Copy)" suffix
+  const result = await db.insert(proposals).values({
+    userId,
+    title: prop.title,
+    clientName: prop.clientName,
+    projectName: `${prop.projectName} (Copy)`,
+    validUntil: prop.validUntil,
+    status: "draft", // Always create as draft
+    problems: prop.problems,
+    solutionPhases: prop.solutionPhases,
+    deliverables: prop.deliverables,
+    caseStudies: prop.caseStudies,
+    pricingTiers: prop.pricingTiers,
+    addOns: prop.addOns,
+  });
+
   return result[0].insertId;
 }
 

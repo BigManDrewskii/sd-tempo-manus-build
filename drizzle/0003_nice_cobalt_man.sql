@@ -1,0 +1,1 @@
+ALTER TABLE `proposals` ADD `lastEditedAt` timestamp DEFAULT (now()) NOT NULL;

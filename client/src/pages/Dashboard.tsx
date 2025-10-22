@@ -2,26 +2,57 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
-import { APP_LOGO, getLoginUrl } from "@/const";
-import { FileText, Plus, Eye, Clock, CheckCircle, XCircle } from "lucide-react";
+import { getLoginUrl } from "@/const";
+import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { format } from "date-fns";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export default function Dashboard() {
   const { user, isAuthenticated, loading } = useAuth();
   const [, setLocation] = useLocation();
-  const { data: proposals, isLoading } = trpc.proposals.list.useQuery(undefined, {
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  
+  const { data: proposals, isLoading, refetch } = trpc.proposals.list.useQuery(undefined, {
     enabled: isAuthenticated,
+  });
+
+  const deleteMutation = trpc.proposals.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Proposal deleted successfully");
+      refetch();
+      setDeletingId(null);
+    },
+    onError: (error) => {
+      toast.error(`Failed to delete proposal: ${error.message}`);
+      setDeletingId(null);
+    },
+  });
+
+  const duplicateMutation = trpc.proposals.duplicate.useMutation({
+    onSuccess: (data) => {
+      toast.success("Proposal duplicated successfully");
+      refetch();
+      setLocation(`/proposal/${data.id}/edit`);
+    },
+    onError: (error) => {
+      toast.error(`Failed to duplicate proposal: ${error.message}`);
+    },
   });
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-[#ffdfb5]">
+        <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
       </div>
     );
   }
@@ -31,142 +62,185 @@ export default function Dashboard() {
     return null;
   }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "draft":
-        return <Clock className="w-4 h-4" />;
-      case "sent":
-      case "viewed":
-        return <Eye className="w-4 h-4" />;
-      case "signed":
-        return <CheckCircle className="w-4 h-4" />;
-      case "expired":
-        return <XCircle className="w-4 h-4" />;
-      default:
-        return <FileText className="w-4 h-4" />;
+  const handleDelete = (id: number, projectName: string) => {
+    if (confirm(`Are you sure you want to delete "${projectName}"? This cannot be undone.`)) {
+      setDeletingId(id);
+      deleteMutation.mutate({ id });
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "draft":
-        return "secondary";
-      case "sent":
-        return "default";
-      case "viewed":
-        return "default";
-      case "signed":
-        return "default";
-      case "expired":
-        return "destructive";
-      default:
-        return "secondary";
-    }
+  const handleDuplicate = (id: number) => {
+    duplicateMutation.mutate({ id });
+  };
+
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, { label: string; className: string }> = {
+      draft: { label: "Draft", className: "bg-gray-200 text-gray-800" },
+      published: { label: "Published", className: "bg-green-100 text-green-800" },
+      archived: { label: "Archived", className: "bg-orange-100 text-orange-800" },
+    };
+    
+    const config = variants[status] || variants.draft;
+    return <Badge className={config.className}>{config.label}</Badge>;
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#ffdfb5]">
       {/* Header */}
-      <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
+      <header className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer">
-              <FileText className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold">Tempo</span>
+              <FileText className="w-8 h-8 text-[#644a40]" />
+              <span className="text-2xl font-bold text-gray-900">Tempo</span>
             </div>
           </Link>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-gray-600">
               {user?.name || user?.email}
             </span>
-            <Link href="/create">
-              <Button>
-                <Plus className="w-4 h-4 mr-2" />
-                New Proposal
-              </Button>
-            </Link>
+            <Button
+              onClick={() => setLocation("/create-ai")}
+              className="bg-[#644a40] hover:bg-[#4a3530] text-white gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              New Proposal
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-12">
+      <main className="container mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Your Proposals</h1>
-          <p className="text-muted-foreground">
-            Manage and track all your interactive proposals in one place.
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Proposals</h1>
+          <p className="text-gray-600">Manage and track all your proposals in one place</p>
         </div>
 
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setLocation("/create-ai")}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Plus className="w-5 h-5 text-[#644a40]" />
+                Generate with AI
+              </CardTitle>
+              <CardDescription>Create proposals in seconds with AI assistance</CardDescription>
+            </CardHeader>
+          </Card>
+          
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setLocation("/templates")}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <FileText className="w-5 h-5 text-[#644a40]" />
+                Browse Templates
+              </CardTitle>
+              <CardDescription>Start with professional industry templates</CardDescription>
+            </CardHeader>
+          </Card>
+          
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setLocation("/create")}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Edit className="w-5 h-5 text-[#644a40]" />
+                Create Manually
+              </CardTitle>
+              <CardDescription>Build a custom proposal from scratch</CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+
+        {/* Proposals List */}
         {isLoading ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="animate-pulse">
-                <CardHeader>
-                  <div className="h-6 bg-muted rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-muted rounded w-1/2"></div>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-4 bg-muted rounded w-full mb-2"></div>
-                  <div className="h-4 bg-muted rounded w-2/3"></div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
           </div>
         ) : proposals && proposals.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {proposals.map((proposal) => (
-              <Card
-                key={proposal.id}
-                className="hover:shadow-lg transition-all cursor-pointer border-border hover:border-primary/50"
-                onClick={() => setLocation(`/proposal/${proposal.id}`)}
-              >
+              <Card key={proposal.id} className="hover:shadow-lg transition-shadow relative">
                 <CardHeader>
-                  <div className="flex items-start justify-between mb-2">
-                    <CardTitle className="text-xl">{proposal.title}</CardTitle>
-                    <Badge variant={getStatusColor(proposal.status)} className="flex items-center gap-1">
-                      {getStatusIcon(proposal.status)}
-                      {proposal.status}
-                    </Badge>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        {getStatusBadge(proposal.status)}
+                      </div>
+                      <CardTitle className="text-lg mb-1">{proposal.projectName}</CardTitle>
+                      <CardDescription>{proposal.clientName}</CardDescription>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <MoreVertical className="w-4 h-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}`)}>
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Proposal
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}/edit`)}>
+                          <Edit className="w-4 h-4 mr-2" />
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setLocation(`/proposal/${proposal.id}/analytics`)}>
+                          <BarChart3 className="w-4 h-4 mr-2" />
+                          Analytics
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => handleDuplicate(proposal.id)}>
+                          <Copy className="w-4 h-4 mr-2" />
+                          Duplicate
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleDelete(proposal.id, proposal.projectName)}
+                          className="text-red-600 focus:text-red-600"
+                          disabled={deletingId === proposal.id}
+                        >
+                          {deletingId === proposal.id ? (
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4 mr-2" />
+                          )}
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                  <CardDescription>{proposal.clientName}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2 text-sm">
+                  <div className="space-y-2 text-sm text-gray-600">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Project:</span>
-                      <span className="font-medium">{proposal.projectName}</span>
+                      <span>Created:</span>
+                      <span className="font-medium">{format(new Date(proposal.createdAt), "MMM d, yyyy")}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Created:</span>
-                      <span>{format(new Date(proposal.createdAt), "MMM d, yyyy")}</span>
+                      <span>Valid Until:</span>
+                      <span className="font-medium">{format(new Date(proposal.validUntil), "MMM d, yyyy")}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Valid Until:</span>
-                      <span>{format(new Date(proposal.validUntil), "MMM d, yyyy")}</span>
+                      <span>Pricing Tiers:</span>
+                      <span className="font-medium">{proposal.pricingTiers.length}</span>
                     </div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-border flex gap-2">
+                  <div className="mt-4 flex gap-2">
                     <Button
                       variant="outline"
                       size="sm"
                       className="flex-1"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLocation(`/analytics/${proposal.id}`);
-                      }}
+                      onClick={() => setLocation(`/proposal/${proposal.id}`)}
                     >
-                      Analytics
+                      <Eye className="w-4 h-4 mr-1" />
+                      View
                     </Button>
                     <Button
+                      variant="outline"
                       size="sm"
                       className="flex-1"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLocation(`/proposal/${proposal.id}`);
-                      }}
+                      onClick={() => setLocation(`/proposal/${proposal.id}/edit`)}
                     >
-                      View
+                      <Edit className="w-4 h-4 mr-1" />
+                      Edit
                     </Button>
                   </div>
                 </CardContent>
@@ -174,20 +248,27 @@ export default function Dashboard() {
             ))}
           </div>
         ) : (
-          <Card className="p-12 text-center">
-            <div className="max-w-md mx-auto">
-              <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">No proposals yet</h3>
-              <p className="text-muted-foreground mb-6">
-                Create your first interactive proposal to get started.
-              </p>
-              <Link href="/create">
-                <Button size="lg">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Your First Proposal
+          <Card className="py-12">
+            <CardContent className="text-center">
+              <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No proposals yet</h3>
+              <p className="text-gray-600 mb-6">Get started by creating your first proposal</p>
+              <div className="flex gap-3 justify-center">
+                <Button
+                  onClick={() => setLocation("/create-ai")}
+                  className="bg-[#644a40] hover:bg-[#4a3530] text-white gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Generate with AI
                 </Button>
-              </Link>
-            </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setLocation("/templates")}
+                >
+                  Browse Templates
+                </Button>
+              </div>
+            </CardContent>
           </Card>
         )}
       </main>

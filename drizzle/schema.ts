@@ -67,6 +67,8 @@ export const proposals = mysqlTable("proposals", {
   clientName: varchar("clientName", { length: 255 }).notNull(),
   projectName: varchar("projectName", { length: 255 }).notNull(),
   validUntil: timestamp("validUntil").notNull(),
+  status: mysqlEnum("status", ["draft", "published", "archived"]).default("published").notNull(),
+  lastEditedAt: timestamp("lastEditedAt").defaultNow().notNull(),
   
   // Content sections (stored as JSON)
   problems: json("problems").$type<Array<{ title: string; description: string; icon: string }>>().notNull(),
@@ -90,8 +92,7 @@ export const proposals = mysqlTable("proposals", {
     description: string;
   }>>().notNull(),
   
-  // Status
-  status: mysqlEnum("status", ["draft", "sent", "viewed", "signed", "expired"]).default("draft").notNull(),
+
   
   // Timestamps
   createdAt: timestamp("createdAt").defaultNow().notNull(),

@@ -1,0 +1,1 @@
+ALTER TABLE `proposals` MODIFY COLUMN `status` enum('draft','published','archived') NOT NULL DEFAULT 'published';
