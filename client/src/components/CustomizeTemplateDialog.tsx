@@ -66,12 +66,12 @@ export function CustomizeTemplateDialog({ template, open, onOpenChange }: Custom
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Customize Your Proposal</DialogTitle>
-            <DialogDescription>
-              Enter your client and project details to get started with the <strong>{template.name}</strong> template.
+            <DialogTitle className="text-xl font-bold text-black">Customize Your Proposal</DialogTitle>
+            <DialogDescription className="text-gray-600">
+              Enter your client and project details to get started with the <strong className="text-black">{template.name}</strong> template.
             </DialogDescription>
           </DialogHeader>
 
@@ -113,16 +113,21 @@ export function CustomizeTemplateDialog({ template, open, onOpenChange }: Custom
             </div>
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="gap-3">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
               disabled={cloneMutation.isPending}
+              className="border-gray-200 hover:border-gray-300"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={cloneMutation.isPending}>
+            <Button 
+              type="submit" 
+              disabled={cloneMutation.isPending}
+              className="bg-black hover:bg-gray-800 text-white"
+            >
               {cloneMutation.isPending ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
