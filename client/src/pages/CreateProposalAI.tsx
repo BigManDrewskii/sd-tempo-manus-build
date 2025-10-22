@@ -143,21 +143,6 @@ export default function CreateProposalAI() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-200 sticky top-0 z-50 bg-white/95 backdrop-blur">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/">
-            <div className="flex items-center gap-2 cursor-pointer">
-              <FileText className="w-8 h-8 text-black" />
-              <span className="text-2xl font-bold">Tempo</span>
-            </div>
-          </Link>
-          <Link href="/dashboard">
-            <Button variant="ghost">Back to Dashboard</Button>
-          </Link>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="container max-w-4xl mx-auto px-6 py-12">
         {step === "input" && (
@@ -319,7 +304,7 @@ export default function CreateProposalAI() {
               </CardContent>
             </Card>
 
-            <Card className="mt-8 border-primary/20 bg-primary/5">
+            <Card className="mt-8 border-gray-200 bg-gray-50">
               <CardContent className="p-6">
                 <h3 className="font-semibold mb-2 flex items-center gap-2">
                   <Sparkles className="w-5 h-5" />
@@ -378,7 +363,7 @@ export default function CreateProposalAI() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {generatedData.problems.map((problem: any, idx: number) => (
-                    <div key={idx} className="border-l-4 border-primary pl-4">
+                    <div key={idx} className="border-l-4 border-black pl-4">
                       <h3 className="font-semibold">{problem.title}</h3>
                       <p className="text-sm text-gray-600">{problem.description}</p>
                     </div>
