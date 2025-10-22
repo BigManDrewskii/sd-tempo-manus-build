@@ -22,6 +22,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Support = lazy(() => import("./pages/Support"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const SentryTest = lazy(() => import("./pages/SentryTest"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -60,8 +61,8 @@ function Router() {
       <Route path={"/settings/branding"} component={BrandingSettings} />
       <Route path={"/terms"} component={Terms} />
       <Route path={"/privacy"} component={Privacy} />
-      <Route path={"/support"} component={Support} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path="/support" component={Support} />
+      <Route path="/sentry-test" component={SentryTest} />
       <Route component={NotFound} />
       </Switch>
     </Suspense>
