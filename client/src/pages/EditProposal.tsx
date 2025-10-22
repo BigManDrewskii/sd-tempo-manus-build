@@ -50,8 +50,8 @@ export default function EditProposal() {
   // Update mutation
   const updateMutation = trpc.proposals.update.useMutation({
     onSuccess: () => {
-      toast.success("Proposal updated successfully");
-      setLocation(`/proposal/${proposalId}`);
+      toast.success("Proposal saved successfully");
+      setLocation("/dashboard");
     },
     onError: (error) => {
       toast.error(`Failed to update proposal: ${error.message}`);
