@@ -13,7 +13,7 @@ export function initSentry() {
         }),
       ],
       // Performance Monitoring
-      tracesSampleRate: 1.0, // Capture 100% of transactions in production
+      tracesSampleRate: 0.1, // Capture 10% of transactions to conserve quota
       // Session Replay
       replaysSessionSampleRate: 0.1, // Sample 10% of sessions
       replaysOnErrorSampleRate: 1.0, // Sample 100% of sessions with errors

@@ -1,5 +1,6 @@
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
+import { setUserContext, clearUserContext } from "@/lib/sentry";
 import { TRPCClientError } from "@trpc/client";
 import { useCallback, useEffect, useMemo } from "react";
 
@@ -36,6 +37,8 @@ export function useAuth(options?: UseAuthOptions) {
       }
       throw error;
     } finally {
+      // Clear Sentry user context on logout
+      clearUserContext();
       utils.auth.me.setData(undefined, null);
       await utils.auth.me.invalidate();
     }
@@ -46,6 +49,16 @@ export function useAuth(options?: UseAuthOptions) {
       "manus-runtime-user-info",
       JSON.stringify(meQuery.data)
     );
+    
+    // Set Sentry user context when user is authenticated
+    if (meQuery.data) {
+      setUserContext({
+        id: meQuery.data.id,
+        email: meQuery.data.email,
+        name: meQuery.data.name,
+      });
+    }
+    
     return {
       user: meQuery.data ?? null,
       loading: meQuery.isLoading || logoutMutation.isPending,
