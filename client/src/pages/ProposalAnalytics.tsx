@@ -15,7 +15,8 @@ import {
   Loader2,
   Mail,
   MailOpen,
-  Timer
+  Timer,
+  Edit
 } from "lucide-react";
 import { format } from "date-fns";
 import { getLoginUrl } from "@/const";
@@ -123,9 +124,20 @@ export default function ProposalAnalytics() {
                 Analytics for {proposal.clientName} • Created {format(new Date(proposal.createdAt), "MMM d, yyyy")}
               </p>
             </div>
-            <Badge variant={isSigned ? "default" : "secondary"} className="text-sm md:text-lg px-3 md:px-4 py-1 md:py-2 w-fit">
-              {isSigned ? "Signed" : proposal.status}
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.location.href = `/proposal/${proposalId}/edit`}
+                className="gap-2"
+              >
+                <Edit className="w-4 h-4" />
+                Edit Proposal
+              </Button>
+              <Badge variant={isSigned ? "default" : "secondary"} className="text-sm md:text-lg px-3 md:px-4 py-1 md:py-2 w-fit">
+                {isSigned ? "Signed" : proposal.status}
+              </Badge>
+            </div>
           </div>
         </div>
 

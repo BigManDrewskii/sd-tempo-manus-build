@@ -464,80 +464,44 @@ export default function ViewProposal() {
         </motion.div>
       )}
 
-      {/* Action Buttons - Responsive: icon-only on mobile, full text on desktop */}
+      {/* Action Buttons - Responsive */}
       {user && (
         <div className="fixed top-16 md:top-20 left-4 md:left-6 z-40 flex gap-2">
-          {/* Mobile: Icon only buttons */}
-          <div className="flex gap-2 md:hidden">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setLocation("/dashboard")}
-              className="bg-background/95  h-10 w-10 p-0"
-              title="Back to Dashboard"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setSendDialogOpen(true)}
-              className="bg-background/95  h-10 w-10 p-0"
-              title="Send to Client"
-            >
-              <Mail className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExportPDF}
-              disabled={exportMutation.isPending}
-              className="bg-background/95  h-10 w-10 p-0"
-              title="Export PDF"
-            >
-              {exportMutation.isPending ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Download className="w-4 h-4" />
-              )}
-            </Button>
-          </div>
-          
-          {/* Desktop: Full text buttons */}
-          <div className="hidden md:flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setLocation("/dashboard")}
-              className="bg-background/80 "
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setSendDialogOpen(true)}
-              className="bg-background/80 "
-            >
-              <Mail className="w-4 h-4 mr-2" />
-              Send to Client
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExportPDF}
-              disabled={exportMutation.isPending}
-              className="bg-background/80 "
-            >
-              {exportMutation.isPending ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Download className="w-4 h-4 mr-2" />
-              )}
-              Export PDF
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => window.history.back()}
+            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-3"
+            title="Back"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="hidden md:inline ml-2">Back</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setSendDialogOpen(true)}
+            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-3"
+            title="Send to Client"
+          >
+            <Mail className="w-4 h-4" />
+            <span className="hidden md:inline ml-2">Send to Client</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleExportPDF}
+            disabled={exportMutation.isPending}
+            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-3"
+            title="Export PDF"
+          >
+            {exportMutation.isPending ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4" />
+            )}
+            <span className="hidden md:inline ml-2">Export PDF</span>
+          </Button>
         </div>
       )}
 

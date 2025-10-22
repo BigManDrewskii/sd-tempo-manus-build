@@ -163,10 +163,10 @@ export default function BrandingSettings() {
         <div className="mb-8">
           <Button
             variant="outline"
-            onClick={() => setLocation("/dashboard")}
+            onClick={() => window.history.back()}
             className="mb-4"
           >
-            ← Back to Dashboard
+            ← Back
           </Button>
           <h1 className="text-4xl font-bold text-black">Brand Settings</h1>
           <p className="text-gray-700 mt-2">

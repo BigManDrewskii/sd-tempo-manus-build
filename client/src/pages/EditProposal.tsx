@@ -112,7 +112,7 @@ export default function EditProposal() {
     onSuccess: () => {
       toast.success("Proposal saved successfully");
       setHasUnsavedChanges(false);
-      setLocation("/dashboard");
+      window.history.back();
     },
     onError: (error) => {
       toast.error(`Failed to update proposal: ${error.message}`);
@@ -211,16 +211,16 @@ export default function EditProposal() {
               onClick={() => {
                 if (hasUnsavedChanges) {
                   if (confirm('You have unsaved changes. Are you sure you want to leave?')) {
-                    setLocation("/dashboard");
+                    window.history.back();
                   }
                 } else {
-                  setLocation("/dashboard");
+                  window.history.back();
                 }
               }}
               className="gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Dashboard
+              Back
             </Button>
             <div>
               <h1 className="text-xl font-semibold text-gray-900">Edit Proposal</h1>
