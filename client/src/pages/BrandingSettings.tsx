@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -27,26 +27,26 @@ export default function BrandingSettings() {
     secondaryColor: branding?.secondaryColor || "#ffdfb5",
     accentColor: branding?.accentColor || "#ffffff",
     fontFamily: branding?.fontFamily || "Inter",
-    companyName: branding?.companyName || "",
+    companyName: (branding && 'companyName' in branding && branding.companyName) || "",
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Update form when branding loads
-  useState(() => {
+  useEffect(() => {
     if (branding) {
       setFormData({
         primaryColor: branding.primaryColor,
         secondaryColor: branding.secondaryColor,
         accentColor: branding.accentColor,
         fontFamily: branding.fontFamily,
-        companyName: branding.companyName || "",
+        companyName: ('companyName' in branding && branding.companyName) || "",
       });
-      if (branding.logoUrl) {
+      if ('logoUrl' in branding && branding.logoUrl) {
         setLogoPreview(branding.logoUrl);
       }
     }
-  });
+  }, [branding]);
 
   if (!isAuthenticated) {
     return (
@@ -136,7 +136,7 @@ export default function BrandingSettings() {
     try {
       await updateBranding.mutateAsync({
         ...formData,
-        logoUrl: branding?.logoUrl,
+        logoUrl: branding && 'logoUrl' in branding ? (branding.logoUrl || undefined) : undefined,
       });
       toast.success("Branding settings saved!");
       refetch();
