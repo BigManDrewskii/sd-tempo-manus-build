@@ -407,14 +407,32 @@ export default function ViewProposal() {
         />
       </div>
 
-      {/* Analytics Panel */}
+      {/* Analytics Panel - Desktop: full card, Mobile: compact badge */}
       {showAnalytics && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed bottom-6 right-6 z-40"
+          className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-40"
         >
-          <Card className="w-64 shadow-lg border-primary/20">
+          {/* Mobile: Compact badge */}
+          <div className="md:hidden">
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-background/95 backdrop-blur-sm shadow-lg border-primary/20 h-auto py-2 px-3"
+              onClick={() => setShowAnalytics(false)}
+            >
+              <div className="flex items-center gap-2">
+                <div className="text-xs font-medium">
+                  <div className="text-primary font-bold">{calculateEngagementScore()}%</div>
+                </div>
+                <div className="text-xs text-muted-foreground">×</div>
+              </div>
+            </Button>
+          </div>
+          
+          {/* Desktop: Full card */}
+          <Card className="hidden md:block w-64 shadow-lg border-primary/20">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm flex items-center justify-between">
                 Engagement
@@ -446,41 +464,80 @@ export default function ViewProposal() {
         </motion.div>
       )}
 
-      {/* Action Buttons */}
+      {/* Action Buttons - Responsive: icon-only on mobile, full text on desktop */}
       {user && (
-        <div className="fixed top-20 left-6 z-40 flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setLocation("/dashboard")}
-            className="bg-background/80 backdrop-blur-sm"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dashboard
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setSendDialogOpen(true)}
-            className="bg-background/80 backdrop-blur-sm"
-          >
-            <Mail className="w-4 h-4 mr-2" />
-            Send to Client
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleExportPDF}
-            disabled={exportMutation.isPending}
-            className="bg-background/80 backdrop-blur-sm"
-          >
-            {exportMutation.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Download className="w-4 h-4 mr-2" />
-            )}
-            Export PDF
-          </Button>
+        <div className="fixed top-16 md:top-20 left-4 md:left-6 z-40 flex gap-2">
+          {/* Mobile: Icon only buttons */}
+          <div className="flex gap-2 md:hidden">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setLocation("/dashboard")}
+              className="bg-background/95 backdrop-blur-sm h-10 w-10 p-0"
+              title="Back to Dashboard"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setSendDialogOpen(true)}
+              className="bg-background/95 backdrop-blur-sm h-10 w-10 p-0"
+              title="Send to Client"
+            >
+              <Mail className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportPDF}
+              disabled={exportMutation.isPending}
+              className="bg-background/95 backdrop-blur-sm h-10 w-10 p-0"
+              title="Export PDF"
+            >
+              {exportMutation.isPending ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4" />
+              )}
+            </Button>
+          </div>
+          
+          {/* Desktop: Full text buttons */}
+          <div className="hidden md:flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setLocation("/dashboard")}
+              className="bg-background/80 backdrop-blur-sm"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Dashboard
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setSendDialogOpen(true)}
+              className="bg-background/80 backdrop-blur-sm"
+            >
+              <Mail className="w-4 h-4 mr-2" />
+              Send to Client
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportPDF}
+              disabled={exportMutation.isPending}
+              className="bg-background/80 backdrop-blur-sm"
+            >
+              {exportMutation.isPending ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              Export PDF
+            </Button>
+          </div>
         </div>
       )}
 
@@ -507,9 +564,9 @@ export default function ViewProposal() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-6xl md:text-7xl font-bold mb-4">{proposal.projectName}</h1>
-            <p className="text-2xl mb-2">Proposal for {proposal.clientName}</p>
-            <p className="text-lg opacity-90">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 px-4">{proposal.projectName}</h1>
+            <p className="text-xl sm:text-2xl mb-2 px-4">Proposal for {proposal.clientName}</p>
+            <p className="text-base sm:text-lg opacity-90 px-4">
               {format(new Date(), "MMMM d, yyyy")} • Valid until {format(new Date(proposal.validUntil), "MMMM d, yyyy")}
             </p>
             
@@ -538,7 +595,7 @@ export default function ViewProposal() {
       </section>
 
       {/* Problems Section */}
-      <section id="problems" data-section className="py-20 px-6">
+      <section id="problems" data-section className="py-12 md:py-20 px-4 md:px-6">
         <div className="container max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -546,7 +603,7 @@ export default function ViewProposal() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl font-bold text-center mb-12">The Challenge</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">The Challenge</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {proposal.problems.map((problem, index) => {
                 const Icon = problem.icon === "AlertCircle" ? AlertCircle :
@@ -579,7 +636,7 @@ export default function ViewProposal() {
       </section>
 
       {/* Solution Section */}
-      <section id="solution" data-section className="py-20 px-6 bg-card/50">
+      <section id="solution" data-section className="py-12 md:py-20 px-4 md:px-6 bg-card/50">
         <div className="container max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -587,7 +644,7 @@ export default function ViewProposal() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl font-bold text-center mb-12">Our Solution</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Our Solution</h2>
             <div className="grid md:grid-cols-2 gap-12">
               {/* Timeline */}
               <div>
@@ -647,10 +704,10 @@ export default function ViewProposal() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl font-bold text-center mb-12">Investment Options</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Investment Options</h2>
             
             {/* Pricing Tiers */}
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
               {proposal.pricingTiers.map((tier, index) => (
                 <motion.div
                   key={index}
@@ -667,12 +724,12 @@ export default function ViewProposal() {
                       ? "border-primary shadow-lg ring-2 ring-primary"
                       : "hover:border-primary/50"
                   } ${tier.recommended ? "border-primary" : ""}`}>
-                    <CardHeader>
+                    <CardHeader className="pb-4">
                       {tier.recommended && (
                         <Badge className="w-fit mb-2">Recommended</Badge>
                       )}
-                      <CardTitle className="text-2xl">{tier.name}</CardTitle>
-                      <div className="text-4xl font-bold text-primary">
+                      <CardTitle className="text-xl md:text-2xl">{tier.name}</CardTitle>
+                      <div className="text-3xl md:text-4xl font-bold text-primary">
                         ${tier.price.toLocaleString()}
                       </div>
                     </CardHeader>
@@ -694,15 +751,16 @@ export default function ViewProposal() {
             {/* Add-ons */}
             {proposal.addOns.length > 0 && (
               <div className="mb-8">
-                <h3 className="text-2xl font-semibold mb-6">Optional Add-ons</h3>
-                <div className="grid md:grid-cols-2 gap-4">
+                <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">Optional Add-ons</h3>
+                <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
                   {proposal.addOns.map((addOn) => (
-                    <Card key={addOn.id} className="cursor-pointer hover:shadow-md transition-shadow"
+                    <Card key={addOn.id} className="cursor-pointer hover:shadow-md transition-shadow active:scale-98"
                           onClick={() => handleAddOnToggle(addOn.id)}>
-                      <CardContent className="p-4 flex items-start gap-4">
+                      <CardContent className="p-4 md:p-5 flex items-start gap-3 md:gap-4">
                         <Checkbox
                           checked={selectedAddOns.has(addOn.id)}
                           onCheckedChange={() => handleAddOnToggle(addOn.id)}
+                          className="mt-0.5 h-5 w-5 md:h-4 md:w-4"
                         />
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-1">
@@ -720,12 +778,12 @@ export default function ViewProposal() {
               </div>
             )}
 
-            {/* Total */}
-            <Card className="bg-primary text-primary-foreground">
-              <CardContent className="p-6 flex justify-between items-center">
+            {/* Total - Sticky on mobile */}
+            <Card className="bg-primary text-primary-foreground sticky bottom-0 md:relative z-30 rounded-none md:rounded-lg">
+              <CardContent className="p-4 md:p-6 flex justify-between items-center">
                 <div>
-                  <p className="text-lg opacity-90">Total Investment</p>
-                  <p className="text-sm opacity-75">
+                  <p className="text-base md:text-lg opacity-90">Total Investment</p>
+                  <p className="text-xs md:text-sm opacity-75">
                     {selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)} tier
                     {selectedAddOns.size > 0 && ` + ${selectedAddOns.size} add-on${selectedAddOns.size > 1 ? 's' : ''}`}
                   </p>
@@ -734,7 +792,7 @@ export default function ViewProposal() {
                   key={calculateTotal()}
                   initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
-                  className="text-5xl font-bold"
+                  className="text-3xl md:text-5xl font-bold"
                 >
                   ${calculateTotal().toLocaleString()}
                 </motion.div>
@@ -799,10 +857,10 @@ export default function ViewProposal() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-4xl font-bold text-center mb-12">Accept & Sign</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Accept & Sign</h2>
               
               <Card>
-                <CardContent className="p-8 space-y-6">
+                <CardContent className="p-4 md:p-8 space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="name">Full Name *</Label>
@@ -848,13 +906,15 @@ export default function ViewProposal() {
                   </div>
 
                   <div>
-                    <Label>Signature *</Label>
-                    <div className="mt-2 border-2 border-border rounded-lg overflow-hidden">
+                    <Label className="text-base">Signature *</Label>
+                    <p className="text-sm text-muted-foreground mt-1 mb-2">Draw your signature below</p>
+                    <div className="mt-2 border-2 border-border rounded-lg overflow-hidden bg-white">
                       <canvas
                         ref={canvasRef}
                         width={800}
-                        height={200}
+                        height={250}
                         className="w-full bg-white cursor-crosshair touch-none"
+                        style={{ touchAction: 'none' }}
                         onMouseDown={startDrawing}
                         onMouseMove={draw}
                         onMouseUp={stopDrawing}
@@ -866,12 +926,13 @@ export default function ViewProposal() {
                     </div>
                     <div className="flex justify-end mt-2">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={clearSignature}
                         disabled={!hasSignature}
+                        className="min-h-[44px] px-6"
                       >
-                        Clear
+                        Clear Signature
                       </Button>
                     </div>
                   </div>
@@ -887,7 +948,7 @@ export default function ViewProposal() {
 
                   <Button
                     size="lg"
-                    className="w-full"
+                    className="w-full min-h-[56px] text-base md:text-lg"
                     disabled={!signerName || !signerEmail || !hasSignature || isSubmitting}
                     onClick={handleSubmitSignature}
                   >

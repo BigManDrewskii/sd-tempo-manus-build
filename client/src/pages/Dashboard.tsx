@@ -113,17 +113,17 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Proposals</h1>
-          <p className="text-gray-600">Manage and track all your proposals in one place</p>
+      <main className="container mx-auto px-4 md:px-6 py-6 md:py-8">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Your Proposals</h1>
+          <p className="text-sm md:text-base text-gray-600">Manage and track all your proposals in one place</p>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setLocation("/create-ai")}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow active:scale-98" onClick={() => setLocation("/create-ai")}>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base md:text-lg flex items-center gap-2">
                 <Plus className="w-5 h-5 text-[#644a40]" />
                 Generate with AI
               </CardTitle>
@@ -131,9 +131,9 @@ export default function Dashboard() {
             </CardHeader>
           </Card>
           
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setLocation("/templates")}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow active:scale-98" onClick={() => setLocation("/templates")}>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base md:text-lg flex items-center gap-2">
                 <FileText className="w-5 h-5 text-[#644a40]" />
                 Browse Templates
               </CardTitle>
@@ -141,9 +141,9 @@ export default function Dashboard() {
             </CardHeader>
           </Card>
           
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setLocation("/create")}>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow active:scale-98" onClick={() => setLocation("/create")}>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base md:text-lg flex items-center gap-2">
                 <Edit className="w-5 h-5 text-[#644a40]" />
                 Create Manually
               </CardTitle>
@@ -158,7 +158,7 @@ export default function Dashboard() {
             <Loader2 className="w-8 h-8 animate-spin text-[#644a40]" />
           </div>
         ) : proposals && proposals.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {proposals.map((proposal) => (
               <Card key={proposal.id} className="hover:shadow-lg transition-shadow relative">
                 <CardHeader>
@@ -172,8 +172,8 @@ export default function Dashboard() {
                     </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <MoreVertical className="w-4 h-4" />
+                        <Button variant="ghost" size="sm" className="h-10 w-10 md:h-8 md:w-8 p-0">
+                          <MoreVertical className="w-5 h-5 md:w-4 md:h-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-48">
