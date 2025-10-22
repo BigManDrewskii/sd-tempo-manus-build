@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
-import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2, Mail, Search, Calendar, AlertCircle } from "lucide-react";
+import { FileText, Plus, Eye, MoreVertical, Edit, Copy, Trash2, BarChart3, Loader2, Mail, Search, Calendar, AlertCircle, Archive, ArchiveRestore } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { Pagination } from "@/components/Pagination";
 import { Link, useLocation } from "wouter";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -43,10 +44,16 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"created" | "edited" | "expiring" | "client">("created");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
   
-  const { data: proposals, isLoading, refetch } = trpc.proposals.list.useQuery(undefined, {
-    enabled: isAuthenticated,
-  });
+  const { data, isLoading, refetch } = trpc.proposals.list.useQuery(
+    { page: currentPage, limit: itemsPerPage },
+    { enabled: isAuthenticated }
+  );
+  
+  const proposals = data?.proposals;
+  const pagination = data?.pagination;
 
   const deleteMutation = trpc.proposals.delete.useMutation({
     onSuccess: () => {
@@ -57,6 +64,28 @@ export default function Dashboard() {
     onError: (error) => {
       toast.error(`Failed to delete proposal: ${error.message}`);
       setDeletingId(null);
+    },
+  });
+  
+  const bulkArchiveMutation = trpc.proposals.bulkArchive.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.count} proposal(s) archived`);
+      refetch();
+      setSelectedIds(new Set());
+    },
+    onError: (error) => {
+      toast.error(`Failed to archive: ${error.message}`);
+    },
+  });
+  
+  const bulkRestoreMutation = trpc.proposals.bulkRestore.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.count} proposal(s) restored`);
+      refetch();
+      setSelectedIds(new Set());
+    },
+    onError: (error) => {
+      toast.error(`Failed to restore: ${error.message}`);
     },
   });
 
@@ -73,7 +102,7 @@ export default function Dashboard() {
 
   // Filter and sort proposals - MUST be before early returns
   const filteredAndSortedProposals = useMemo(() => {
-    if (!proposals) return [];
+    if (!proposals || proposals.length === 0) return [];
 
     let filtered = proposals;
 
@@ -325,14 +354,33 @@ export default function Dashboard() {
           {selectedIds.size > 0 && (
             <div className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200">
               <span className="text-sm text-gray-700">{selectedIds.size} selected</span>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={handleBulkDelete}
-              >
-                <Trash2 className="w-4 h-4 mr-1.5" />
-                Delete Selected
-              </Button>
+              <div className="flex gap-2">
+                {statusFilter === "archived" ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => bulkRestoreMutation.mutate({ ids: Array.from(selectedIds) })}
+                  >
+                    Restore Selected
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => bulkArchiveMutation.mutate({ ids: Array.from(selectedIds) })}
+                  >
+                    Archive Selected
+                  </Button>
+                )}
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleBulkDelete}
+                >
+                  <Trash2 className="w-4 h-4 mr-1.5" />
+                  Delete Selected
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -423,6 +471,21 @@ export default function Dashboard() {
                                 <Copy className="w-4 h-4 mr-2" />
                                 Duplicate
                               </DropdownMenuItem>
+                              {proposal.status === "archived" ? (
+                                <DropdownMenuItem
+                                  onClick={() => bulkRestoreMutation.mutate({ ids: [proposal.id] })}
+                                >
+                                  <ArchiveRestore className="w-4 h-4 mr-2" />
+                                  Restore
+                                </DropdownMenuItem>
+                              ) : (
+                                <DropdownMenuItem
+                                  onClick={() => bulkArchiveMutation.mutate({ ids: [proposal.id] })}
+                                >
+                                  <Archive className="w-4 h-4 mr-2" />
+                                  Archive
+                                </DropdownMenuItem>
+                              )}
                               <DropdownMenuItem
                                 onClick={() => handleDelete(proposal.id)}
                                 className="text-red-600"
@@ -456,6 +519,15 @@ export default function Dashboard() {
               );
             })}
           </div>
+        )}
+        
+        {/* Pagination */}
+        {pagination && pagination.totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={setCurrentPage}
+          />
         )}
       </main>
 

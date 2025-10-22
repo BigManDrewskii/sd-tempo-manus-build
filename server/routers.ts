@@ -22,10 +22,31 @@ export const appRouter = router({
   }),
 
   proposals: router({
-    // List user's proposals
-    list: protectedProcedure.query(async ({ ctx }) => {
-      return db.getUserProposals(ctx.user.id);
-    }),
+    // List user's proposals with pagination
+    list: protectedProcedure
+      .input(z.object({
+        page: z.number().min(1).default(1),
+        limit: z.number().min(1).max(100).default(20),
+      }).optional())
+      .query(async ({ ctx, input }) => {
+        const page = input?.page || 1;
+        const limit = input?.limit || 20;
+        const offset = (page - 1) * limit;
+        
+        const proposals = await db.getUserProposals(ctx.user.id);
+        const total = proposals.length;
+        const paginatedProposals = proposals.slice(offset, offset + limit);
+        
+        return {
+          proposals: paginatedProposals,
+          pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+          },
+        };
+      }),
 
     // Get single proposal by ID
     get: publicProcedure
@@ -146,6 +167,36 @@ export const appRouter = router({
         await db.requireProposalOwnership(input.id, ctx.user.id);
         await db.deleteProposal(input.id);
         return { success: true };
+      }),
+      
+    // Bulk archive proposals
+    bulkArchive: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ input, ctx }) => {
+        // Verify ownership for all proposals
+        for (const id of input.ids) {
+          await db.requireProposalOwnership(id, ctx.user.id);
+        }
+        // Archive all proposals
+        for (const id of input.ids) {
+          await db.updateProposal(id, { status: "archived" });
+        }
+        return { success: true, count: input.ids.length };
+      }),
+      
+    // Bulk restore proposals
+    bulkRestore: protectedProcedure
+      .input(z.object({ ids: z.array(z.number()) }))
+      .mutation(async ({ input, ctx }) => {
+        // Verify ownership for all proposals
+        for (const id of input.ids) {
+          await db.requireProposalOwnership(id, ctx.user.id);
+        }
+        // Restore all proposals to draft
+        for (const id of input.ids) {
+          await db.updateProposal(id, { status: "draft" });
+        }
+        return { success: true, count: input.ids.length };
       }),
 
     // Duplicate proposal
