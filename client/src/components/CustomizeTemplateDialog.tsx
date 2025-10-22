@@ -60,6 +60,10 @@ export function CustomizeTemplateDialog({ template, open, onOpenChange }: Custom
     });
   };
 
+  if (!template) {
+    return null;
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
