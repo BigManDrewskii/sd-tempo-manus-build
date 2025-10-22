@@ -1,24 +1,36 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import BrandingSettings from "@/pages/BrandingSettings";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { Navbar } from "./components/Navbar";
-import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-import CreateProposal from "./pages/CreateProposal";
-import CreateProposalAI from "./pages/CreateProposalAI";
-import ViewProposal from "./pages/ViewProposal";
-import ProposalAnalytics from "./pages/ProposalAnalytics";
-import Templates from "./pages/Templates";
-import CustomizeTemplate from "./pages/CustomizeTemplate";
-import EditProposal from "./pages/EditProposal";
+import { lazy, Suspense } from "react";
+import { Loader2 } from "lucide-react";
+
+// Lazy load pages for better performance
+const Home = lazy(() => import("./pages/Home"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const CreateProposal = lazy(() => import("./pages/CreateProposal"));
+const CreateProposalAI = lazy(() => import("./pages/CreateProposalAI"));
+const ViewProposal = lazy(() => import("./pages/ViewProposal"));
+const ProposalAnalytics = lazy(() => import("./pages/ProposalAnalytics"));
+const Templates = lazy(() => import("./pages/Templates"));
+const CustomizeTemplate = lazy(() => import("./pages/CustomizeTemplate"));
+const EditProposal = lazy(() => import("./pages/EditProposal"));
+const BrandingSettings = lazy(() => import("./pages/BrandingSettings"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Loading fallback component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+  </div>
+);
 
 function Router() {
   return (
-    <Switch>
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path="/create" component={CreateProposal} />
@@ -32,7 +44,8 @@ function Router() {
       <Route path={"/settings/branding"} component={BrandingSettings} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
-    </Switch>
+      </Switch>
+    </Suspense>
   );
 }
 
