@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useMemo } from "react";
-import { useRoute } from "wouter";
+import { useRoute, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,8 @@ import {
   Clock, 
   CheckCircle, 
   ChevronDown,
-  Loader2 
+  Loader2,
+  ArrowLeft 
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -32,6 +34,8 @@ const getSessionId = () => {
 export default function ViewProposal() {
   const [, params] = useRoute("/proposal/:id");
   const proposalId = params?.id ? parseInt(params.id) : 0;
+  const [, setLocation] = useLocation();
+  const { user } = useAuth();
   
   const { data: proposal, isLoading } = trpc.proposals.get.useQuery({ id: proposalId });
   const { data: signature } = trpc.signatures.get.useQuery({ proposalId });
@@ -356,6 +360,21 @@ export default function ViewProposal() {
             </CardContent>
           </Card>
         </motion.div>
+      )}
+
+      {/* Back Button */}
+      {user && (
+        <div className="fixed top-20 left-6 z-40">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setLocation("/dashboard")}
+            className="bg-background/80 backdrop-blur-sm"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Dashboard
+          </Button>
+        </div>
       )}
 
       {/* Hero Section */}

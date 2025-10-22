@@ -114,11 +114,11 @@ export default function EditProposal() {
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
-              onClick={() => setLocation(`/proposal/${proposalId}`)}
+              onClick={() => setLocation("/dashboard")}
               className="gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
-              Cancel
+              Back to Dashboard
             </Button>
             <div>
               <h1 className="text-xl font-semibold text-gray-900">Edit Proposal</h1>

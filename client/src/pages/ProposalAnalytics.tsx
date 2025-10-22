@@ -109,7 +109,7 @@ export default function ProposalAnalytics() {
             <Link href="/dashboard">
               <Button variant="ghost">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
+                Back to Dashboard
               </Button>
             </Link>
           </div>
