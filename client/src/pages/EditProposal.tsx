@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { Loader2, Plus, Trash2, ArrowLeft, Save, Download, Palette } from "lucide-react";
 import { ThemeSelector } from "@/components/ThemeSelector";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useRoute } from "wouter";
 import { toast } from "sonner";
@@ -265,6 +266,10 @@ export default function EditProposal() {
 
       {/* Form */}
       <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <Breadcrumb items={[
+          { label: proposal?.projectName || 'Proposal', href: `/proposal/${proposalId}` },
+          { label: 'Edit' }
+        ]} />
         <form className="space-y-6">
           {/* Basic Info */}
           <Card>

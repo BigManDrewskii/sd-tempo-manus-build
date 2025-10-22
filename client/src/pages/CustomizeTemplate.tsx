@@ -9,6 +9,7 @@ import { trpc } from "@/lib/trpc";
 import { useRoute, useLocation, Link } from "wouter";
 import { useState } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
 export default function CustomizeTemplate() {
   const [, params] = useRoute("/templates/:id/customize");
@@ -77,6 +78,11 @@ export default function CustomizeTemplate() {
     <div className="min-h-screen bg-white">
 
       <div className="container mx-auto px-6 py-12 max-w-4xl">
+        <Breadcrumb items={[
+          { label: 'Templates', href: '/templates' },
+          { label: template.name, href: `/templates/${templateId}` },
+          { label: 'Customize' }
+        ]} />
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Customize Your Proposal</h1>
           <p className="text-gray-600">Using template: <span className="font-semibold">{template.name}</span></p>

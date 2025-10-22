@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { getLoginUrl } from "@/const";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
 export default function ProposalAnalytics() {
   const [, params] = useRoute("/analytics/:id");
@@ -109,6 +110,10 @@ export default function ProposalAnalytics() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 md:px-6 py-6 md:py-12">
+        <Breadcrumb items={[
+          { label: proposal.projectName, href: `/proposal/${proposalId}` },
+          { label: 'Analytics' }
+        ]} />
         {/* Header Section */}
         <div className="mb-6 md:mb-8">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">

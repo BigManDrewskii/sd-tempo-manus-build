@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
-import { FileText, LogOut, Menu, Plus, Sparkles, User, X, Palette } from "lucide-react";
+import { FileText, LogOut, Menu, Plus, Sparkles, User, X, Palette, Edit } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -100,6 +100,19 @@ export function Navbar() {
                               <div className="font-medium">Use Template</div>
                               <div className="text-xs text-gray-600">
                                 Start from industry template
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/create">
+                          <div className="flex items-center gap-2 w-full cursor-pointer">
+                            <Edit className="w-4 h-4" />
+                            <div>
+                              <div className="font-medium">Create from Scratch</div>
+                              <div className="text-xs text-gray-600">
+                                Build manually with full control
                               </div>
                             </div>
                           </div>
@@ -213,7 +226,25 @@ export function Navbar() {
                       Use Template
                     </div>
                   </Link>
+                  <Link href="/create">
+                    <div
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md cursor-pointer"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Edit className="w-4 h-4" />
+                      Create from Scratch
+                    </div>
+                  </Link>
                 </div>
+                <Link href="/settings/branding">
+                  <div
+                    className="block px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md cursor-pointer flex items-center gap-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Palette className="w-4 h-4" />
+                    Brand Settings
+                  </div>
+                </Link>
                 <div className="border-t border-gray-200 pt-3 mt-3">
                   <div className="px-4 py-2 text-sm">
                     <div className="font-medium">{user?.name}</div>
