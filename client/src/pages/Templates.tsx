@@ -152,42 +152,35 @@ export default function Templates() {
               <div className="grid md:grid-cols-2">
                 {/* Left: Template Info */}
                 <CardHeader className="p-8">
-                  <div className="flex items-start gap-4 mb-4">
-                    {FeaturedIcon && (
-                      <div className={`p-4 rounded-xl ${featuredColorClass}`}>
-                        <FeaturedIcon className="w-8 h-8" />
-                      </div>
-                    )}
-                    <div className="flex-1">
-                      <Badge variant="secondary" className="capitalize mb-2">
-                        {featuredTemplate.industry.replace("-", " ")}
-                      </Badge>
-                      <CardTitle className="text-3xl mb-2">{featuredTemplate.name}</CardTitle>
-                      <CardDescription className="text-base">
-                        {featuredTemplate.description}
-                      </CardDescription>
-                    </div>
+                  <div className="mb-6">
+                    <Badge variant="secondary" className="capitalize mb-3">
+                      {featuredTemplate.industry.replace("-", " ")}
+                    </Badge>
+                    <CardTitle className="text-4xl mb-3 leading-tight">{featuredTemplate.name}</CardTitle>
+                    <CardDescription className="text-lg text-gray-600">
+                      {featuredTemplate.description}
+                    </CardDescription>
                   </div>
 
                   <div className="space-y-6 mt-6">
-                    <div>
-                      <p className="text-sm font-semibold text-gray-700 mb-3">What's Included:</p>
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-[#644a40]">{featuredTemplate.pricingTiers.length}</p>
-                          <p className="text-xs text-gray-600">Pricing Tiers</p>
+                    <div className="space-y-3">
+                      <p className="text-sm font-semibold text-gray-700 mb-2">What's Included:</p>
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <div className="flex justify-between items-center">
+                          <span>Pricing Tiers</span>
+                          <span className="font-semibold text-[#644a40]">{featuredTemplate.pricingTiers.length}</span>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-[#644a40]">{featuredTemplate.deliverables.length}</p>
-                          <p className="text-xs text-gray-600">Deliverables</p>
+                        <div className="flex justify-between items-center">
+                          <span>Deliverables</span>
+                          <span className="font-semibold text-[#644a40]">{featuredTemplate.deliverables.length}</span>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-[#644a40]">{featuredTemplate.solutionPhases.length}</p>
-                          <p className="text-xs text-gray-600">Project Phases</p>
+                        <div className="flex justify-between items-center">
+                          <span>Project Phases</span>
+                          <span className="font-semibold text-[#644a40]">{featuredTemplate.solutionPhases.length}</span>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-2xl font-bold text-[#644a40]">{featuredTemplate.addOns.length}</p>
-                          <p className="text-xs text-gray-600">Add-ons</p>
+                        <div className="flex justify-between items-center">
+                          <span>Add-ons</span>
+                          <span className="font-semibold text-[#644a40]">{featuredTemplate.addOns.length}</span>
                         </div>
                       </div>
                     </div>
@@ -310,14 +303,9 @@ export default function Templates() {
                 }}
               >
                 <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className={`p-2 rounded-lg ${colorClass}`}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <Badge variant="secondary" className="text-xs capitalize">
-                      {template.industry.replace("-", " ")}
-                    </Badge>
-                  </div>
+                  <Badge variant="secondary" className="text-xs capitalize mb-3 inline-block">
+                    {template.industry.replace("-", " ")}
+                  </Badge>
                   <CardTitle className="text-lg leading-tight">{template.name}</CardTitle>
                 </CardHeader>
                 <CardContent className="pb-3">
