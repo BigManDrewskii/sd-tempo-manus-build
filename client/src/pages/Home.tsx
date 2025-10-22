@@ -163,75 +163,72 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <div className="bg-white p-8 border border-gray-200">
-              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
-                <Zap className="w-6 h-6" />
+          {/* Bento Box Grid - Asymmetric Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-fr">
+            {/* Hero Feature - Real-Time Pricing (Large, spans 7 columns, 2 rows) */}
+            <div className="md:col-span-7 md:row-span-2 bg-black text-white p-12 flex flex-col justify-between min-h-[480px]">
+              <div>
+                <div className="w-16 h-16 bg-white text-black flex items-center justify-center mb-10">
+                  <Zap className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-bold mb-6 leading-tight">Real-Time Pricing Calculator</h3>
+                <p className="text-gray-300 text-lg leading-relaxed max-w-lg">
+                  Interactive calculators let clients customize packages and see pricing instantly. 
+                  No more back-and-forth emails. Close deals faster with transparent, dynamic pricing that adapts to their needs.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Real-Time Pricing</h3>
-              <p className="text-gray-600">
-                Interactive calculators let clients customize packages and see pricing instantly. 
-                No more back-and-forth emails.
-              </p>
+              <div className="flex items-center gap-2 mt-10">
+                <div className="h-1 w-12 bg-white"></div>
+                <span className="text-sm text-gray-400">Most popular feature</span>
+              </div>
             </div>
 
-            {/* Feature 2 */}
-            <div className="bg-white p-8 border border-gray-200">
+            {/* Secondary Feature - Digital Signatures (Medium, 5 columns, 1 row) */}
+            <div className="md:col-span-5 bg-white p-8 border border-gray-200 min-h-[230px] flex flex-col">
               <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
                 <FileText className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Digital Signatures</h3>
-              <p className="text-gray-600">
-                Built-in signature pads make it easy for clients to accept and sign proposals 
-                without printing or scanning.
+              <p className="text-gray-600 flex-grow">
+                Built-in signature pads make it easy for clients to accept and sign proposals without printing or scanning.
               </p>
             </div>
 
-            {/* Feature 3 */}
-            <div className="bg-white p-8 border border-gray-200">
+            {/* Secondary Feature - Analytics (Medium, 5 columns, 1 row) */}
+            <div className="md:col-span-5 bg-white p-8 border border-gray-200 min-h-[230px] flex flex-col">
               <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
                 <BarChart3 className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Engagement Analytics</h3>
-              <p className="text-gray-600">
-                Track time spent, sections viewed, and engagement scores. 
-                Know exactly when to follow up.
+              <p className="text-gray-600 flex-grow">
+                Track time spent, sections viewed, and engagement scores. Know exactly when to follow up.
               </p>
             </div>
 
-            {/* Feature 4 */}
-            <div className="bg-white p-8 border border-gray-200">
-              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
-                <Mail className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Email Tracking</h3>
-              <p className="text-gray-600">
-                Send proposals directly from Tempo. Get notified when clients open and view your proposals.
+            {/* Tertiary Feature - Email Tracking (Small, 4 columns) */}
+            <div className="md:col-span-4 bg-gray-50 p-7 border border-gray-200 min-h-[200px] hover:border-gray-300 transition-colors">
+              <Mail className="w-10 h-10 text-black mb-5" />
+              <h3 className="text-lg font-semibold mb-2">Email Tracking</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Get notified when clients open your proposals and track engagement.
               </p>
             </div>
 
-            {/* Feature 5 */}
-            <div className="bg-white p-8 border border-gray-200">
-              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
-                <Users className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Template Library</h3>
-              <p className="text-gray-600">
-                Start with industry-specific templates. SaaS, Agency, Consulting, and more. 
-                Fully customizable.
+            {/* Tertiary Feature - Templates (Small, 4 columns) */}
+            <div className="md:col-span-4 bg-gray-50 p-7 border border-gray-200 min-h-[200px] hover:border-gray-300 transition-colors">
+              <Users className="w-10 h-10 text-black mb-5" />
+              <h3 className="text-lg font-semibold mb-2">Template Library</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Industry-specific templates ready to customize and send.
               </p>
             </div>
 
-            {/* Feature 6 */}
-            <div className="bg-white p-8 border border-gray-200">
-              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
-                <Shield className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Secure & Professional</h3>
-              <p className="text-gray-600">
-                Enterprise-grade security. Custom branding. Mobile-optimized. 
-                Your proposals, your brand.
+            {/* Tertiary Feature - Security (Small, 4 columns) */}
+            <div className="md:col-span-4 bg-gray-50 p-7 border border-gray-200 min-h-[200px] hover:border-gray-300 transition-colors">
+              <Shield className="w-10 h-10 text-black mb-5" />
+              <h3 className="text-lg font-semibold mb-2">Secure & Professional</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Enterprise-grade security with custom branding options.
               </p>
             </div>
           </div>
