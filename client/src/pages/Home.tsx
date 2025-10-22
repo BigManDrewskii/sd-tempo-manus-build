@@ -31,7 +31,7 @@ export default function Home() {
             <div className="flex gap-4">
               <Link href="/create-ai">
                 <Button size="lg" className="text-lg px-8 py-6">
-                  Generate with AI ✨
+                  Generate with AI
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
