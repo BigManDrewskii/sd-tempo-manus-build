@@ -1,12 +1,17 @@
 import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
+import { initSentry, sentryErrorHandler } from "../lib/sentry";
+
+// Initialize Sentry error tracking
+initSentry();
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { apiLimiter } from "../lib/rateLimiter";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -30,9 +35,15 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  
+  // Trust proxy for rate limiting (required for production behind reverse proxy)
+  app.set("trust proxy", 1);
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  
+  // Apply rate limiting to all API routes
+  app.use("/api/", apiLimiter);
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
   // Email tracking routes
@@ -46,6 +57,9 @@ async function startServer() {
       createContext,
     })
   );
+  // Sentry error handler (must be after routes, before static files)
+  app.use(sentryErrorHandler);
+  
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
