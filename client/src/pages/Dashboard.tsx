@@ -192,7 +192,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#ffdfb5]">
+    <div className="min-h-screen bg-[#ffdfb5]" style={{backgroundColor: '#fdf8f2'}}>
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -316,7 +316,7 @@ export default function Dashboard() {
                 placeholder="Search proposals..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10" style={{height: '48px'}}
               />
               {searchQuery && (
                 <button
@@ -345,7 +345,7 @@ export default function Dashboard() {
 
           {/* Status Tabs */}
           <Tabs value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-4" style={{borderRadius: '8px', padding: '4px 6px', margin: '4px', height: '48px'}}>
               <TabsTrigger value="all">All ({stats.total})</TabsTrigger>
               <TabsTrigger value="draft">Drafts ({stats.draft})</TabsTrigger>
               <TabsTrigger value="published">Published ({stats.published})</TabsTrigger>
