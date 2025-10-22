@@ -102,7 +102,7 @@ export default function CreateProposalAI() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <Loader2 className="w-8 h-8 animate-spin text-black" />
       </div>
     );
   }
@@ -113,13 +113,13 @@ export default function CreateProposalAI() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
+      <header className="border-b border-gray-200 sticky top-0 z-50 bg-white/95 backdrop-blur">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer">
-              <FileText className="w-8 h-8 text-primary" />
+              <FileText className="w-8 h-8 text-black" />
               <span className="text-2xl font-bold">Tempo</span>
             </div>
           </Link>
@@ -135,10 +135,10 @@ export default function CreateProposalAI() {
           <>
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-2">
-                <Wand2 className="w-8 h-8 text-primary" />
+                <Wand2 className="w-8 h-8 text-black" />
                 <h1 className="text-4xl font-bold">AI-Powered Proposal</h1>
               </div>
-              <p className="text-muted-foreground">
+              <p className="text-gray-600">
                 Describe your project and let AI generate a complete, professional proposal in seconds.
               </p>
             </div>
@@ -213,7 +213,7 @@ export default function CreateProposalAI() {
                       className="mt-1 min-h-32"
                       minLength={10}
                     />
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-gray-600 mt-1">
                       Be specific about the client's needs and goals. More detail = better proposal.
                     </p>
                   </div>
@@ -296,7 +296,7 @@ export default function CreateProposalAI() {
                   <Sparkles className="w-5 h-5" />
                   What AI Will Generate
                 </h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+                <ul className="space-y-2 text-sm text-gray-600">
                   <li>• 3-4 specific client problems with descriptions</li>
                   <li>• 4-5 solution phases with realistic timelines</li>
                   <li>• 6-8 concrete deliverables</li>
@@ -313,16 +313,16 @@ export default function CreateProposalAI() {
           <div className="flex flex-col items-center justify-center min-h-[60vh]">
             <div className="text-center space-y-6">
               <div className="relative">
-                <Wand2 className="w-16 h-16 text-primary animate-pulse mx-auto" />
-                <Sparkles className="w-8 h-8 text-primary absolute -top-2 -right-2 animate-bounce" />
+                <Wand2 className="w-16 h-16 text-black animate-pulse mx-auto" />
+                <Sparkles className="w-8 h-8 text-black absolute -top-2 -right-2 animate-bounce" />
               </div>
               <div>
                 <h2 className="text-3xl font-bold mb-2">Generating Your Proposal</h2>
-                <p className="text-muted-foreground">
+                <p className="text-gray-600">
                   AI is analyzing your project and crafting a professional proposal...
                 </p>
               </div>
-              <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+              <div className="flex flex-col gap-2 text-sm text-gray-600">
                 <p className="animate-pulse">✓ Analyzing project requirements</p>
                 <p className="animate-pulse delay-100">✓ Identifying client problems</p>
                 <p className="animate-pulse delay-200">✓ Crafting solutions</p>
@@ -336,7 +336,7 @@ export default function CreateProposalAI() {
           <>
             <div className="mb-8">
               <h1 className="text-4xl font-bold mb-2">Review Your Proposal</h1>
-              <p className="text-muted-foreground">
+              <p className="text-gray-600">
                 AI has generated your proposal. Review the content and create when ready.
               </p>
             </div>
@@ -351,7 +351,7 @@ export default function CreateProposalAI() {
                   {generatedData.problems.map((problem: any, idx: number) => (
                     <div key={idx} className="border-l-4 border-primary pl-4">
                       <h3 className="font-semibold">{problem.title}</h3>
-                      <p className="text-sm text-muted-foreground">{problem.description}</p>
+                      <p className="text-sm text-gray-600">{problem.description}</p>
                     </div>
                   ))}
                 </CardContent>
@@ -366,7 +366,7 @@ export default function CreateProposalAI() {
                   {generatedData.solutionPhases.map((phase: any, idx: number) => (
                     <div key={idx} className="flex justify-between items-center">
                       <span className="font-medium">{phase.title}</span>
-                      <span className="text-sm text-muted-foreground">{phase.duration}</span>
+                      <span className="text-sm text-gray-600">{phase.duration}</span>
                     </div>
                   ))}
                 </CardContent>
@@ -381,7 +381,7 @@ export default function CreateProposalAI() {
                   <ul className="space-y-2">
                     {generatedData.deliverables.map((item: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <span className="text-primary">✓</span>
+                        <span className="text-black">✓</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -404,7 +404,7 @@ export default function CreateProposalAI() {
                         }`}
                       >
                         <h3 className="font-bold text-lg">{tier.name}</h3>
-                        <p className="text-3xl font-bold text-primary my-2">
+                        <p className="text-3xl font-bold text-black my-2">
                           ${tier.price.toLocaleString()}
                         </p>
                         <ul className="space-y-1 text-sm">
@@ -412,7 +412,7 @@ export default function CreateProposalAI() {
                             <li key={fidx}>• {feature}</li>
                           ))}
                           {tier.features.length > 3 && (
-                            <li className="text-muted-foreground">
+                            <li className="text-gray-600">
                               + {tier.features.length - 3} more
                             </li>
                           )}

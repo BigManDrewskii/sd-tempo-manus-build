@@ -173,7 +173,7 @@ export default function CreateProposal() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <Loader2 className="w-8 h-8 animate-spin text-black" />
       </div>
     );
   }
@@ -184,13 +184,13 @@ export default function CreateProposal() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
+      <header className="border-b border-gray-200 sticky top-0 z-50 bg-white/95 backdrop-blur">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer">
-              <FileText className="w-8 h-8 text-primary" />
+              <FileText className="w-8 h-8 text-black" />
               <span className="text-2xl font-bold">Tempo</span>
             </div>
           </Link>
@@ -204,7 +204,7 @@ export default function CreateProposal() {
       <main className="container max-w-4xl mx-auto px-6 py-12">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Create New Proposal</h1>
-          <p className="text-muted-foreground">
+          <p className="text-gray-600">
             Fill in the basic details to generate an interactive proposal.
           </p>
         </div>
@@ -268,7 +268,7 @@ export default function CreateProposal() {
                 />
               </div>
 
-              <div className="pt-4 border-t border-border">
+              <div className="pt-4 border-t border-gray-200">
                 <Button
                   type="button"
                   variant="outline"
@@ -278,7 +278,7 @@ export default function CreateProposal() {
                   <Sparkles className="w-4 h-4 mr-2" />
                   Quick Start with Sample Data
                 </Button>
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-sm text-gray-600 mb-4">
                   This will create a proposal with pre-filled sections including problems, solutions, 
                   pricing tiers, and case studies. Perfect for getting started quickly.
                 </p>
@@ -313,7 +313,7 @@ export default function CreateProposal() {
         <Card className="mt-8 border-primary/20 bg-primary/5">
           <CardContent className="p-6">
             <h3 className="font-semibold mb-2">What's Included</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="space-y-2 text-sm text-gray-600">
               <li>• Interactive pricing calculator with real-time totals</li>
               <li>• Digital signature pad for instant acceptance</li>
               <li>• Scroll progress tracking and engagement analytics</li>
