@@ -72,10 +72,10 @@ export default function Templates() {
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/">
-            <a className="flex items-center gap-2 text-2xl font-bold text-[#644a40]">
+            <div className="flex items-center gap-2 text-2xl font-bold text-[#644a40] cursor-pointer">
               <img src={APP_LOGO} alt="Tempo" className="w-8 h-8" />
               Tempo
-            </a>
+            </div>
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/dashboard">
