@@ -345,28 +345,77 @@ Include: 3-4 problems, 4-5 solution phases, 6-8 deliverables, 2 case studies, 3 
   }),
 
   signatures: router({
-    // Submit signature
-    submit: publicProcedure
-      .input(z.object({
-        proposalId: z.number(),
-        signerName: z.string(),
-        signerEmail: z.string().email(),
-        signatureData: z.string(),
-        selectedTier: z.string(),
-        selectedAddOns: z.array(z.string()),
-        totalPrice: z.number(),
-        ipAddress: z.string().optional(),
-      }))
+    // Create signature
+    create: publicProcedure
+      .input(
+        z.object({
+          proposalId: z.number(),
+          fullName: z.string().min(1),
+          email: z.string().email(),
+          signatureData: z.string().min(1),
+          selectedTier: z.string(),
+          selectedAddOns: z.record(z.string(), z.boolean()),
+          totalPrice: z.number(),
+        })
+      )
       .mutation(async ({ input }) => {
-        await db.createSignature(input);
-        return { success: true };
+        return db.createSignature(input);
       }),
 
     // Get signature for proposal
-    get: publicProcedure
+    getByProposalId: publicProcedure
       .input(z.object({ proposalId: z.number() }))
       .query(async ({ input }) => {
         return db.getSignatureByProposalId(input.proposalId);
+      }),
+  }),
+
+  templates: router({
+    // List all public templates
+    list: publicProcedure.query(async () => {
+      return db.getAllTemplates();
+    }),
+
+    // Get single template by ID
+    get: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return db.getTemplateById(input.id);
+      }),
+
+    // Clone template to create new proposal
+    clone: protectedProcedure
+      .input(
+        z.object({
+          templateId: z.number(),
+          clientName: z.string().min(1),
+          projectName: z.string().min(1),
+          validUntil: z.string(),
+        })
+      )
+      .mutation(async ({ input, ctx }) => {
+        const template = await db.getTemplateById(input.templateId);
+        if (!template) {
+          throw new Error("Template not found");
+        }
+
+        // Create proposal from template
+        const proposalId = await db.createProposal({
+          userId: ctx.user.id,
+          title: `${input.projectName} Proposal`,
+          clientName: input.clientName,
+          projectName: input.projectName,
+          validUntil: new Date(input.validUntil),
+          problems: template.problems,
+          solutionPhases: template.solutionPhases,
+          deliverables: template.deliverables,
+          caseStudies: template.caseStudies,
+          pricingTiers: template.pricingTiers,
+          addOns: template.addOns,
+          status: "draft",
+        });
+
+        return { proposalId };
       }),
   }),
 });

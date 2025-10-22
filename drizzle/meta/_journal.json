@@ -15,6 +15,13 @@
       "when": 1761119318320,
       "tag": "0001_futuristic_lord_tyger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1761122734163,
+      "tag": "0002_flimsy_catseye",
+      "breakpoints": true
     }
   ]
 }

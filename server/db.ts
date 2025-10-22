@@ -10,7 +10,10 @@ import {
   engagementEvents,
   InsertEngagementEvent,
   signatures,
-  InsertSignature
+  InsertSignature,
+  templates,
+  InsertTemplate,
+  Template
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -286,5 +289,42 @@ export async function getProposalAnalytics(proposalId: number) {
     views: viewStats[0] || { totalViews: 0, uniqueSessions: 0 },
     events: eventStats,
   };
+}
+
+
+// ===== Templates =====
+
+export async function getAllTemplates() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db
+    .select()
+    .from(templates)
+    .where(eq(templates.isPublic, true))
+    .orderBy(desc(templates.createdAt));
+
+  return result;
+}
+
+export async function getTemplateById(id: number): Promise<Template | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db
+    .select()
+    .from(templates)
+    .where(eq(templates.id, id))
+    .limit(1);
+
+  return result[0];
+}
+
+export async function createTemplate(template: InsertTemplate) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(templates).values(template);
+  return result[0].insertId;
 }
 

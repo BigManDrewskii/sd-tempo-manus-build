@@ -10,6 +10,8 @@ import CreateProposal from "./pages/CreateProposal";
 import CreateProposalAI from "./pages/CreateProposalAI";
 import ViewProposal from "./pages/ViewProposal";
 import ProposalAnalytics from "./pages/ProposalAnalytics";
+import Templates from "./pages/Templates";
+import CustomizeTemplate from "./pages/CustomizeTemplate";
 
 function Router() {
   return (
@@ -18,6 +20,8 @@ function Router() {
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path="/create" component={CreateProposal} />
       <Route path="/create-ai" component={CreateProposalAI} />
+      <Route path="/templates" component={Templates} />
+      <Route path="/templates/:id/customize" component={CustomizeTemplate} />
       <Route path={"/proposal/:id"} component={ViewProposal} />
       <Route path={"/analytics/:id"} component={ProposalAnalytics} />
       <Route path={"/404"} component={NotFound} />

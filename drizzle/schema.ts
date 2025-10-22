@@ -19,6 +19,43 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
 /**
+ * Templates table - stores proposal templates
+ */
+export const templates = mysqlTable("templates", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  industry: mysqlEnum("industry", ["web-design", "consulting", "saas", "marketing", "mobile-app", "ecommerce"]).notNull(),
+  thumbnail: varchar("thumbnail", { length: 500 }),
+  isPublic: boolean("isPublic").default(true).notNull(),
+  createdBy: int("createdBy"), // null for system templates
+  
+  // Template content (same structure as proposals)
+  problems: json("problems").$type<Array<{ title: string; description: string; icon: string }>>().notNull(),
+  solutionPhases: json("solutionPhases").$type<Array<{ title: string; duration: string }>>().notNull(),
+  deliverables: json("deliverables").$type<Array<string>>().notNull(),
+  caseStudies: json("caseStudies").$type<Array<{ title: string; description: string; metrics: Array<{ label: string; value: string }> }>>().notNull(),
+  pricingTiers: json("pricingTiers").$type<Array<{ 
+    name: string; 
+    price: number; 
+    features: Array<string>;
+    recommended?: boolean;
+  }>>().notNull(),
+  addOns: json("addOns").$type<Array<{
+    id: string;
+    name: string;
+    price: number;
+    description: string;
+  }>>().notNull(),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Template = typeof templates.$inferSelect;
+export type InsertTemplate = typeof templates.$inferInsert;
+
+/**
  * Proposals table - stores proposal metadata and content
  */
 export const proposals = mysqlTable("proposals", {
