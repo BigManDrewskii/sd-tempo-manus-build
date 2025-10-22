@@ -414,7 +414,7 @@ export default function CreateProposalAI() {
                       <div
                         key={idx}
                         className={`border rounded-lg p-4 ${
-                          tier.recommended ? "border-primary bg-primary/5" : ""
+                          tier.recommended ? "border-black bg-gray-50" : ""
                         }`}
                       >
                         <h3 className="font-bold text-lg">{tier.name}</h3>

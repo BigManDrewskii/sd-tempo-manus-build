@@ -74,24 +74,7 @@ export default function CustomizeTemplate() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#ffdfb5]/20 to-white">
-      {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/">
-            <a className="flex items-center gap-2 text-2xl font-bold text-[#644a40]">
-              <img src={APP_LOGO} alt="Tempo" className="w-8 h-8" />
-              Tempo
-            </a>
-          </Link>
-          <Link href="/templates">
-            <Button variant="ghost" className="gap-2">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Templates
-            </Button>
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen bg-white">
 
       <div className="container mx-auto px-6 py-12 max-w-4xl">
         <div className="mb-8">

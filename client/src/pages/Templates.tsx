@@ -62,24 +62,6 @@ export default function Templates() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-200">
-        <div className="container mx-auto px-6 py-5 flex items-center justify-between">
-          <Link href="/dashboard">
-            <div className="flex items-center gap-3 cursor-pointer">
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-              <span className="text-xl font-semibold tracking-tight">Templates</span>
-            </div>
-          </Link>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500 hidden sm:block">
-              {user?.name || user?.email}
-            </span>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">

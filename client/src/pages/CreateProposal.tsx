@@ -295,7 +295,7 @@ export default function CreateProposal() {
           </CardContent>
         </Card>
 
-        <Card className="mt-8 border-primary/20 bg-primary/5">
+        <Card className="mt-8 border-gray-200 bg-gray-50">
           <CardContent className="p-6">
             <h3 className="font-semibold mb-2">What's Included</h3>
             <ul className="space-y-2 text-sm text-gray-600">

@@ -53,7 +53,7 @@ export default function ProposalAnalytics() {
   if (authLoading || proposalLoading || analyticsLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <Loader2 className="w-8 h-8 animate-spin text-black" />
       </div>
     );
   }
@@ -106,28 +106,6 @@ export default function ProposalAnalytics() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/dashboard">
-            <div className="flex items-center gap-2 cursor-pointer">
-              <FileText className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold">Tempo</span>
-            </div>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href={`/proposal/${proposalId}`}>
-              <Button variant="outline">View Proposal</Button>
-            </Link>
-            <Link href="/dashboard">
-              <Button variant="ghost">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Dashboard
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 md:px-6 py-6 md:py-12">
@@ -148,7 +126,7 @@ export default function ProposalAnalytics() {
 
         {/* Email Delivery Stats */}
         {emailStats && emailStats.totalSent > 0 && (
-          <Card className="mb-6 md:mb-8 border-blue-200 bg-blue-50/50 dark:bg-blue-950/20">
+          <Card className="mb-6 md:mb-8 border-gray-200 bg-gray-50">
             <CardHeader>
               <CardTitle className="text-lg md:text-xl flex items-center gap-2">
                 <Mail className="w-5 h-5" />
@@ -173,7 +151,7 @@ export default function ProposalAnalytics() {
                     <MailOpen className="w-4 h-4" />
                     Open Rate
                   </div>
-                  <div className="text-2xl md:text-3xl font-bold text-blue-600">{emailStats.openRate}%</div>
+                  <div className="text-2xl md:text-3xl font-bold text-black">{emailStats.openRate}%</div>
                   <p className="text-xs text-muted-foreground mt-1">
                     {emailStats.totalOpened} opened
                   </p>
@@ -211,7 +189,7 @@ export default function ProposalAnalytics() {
                   <div className="space-y-3 max-h-64 overflow-y-auto">
                     {emailActivity.slice(0, 10).map((activity: any, idx: number) => (
                       <div key={idx} className="flex items-start gap-3 text-sm">
-                        <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5" />
+                        <div className="w-2 h-2 rounded-full bg-black mt-1.5" />
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             <span className="font-medium capitalize">
@@ -246,7 +224,7 @@ export default function ProposalAnalytics() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-bold text-primary">{totalViews}</div>
+              <div className="text-4xl font-bold text-black">{totalViews}</div>
               <p className="text-sm text-muted-foreground mt-1">
                 {uniqueSessions} unique session{uniqueSessions !== 1 ? 's' : ''}
               </p>
@@ -261,7 +239,7 @@ export default function ProposalAnalytics() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-bold text-primary">
+              <div className="text-4xl font-bold text-black">
                 {pricingChanges + addOnToggles}
               </div>
               <p className="text-sm text-muted-foreground mt-1">
@@ -278,14 +256,14 @@ export default function ProposalAnalytics() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-bold text-primary">{engagementScore}%</div>
+              <div className="text-4xl font-bold text-black">{engagementScore}%</div>
               <p className="text-sm text-muted-foreground mt-1">
                 {engagementScore >= 70 ? "High" : engagementScore >= 40 ? "Medium" : "Low"} engagement
               </p>
             </CardContent>
           </Card>
 
-          <Card className={isSigned ? "border-green-500 bg-green-50 dark:bg-green-950/20" : ""}>
+          <Card className={isSigned ? "border-black bg-gray-50" : ""}>
             <CardHeader className="pb-3">
               <CardDescription className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
@@ -317,7 +295,7 @@ export default function ProposalAnalytics() {
                 <div className="flex items-center gap-2">
                   <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-primary transition-all"
+                      className="h-full bg-black transition-all"
                       style={{ width: `${Math.min((sectionsViewed / 6) * 100, 100)}%` }}
                     />
                   </div>
@@ -373,7 +351,7 @@ export default function ProposalAnalytics() {
                 </div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-primary" 
+                    className="h-full bg-black" 
                     style={{ width: totalViews > 0 ? `${(sectionsViewed / 6) * 100}%` : "0%" }} 
                   />
                 </div>
@@ -388,7 +366,7 @@ export default function ProposalAnalytics() {
                 </div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-primary" 
+                    className="h-full bg-black" 
                     style={{ width: (pricingChanges + addOnToggles) > 0 ? "100%" : "0%" }} 
                   />
                 </div>
@@ -403,7 +381,7 @@ export default function ProposalAnalytics() {
                 </div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-primary" 
+                    className="h-full bg-black" 
                     style={{ width: signatureStarted > 0 ? "100%" : "0%" }} 
                   />
                 </div>
@@ -470,7 +448,7 @@ export default function ProposalAnalytics() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Total Value</p>
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-2xl font-bold text-black">
                       ${(signature.totalPrice / 100).toLocaleString()}
                     </p>
                   </div>
@@ -491,7 +469,7 @@ export default function ProposalAnalytics() {
               <ul className="space-y-3">
                 {totalViews === 0 && (
                   <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                    <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">No views yet</p>
                       <p className="text-sm text-muted-foreground">
@@ -503,7 +481,7 @@ export default function ProposalAnalytics() {
                 
                 {totalViews > 0 && sectionsViewed < 4 && (
                   <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                    <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">Low section engagement</p>
                       <p className="text-sm text-muted-foreground">
@@ -515,7 +493,7 @@ export default function ProposalAnalytics() {
 
                 {(pricingChanges + addOnToggles) === 0 && totalViews > 0 && (
                   <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                    <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">No pricing interaction</p>
                       <p className="text-sm text-muted-foreground">
@@ -527,7 +505,7 @@ export default function ProposalAnalytics() {
 
                 {signatureStarted > 0 && !isSigned && (
                   <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                    <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">Signature started but not completed</p>
                       <p className="text-sm text-muted-foreground">

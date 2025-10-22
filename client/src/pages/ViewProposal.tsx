@@ -378,7 +378,7 @@ export default function ViewProposal() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <Loader2 className="w-8 h-8 animate-spin text-black" />
       </div>
     );
   }
@@ -402,7 +402,7 @@ export default function ViewProposal() {
       {/* Scroll Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-muted z-50">
         <div
-          className="h-full bg-primary transition-all duration-300"
+          className="h-full bg-black transition-all duration-300"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
@@ -424,7 +424,7 @@ export default function ViewProposal() {
             >
               <div className="flex items-center gap-2">
                 <div className="text-xs font-medium">
-                  <div className="text-primary font-bold">{calculateEngagementScore()}%</div>
+                  <div className="text-black font-bold">{calculateEngagementScore()}%</div>
                 </div>
                 <div className="text-xs text-muted-foreground">×</div>
               </div>
@@ -457,7 +457,7 @@ export default function ViewProposal() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Score:</span>
-                <span className="font-medium text-primary">{calculateEngagementScore()}%</span>
+                <span className="font-medium text-black">{calculateEngagementScore()}%</span>
               </div>
             </CardContent>
           </Card>
@@ -651,7 +651,7 @@ export default function ViewProposal() {
                       transition={{ delay: index * 0.1, duration: 0.3 }}
                       className="flex items-start gap-4"
                     >
-                      <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-semibold flex-shrink-0">
                         {index + 1}
                       </div>
                       <div>
@@ -676,7 +676,7 @@ export default function ViewProposal() {
                       transition={{ delay: index * 0.1, duration: 0.3 }}
                       className="flex items-center gap-3"
                     >
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-black flex-shrink-0" />
                       <span>{deliverable}</span>
                     </motion.div>
                   ))}
@@ -713,15 +713,15 @@ export default function ViewProposal() {
                 >
                   <Card className={`h-full transition-all ${
                     selectedTier === tier.name.toLowerCase()
-                      ? "border-primary border border-gray-200 ring-2 ring-primary"
-                      : "hover:border-primary/50"
-                  } ${tier.recommended ? "border-primary" : ""}`}>
+                      ? "border-black border border-gray-200 ring-2 ring-black"
+                      : "hover:border-gray-300"
+                  } ${tier.recommended ? "border-black" : ""}`}>
                     <CardHeader className="pb-4">
                       {tier.recommended && (
                         <Badge className="w-fit mb-2">Recommended</Badge>
                       )}
                       <CardTitle className="text-xl md:text-2xl">{tier.name}</CardTitle>
-                      <div className="text-3xl md:text-4xl font-bold text-primary">
+                      <div className="text-3xl md:text-4xl font-bold text-black">
                         ${tier.price.toLocaleString()}
                       </div>
                     </CardHeader>
@@ -729,7 +729,7 @@ export default function ViewProposal() {
                       <ul className="space-y-2">
                         {tier.features.map((feature, i) => (
                           <li key={i} className="flex items-start gap-2">
-                            <CheckCircle className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                            <CheckCircle className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                             <span className="text-sm">{feature}</span>
                           </li>
                         ))}
@@ -746,7 +746,7 @@ export default function ViewProposal() {
                 <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">Optional Add-ons</h3>
                 <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
                   {proposal.addOns.map((addOn) => (
-                    <Card key={addOn.id} className="cursor-pointer hover:shadow-md transition-shadow active:scale-98"
+                    <Card key={addOn.id} className="cursor-pointer hover:border-gray-300 transition-colors active:scale-98"
                           onClick={() => handleAddOnToggle(addOn.id)}>
                       <CardContent className="p-4 md:p-5 flex items-start gap-3 md:gap-4">
                         <Checkbox
@@ -757,7 +757,7 @@ export default function ViewProposal() {
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-1">
                             <h4 className="font-semibold">{addOn.name}</h4>
-                            <span className="font-semibold text-primary">
+                            <span className="font-semibold text-black">
                               +${addOn.price.toLocaleString()}
                             </span>
                           </div>
@@ -771,7 +771,7 @@ export default function ViewProposal() {
             )}
 
             {/* Total - Sticky on mobile */}
-            <Card className="bg-primary text-primary-foreground sticky bottom-0 md:relative z-30 rounded-none md:rounded-lg">
+            <Card className="bg-black text-white sticky bottom-0 md:relative z-30 rounded-none md:rounded-lg">
               <CardContent className="p-4 md:p-6 flex justify-between items-center">
                 <div>
                   <p className="text-base md:text-lg opacity-90">Total Investment</p>
@@ -823,8 +823,8 @@ export default function ViewProposal() {
                       <CardContent>
                         <div className="grid grid-cols-2 gap-4">
                           {study.metrics.map((metric, i) => (
-                            <div key={i} className="text-center p-4 rounded-lg bg-primary/5">
-                              <div className="text-3xl font-bold text-primary">{metric.value}</div>
+                            <div key={i} className="text-center p-4 rounded-lg bg-gray-50">
+                              <div className="text-3xl font-bold text-black">{metric.value}</div>
                               <div className="text-sm text-muted-foreground">{metric.label}</div>
                             </div>
                           ))}
@@ -973,7 +973,7 @@ export default function ViewProposal() {
                 </p>
                 <div className="inline-block p-4 bg-muted rounded-lg">
                   <p className="text-sm text-muted-foreground mb-1">Total Investment</p>
-                  <p className="text-3xl font-bold text-primary">
+                  <p className="text-3xl font-bold text-black">
                     ${(signature.totalPrice / 100).toLocaleString()}
                   </p>
                 </div>
