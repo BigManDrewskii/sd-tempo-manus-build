@@ -157,10 +157,10 @@ export default function CreateProposalAI() {
               </p>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Project Details</CardTitle>
-                <CardDescription>
+            <Card className="border-gray-200 bg-white">
+              <CardHeader className="border-b border-gray-100">
+                <CardTitle className="text-xl font-bold text-black">Project Details</CardTitle>
+                <CardDescription className="text-gray-600">
                   Provide information about your project and AI will create a tailored proposal.
                 </CardDescription>
               </CardHeader>
@@ -357,9 +357,9 @@ export default function CreateProposalAI() {
 
             <div className="space-y-6">
               {/* Problems */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Client Problems ({generatedData.problems.length})</CardTitle>
+              <Card className="border-gray-200 bg-white">
+                <CardHeader className="border-b border-gray-100">
+                  <CardTitle className="text-lg font-bold text-black">Client Problems ({generatedData.problems.length})</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {generatedData.problems.map((problem: any, idx: number) => (
@@ -372,9 +372,9 @@ export default function CreateProposalAI() {
               </Card>
 
               {/* Solution Phases */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Solution Timeline ({generatedData.solutionPhases.length} phases)</CardTitle>
+              <Card className="border-gray-200 bg-white">
+                <CardHeader className="border-b border-gray-100">
+                  <CardTitle className="text-lg font-bold text-black">Solution Timeline ({generatedData.solutionPhases.length} phases)</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {generatedData.solutionPhases.map((phase: any, idx: number) => (
@@ -387,9 +387,9 @@ export default function CreateProposalAI() {
               </Card>
 
               {/* Deliverables */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Deliverables ({generatedData.deliverables.length})</CardTitle>
+              <Card className="border-gray-200 bg-white">
+                <CardHeader className="border-b border-gray-100">
+                  <CardTitle className="text-lg font-bold text-black">Deliverables ({generatedData.deliverables.length})</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
@@ -404,9 +404,9 @@ export default function CreateProposalAI() {
               </Card>
 
               {/* Pricing Tiers */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Pricing Tiers</CardTitle>
+              <Card className="border-gray-200 bg-white">
+                <CardHeader className="border-b border-gray-100">
+                  <CardTitle className="text-lg font-bold text-black">Pricing Tiers</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-3 gap-4">
