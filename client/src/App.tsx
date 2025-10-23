@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 
 // Lazy load pages for better performance
 const Home = lazy(() => import("./pages/Home"));
+const Start = lazy(() => import("./pages/Start"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const CreateProposal = lazy(() => import("./pages/CreateProposal"));
 const CreateProposalAI = lazy(() => import("./pages/CreateProposalAI"));
@@ -36,6 +37,7 @@ function Router() {
     <Suspense fallback={<PageLoader />}>
       <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/start"} component={Start} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path="/create" component={CreateProposal} />
       <Route path="/create-ai" component={CreateProposalAI} />

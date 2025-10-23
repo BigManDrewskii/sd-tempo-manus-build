@@ -40,7 +40,7 @@ export function Navbar() {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href={isAuthenticated ? "/dashboard" : "/"}>
+          <Link href={isAuthenticated ? "/start" : "/"}>
             <div className="flex items-center gap-2 hover:opacity-70 transition-opacity cursor-pointer">
               <FileText className="w-6 h-6 text-black" />
               <span className="font-bold text-lg text-black">{APP_TITLE}</span>
