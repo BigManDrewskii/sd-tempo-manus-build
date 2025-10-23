@@ -66,6 +66,8 @@ export default function ViewProposal() {
   const [hasSignature, setHasSignature] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sendDialogOpen, setSendDialogOpen] = useState(false);
+  const [signatureMethod, setSignatureMethod] = useState<'type' | 'draw'>('type');
+  const [typedSignature, setTypedSignature] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const sessionId = useMemo(() => getSessionId(), []);
@@ -305,13 +307,37 @@ export default function ViewProposal() {
   const handleSubmitSignature = async () => {
     if (!proposal || !hasSignature || !signerName || !signerEmail) return;
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
     setIsSubmitting(true);
 
     try {
-      const signatureData = canvas.toDataURL("image/png");
+      let signatureData: string;
+      
+      if (signatureMethod === 'type') {
+        // Generate typed signature as image
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = 800;
+        tempCanvas.height = 250;
+        const ctx = tempCanvas.getContext('2d');
+        if (!ctx) throw new Error('Could not create canvas context');
+        
+        // White background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+        
+        // Draw typed signature
+        ctx.fillStyle = 'black';
+        ctx.font = "italic 60px 'Brush Script MT', cursive";
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(typedSignature, tempCanvas.width / 2, tempCanvas.height / 2);
+        
+        signatureData = tempCanvas.toDataURL('image/png');
+      } else {
+        // Use drawn signature from canvas
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        signatureData = canvas.toDataURL('image/png');
+      }
       
       await submitSignatureMutation.mutateAsync({
         proposalId,
@@ -863,34 +889,90 @@ export default function ViewProposal() {
 
                   <div>
                     <Label className="text-base">Signature *</Label>
-                    <p className="text-sm text-muted-foreground mt-1 mb-2">Draw your signature below</p>
-                    <div className="mt-2 border border-gray-300 overflow-hidden bg-white">
-                      <canvas
-                        ref={canvasRef}
-                        width={800}
-                        height={250}
-                        className="w-full bg-white cursor-crosshair touch-none"
-                        style={{ touchAction: 'none' }}
-                        onMouseDown={startDrawing}
-                        onMouseMove={draw}
-                        onMouseUp={stopDrawing}
-                        onMouseLeave={stopDrawing}
-                        onTouchStart={startDrawing}
-                        onTouchMove={draw}
-                        onTouchEnd={stopDrawing}
-                      />
-                    </div>
-                    <div className="flex justify-end mt-2">
+                    <p className="text-sm text-muted-foreground mt-1 mb-2">Choose how you'd like to sign</p>
+                    
+                    {/* Signature Method Tabs */}
+                    <div className="flex gap-2 mb-4">
                       <Button
-                        variant="outline"
+                        type="button"
+                        variant={signatureMethod === 'type' ? 'default' : 'outline'}
                         size="sm"
-                        onClick={clearSignature}
-                        disabled={!hasSignature}
-                        className="min-h-[44px] px-6"
+                        onClick={() => {
+                          setSignatureMethod('type');
+                          setHasSignature(false);
+                        }}
+                        className="min-h-[44px] flex-1"
                       >
-                        Clear Signature
+                        Type Signature
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={signatureMethod === 'draw' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => {
+                          setSignatureMethod('draw');
+                          setHasSignature(false);
+                          clearSignature();
+                        }}
+                        className="min-h-[44px] flex-1"
+                      >
+                        Draw Signature
                       </Button>
                     </div>
+
+                    {/* Typed Signature */}
+                    {signatureMethod === 'type' && (
+                      <div className="mt-2">
+                        <Input
+                          type="text"
+                          placeholder="Type your full name"
+                          value={typedSignature}
+                          onChange={(e) => {
+                            setTypedSignature(e.target.value);
+                            setHasSignature(e.target.value.trim().length > 0);
+                          }}
+                          className="text-3xl font-serif italic text-center py-8 min-h-[100px]"
+                          style={{ fontFamily: "'Brush Script MT', cursive" }}
+                        />
+                        <p className="text-xs text-muted-foreground text-center mt-2">
+                          Your typed signature will be legally binding
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Drawn Signature */}
+                    {signatureMethod === 'draw' && (
+                      <>
+                        <div className="mt-2 border border-gray-300 overflow-hidden bg-white">
+                          <canvas
+                            ref={canvasRef}
+                            width={800}
+                            height={250}
+                            className="w-full bg-white cursor-crosshair touch-none"
+                            style={{ touchAction: 'none' }}
+                            onMouseDown={startDrawing}
+                            onMouseMove={draw}
+                            onMouseUp={stopDrawing}
+                            onMouseLeave={stopDrawing}
+                            onTouchStart={startDrawing}
+                            onTouchMove={draw}
+                            onTouchEnd={stopDrawing}
+                          />
+                        </div>
+                        <div className="flex justify-end mt-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={clearSignature}
+                            disabled={!hasSignature}
+                            className="min-h-[44px] px-6"
+                          >
+                            Clear Signature
+                          </Button>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <div className="pt-4 border-t border-border">
