@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
 import { FileText, LogOut, Menu, Plus, Sparkles, User, X, Palette, Edit } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -36,7 +37,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
+    <nav className="border-b border-border bg-background sticky top-0 z-50">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -77,14 +78,14 @@ export function Navbar() {
                         Create Proposal
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56 border-gray-200">
+                    <DropdownMenuContent align="end" className="w-56 border-border">
                       <DropdownMenuItem asChild>
                         <Link href="/create-ai">
                           <div className="flex items-center gap-2 w-full cursor-pointer">
                             <Sparkles className="w-4 h-4" />
                             <div>
                               <div className="font-medium">Generate with AI</div>
-                              <div className="text-xs text-gray-600">
+                              <div className="text-xs text-muted-foreground">
                                 AI-powered proposal
                               </div>
                             </div>
@@ -97,7 +98,7 @@ export function Navbar() {
                             <FileText className="w-4 h-4" />
                             <div>
                               <div className="font-medium">Use Template</div>
-                              <div className="text-xs text-gray-600">
+                              <div className="text-xs text-muted-foreground">
                                 Start from industry template
                               </div>
                             </div>
@@ -110,7 +111,7 @@ export function Navbar() {
                             <Edit className="w-4 h-4" />
                             <div>
                               <div className="font-medium">Create from Scratch</div>
-                              <div className="text-xs text-gray-600">
+                              <div className="text-xs text-muted-foreground">
                                 Build manually with full control
                               </div>
                             </div>
@@ -121,18 +122,21 @@ export function Navbar() {
                   </DropdownMenu>
                 )}
 
+                {/* Theme Toggle */}
+                <ThemeToggle />
+
                 {/* User Menu */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="gap-2 hover:bg-gray-100">
+                    <Button variant="ghost" size="sm" className="gap-2 hover:bg-accent">
                       <User className="w-4 h-4" />
                       <span className="hidden lg:inline">{user?.name || "Account"}</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 border-gray-200">
+                  <DropdownMenuContent align="end" className="w-48 border-border">
                     <div className="px-2 py-1.5 text-sm">
                       <div className="font-medium">{user?.name}</div>
-                      <div className="text-xs text-gray-600 truncate">
+                      <div className="text-xs text-muted-foreground truncate">
                         {user?.email}
                       </div>
                     </div>
@@ -171,7 +175,7 @@ export function Navbar() {
               variant="ghost"
               size="sm"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="hover:bg-gray-100"
+              className="hover:bg-accent"
             >
               {mobileMenuOpen ? (
                 <X className="w-5 h-5" />
@@ -184,12 +188,12 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4 space-y-3">
+          <div className="md:hidden border-t border-border py-4 space-y-3">
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
                   <div
-                    className="block px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md cursor-pointer"
+                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md cursor-pointer"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Dashboard
@@ -197,19 +201,19 @@ export function Navbar() {
                 </Link>
                 <Link href="/templates">
                   <div
-                    className="block px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md cursor-pointer"
+                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md cursor-pointer"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Templates
                   </div>
                 </Link>
                 <div className="px-4 py-2 space-y-2">
-                  <div className="text-xs font-semibold text-gray-600 uppercase">
+                  <div className="text-xs font-semibold text-muted-foreground uppercase">
                     Create Proposal
                   </div>
                   <Link href="/create-ai">
                     <div
-                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md cursor-pointer"
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md cursor-pointer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Sparkles className="w-4 h-4" />
@@ -218,7 +222,7 @@ export function Navbar() {
                   </Link>
                   <Link href="/templates">
                     <div
-                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md cursor-pointer"
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md cursor-pointer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <FileText className="w-4 h-4" />
@@ -227,7 +231,7 @@ export function Navbar() {
                   </Link>
                   <Link href="/create">
                     <div
-                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md cursor-pointer"
+                      className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent rounded-md cursor-pointer"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Edit className="w-4 h-4" />
@@ -237,24 +241,24 @@ export function Navbar() {
                 </div>
                 <Link href="/settings/branding">
                   <div
-                    className="block px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md cursor-pointer flex items-center gap-2"
+                    className="block px-4 py-2 text-sm font-medium hover:bg-accent rounded-md cursor-pointer flex items-center gap-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <Palette className="w-4 h-4" />
                     Brand Settings
                   </div>
                 </Link>
-                <div className="border-t border-gray-200 pt-3 mt-3">
+                <div className="border-t border-border pt-3 mt-3">
                   <div className="px-4 py-2 text-sm">
                     <div className="font-medium">{user?.name}</div>
-                    <div className="text-xs text-gray-600">{user?.email}</div>
+                    <div className="text-xs text-muted-foreground">{user?.email}</div>
                   </div>
                   <button
                     onClick={() => {
                       handleLogout();
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full text-left px-4 py-2 text-sm font-medium hover:bg-gray-100 rounded-md flex items-center gap-2"
+                    className="w-full text-left px-4 py-2 text-sm font-medium hover:bg-accent rounded-md flex items-center gap-2"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout

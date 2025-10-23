@@ -159,7 +159,7 @@ export default function Dashboard() {
 
   if (loading || isLoading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-background">
         <div className="container mx-auto px-6 py-8">
           {/* Stats skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
@@ -201,7 +201,7 @@ export default function Dashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-muted">
         <Card className="w-full max-w-md mx-4">
           <CardHeader>
             <CardTitle>Sign in to continue</CardTitle>
@@ -262,7 +262,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       {/* Main Content */}
       <main className="container max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 py-8 sm:py-10 md:py-12 lg:py-16">
         {/* Title */}
@@ -273,31 +273,31 @@ export default function Dashboard() {
             </div>
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">Proposals</h1>
           </div>
-          <p className="text-sm md:text-base lg:text-lg text-gray-600 md:ml-[60px] lg:ml-[68px]">Manage and track all your proposals</p>
+          <p className="text-sm md:text-base lg:text-lg text-muted-foreground md:ml-[60px] lg:ml-[68px]">Manage and track all your proposals</p>
         </div>
 
         {/* Stats - Minimal Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3 md:gap-4 mb-10 sm:mb-12">
-          <div className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 transition-shadow duration-200">
+          <div className="border border-border rounded-lg p-4 sm:p-5 md:p-6 transition-shadow duration-200">
             <div className="text-xs md:text-sm text-gray-500 mb-1">Total</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.total}</div>
           </div>
           <div 
-            className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
+            className="border border-border rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("draft")}
           >
             <div className="text-xs md:text-sm text-gray-500 mb-1">Drafts</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.draft}</div>
           </div>
           <div 
-            className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
+            className="border border-border rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("published")}
           >
             <div className="text-xs md:text-sm text-gray-500 mb-1">Published</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.published}</div>
           </div>
           <div 
-            className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
+            className="border border-border rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("archived")}
           >
             <div className="text-xs md:text-sm text-gray-500 mb-1">Archived</div>
@@ -339,7 +339,7 @@ export default function Dashboard() {
 
           {/* Status Tabs - Minimal */}
           <Tabs value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
-            <TabsList className="border border-gray-200 bg-white p-1 h-10">
+            <TabsList className="border border-border bg-background p-1 h-10">
               <TabsTrigger value="all" className="data-[state=active]:bg-black data-[state=active]:text-white">
                 All
               </TabsTrigger>
@@ -357,7 +357,7 @@ export default function Dashboard() {
 
           {/* Bulk Actions */}
           {selectedIds.size > 0 && (
-            <div className="flex items-center justify-between p-4 md:p-3 bg-gray-50 border border-gray-200">
+            <div className="flex items-center justify-between p-4 md:p-3 bg-muted border border-border">
               <span className="text-sm text-gray-700">{selectedIds.size} selected</span>
               <div className="flex gap-2">
                 {statusFilter === "archived" ? (
@@ -398,7 +398,7 @@ export default function Dashboard() {
         ) : filteredAndSortedProposals.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-gray-300">
             <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium text-foreground mb-2">
               {searchQuery || statusFilter !== "all" ? "No proposals found" : "No proposals yet"}
             </h3>
             <p className="text-gray-500 mb-6">
@@ -422,7 +422,7 @@ export default function Dashboard() {
               return (
                 <div
                   key={proposal.id}
-                  className="border border-gray-200 rounded-lg hover:border-gray-400 hover:shadow-sm transition-all duration-200 p-4 sm:p-4.5 md:p-5 group active:scale-[0.99] touch-manipulation"
+                  className="border border-border rounded-lg hover:border-gray-400 hover:shadow-sm transition-all duration-200 p-4 sm:p-4.5 md:p-5 group active:scale-[0.99] touch-manipulation"
                 >
                   <div className="flex items-start gap-4">
                     {/* Checkbox */}
@@ -437,7 +437,7 @@ export default function Dashboard() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-4 mb-3">
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-lg font-medium text-gray-900 mb-1 truncate">
+                          <h3 className="text-lg font-medium text-foreground mb-1 truncate">
                             {proposal.title}
                           </h3>
                           <div className="flex items-center gap-3 text-sm text-gray-500">
