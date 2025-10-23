@@ -253,9 +253,9 @@ export default function Dashboard() {
 
   const getStatusBadge = (status: string) => {
     const config = {
-      draft: { label: "Draft", className: "bg-gray-100 text-gray-700" },
-      published: { label: "Published", className: "bg-green-100 text-green-700" },
-      archived: { label: "Archived", className: "bg-gray-100 text-gray-500" },
+      draft: { label: "Draft", className: "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground" },
+      published: { label: "Published", className: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" },
+      archived: { label: "Archived", className: "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground" },
     }[status] || { label: status, className: "" };
 
     return <Badge className={config.className}>{config.label}</Badge>;
@@ -304,9 +304,9 @@ export default function Dashboard() {
             <div className="text-2xl md:text-3xl font-semibold">{stats.archived}</div>
           </div>
           {stats.expiringSoon > 0 && (
-            <div className="border border-orange-300 bg-orange-50 rounded-lg p-4 sm:p-5 md:p-6 shadow-sm">
-              <div className="text-xs md:text-sm text-orange-700 mb-1">Expiring Soon</div>
-              <div className="text-2xl md:text-3xl font-semibold text-orange-700">{stats.expiringSoon}</div>
+            <div className="border border-orange-300 bg-orange-50 dark:border-orange-900/50 dark:bg-orange-900/20 rounded-lg p-4 sm:p-5 md:p-6 shadow-sm">
+              <div className="text-xs md:text-sm text-orange-700 dark:text-orange-400 mb-1">Expiring Soon</div>
+              <div className="text-2xl md:text-3xl font-semibold text-orange-700 dark:text-orange-400">{stats.expiringSoon}</div>
             </div>
           )}
         </div>

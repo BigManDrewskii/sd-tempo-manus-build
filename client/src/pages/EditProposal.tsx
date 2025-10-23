@@ -351,7 +351,7 @@ export default function EditProposal() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setProblems(problems.filter((_, i) => i !== index))}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -407,7 +407,7 @@ export default function EditProposal() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setPhases(phases.filter((_, i) => i !== index))}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -472,7 +472,7 @@ export default function EditProposal() {
                     variant="ghost"
                     size="sm"
                     onClick={() => setDeliverables(deliverables.filter((_, i) => i !== index))}
-                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
@@ -508,7 +508,7 @@ export default function EditProposal() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setPricingTiers(pricingTiers.filter((_, i) => i !== index))}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -589,7 +589,7 @@ export default function EditProposal() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setAddOns(addOns.filter((_, i) => i !== index))}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>

@@ -61,7 +61,7 @@ export default function Home() {
                   </Link>
                   <Link href="/create-ai">
                     <div>
-                      <Button size="sm" className="bg-black hover:bg-gray-800">
+                      <Button size="sm" variant="default">
                         Create Proposal
                         <ArrowRight className="w-4 h-4 ml-1.5" />
                       </Button>
@@ -73,7 +73,7 @@ export default function Home() {
                   <Button variant="ghost" size="sm" onClick={() => window.location.href = getLoginUrl()}>
                     Sign In
                   </Button>
-                  <Button size="sm" className="bg-black hover:bg-gray-800" onClick={() => window.location.href = getLoginUrl()}>
+                  <Button size="sm" variant="default" onClick={() => window.location.href = getLoginUrl()}>
                     Get Started
                     <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Button>
@@ -106,7 +106,7 @@ export default function Home() {
             {isAuthenticated ? (
               <>
                 <Link href="/create-ai">
-                  <Button size="lg" className="bg-black hover:bg-gray-800 text-base px-8 h-12">
+                 <Button size="lg" variant="default" className="text-base px-8 h-12">
                     Generate with AI
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
@@ -120,7 +120,7 @@ export default function Home() {
             ) : (
               <>
                 <a href={getLoginUrl()}>
-                  <Button size="lg" className="bg-black hover:bg-gray-800 text-base px-8 h-12">
+                  <Button size="lg" variant="default" className="text-base px-8 h-12">
                     Get Started Free
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
@@ -393,14 +393,14 @@ export default function Home() {
           </p>
           {isAuthenticated ? (
             <Link href="/create-ai">
-              <Button size="lg" className="bg-black hover:bg-gray-800 text-base px-8 h-12">
+              <Button size="lg" variant="default" className="text-base px-8 h-12">
                 Create Your First Proposal
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
           ) : (
             <a href={getLoginUrl()}>
-              <Button size="lg" className="bg-black hover:bg-gray-800 text-base px-8 h-12">
+              <Button size="lg" variant="default" className="text-base px-8 h-12">
                 Create Your First Proposal
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>

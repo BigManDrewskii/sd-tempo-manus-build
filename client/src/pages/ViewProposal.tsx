@@ -561,13 +561,13 @@ export default function ViewProposal() {
             </p>
             
             {isSigned && (
-              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 text-green-700 text-sm">
+              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 text-green-700 dark:bg-green-900/30 dark:border-green-900/50 dark:text-green-400 text-sm">
                 <CheckCircle className="w-4 h-4" />
                 Signed
               </div>
             )}
             {isExpired && !isSigned && (
-              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-700 text-sm">
+              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-700 dark:bg-red-900/30 dark:border-red-900/50 dark:text-red-400 text-sm">
                 <AlertCircle className="w-4 h-4" />
                 Expired
               </div>

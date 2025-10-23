@@ -413,7 +413,7 @@ export default function ProposalAnalytics() {
                 </div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-green-500" 
+                    className="h-full bg-green-500 dark:bg-green-600" 
                     style={{ width: isSigned ? "100%" : "0%" }} 
                   />
                 </div>
@@ -534,7 +534,7 @@ export default function ProposalAnalytics() {
 
                 {engagementScore >= 70 && !isSigned && (
                   <li className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-green-500 mt-2" />
+                    <div className="w-2 h-2 rounded-full bg-green-500 dark:bg-green-600 mt-2" />
                     <div>
                       <p className="font-medium">High engagement detected</p>
                       <p className="text-sm text-muted-foreground">
