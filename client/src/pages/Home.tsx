@@ -2,12 +2,17 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
-import { ArrowRight, Check, Zap, FileText, BarChart3, Users, Mail, Shield } from "lucide-react";
+import { ArrowRight, Check, Zap, FileText, BarChart3, Users, Mail, Shield, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const [scrolled, setScrolled] = useState(false);
+  const [openSection, setOpenSection] = useState<string | null>(null);
+
+  const toggleSection = (section: string) => {
+    setOpenSection(openSection === section ? null : section);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -303,10 +308,10 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {/* Free Plan */}
-            <div className="bg-background p-8 border border-border text-left">
+            <div className="bg-background p-8 border border-border text-left flex flex-col">
               <div className="text-sm font-medium text-muted-foreground mb-2">Starter</div>
               <div className="text-4xl font-bold mb-6">Free</div>
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-8 flex-grow">
                 <li className="flex items-start gap-2">
                   <Check className="w-6 h-6 flex-shrink-0 mt-0.5" />
                   <span className="text-muted-foreground">5 proposals per month</span>
@@ -320,29 +325,31 @@ export default function Home() {
                   <span className="text-muted-foreground">Basic analytics</span>
                 </li>
               </ul>
-              {isAuthenticated ? (
-                <Link href="/create-ai">
-                  <Button variant="outline" className="w-full">
-                    Create Proposal
-                  </Button>
-                </Link>
-              ) : (
-                <a href={getLoginUrl()}>
-                  <Button variant="outline" className="w-full">
-                    Get Started Free
-                  </Button>
-                </a>
-              )}
+              <div className="mt-auto">
+                {isAuthenticated ? (
+                  <Link href="/create-ai">
+                    <Button variant="outline" className="w-full">
+                      Create Proposal
+                    </Button>
+                  </Link>
+                ) : (
+                  <a href={getLoginUrl()}>
+                    <Button variant="outline" className="w-full">
+                      Get Started Free
+                    </Button>
+                  </a>
+                )}
+              </div>
             </div>
 
             {/* Pro Plan */}
-            <div className="bg-black text-white p-8 border border-black text-left relative">
+            <div className="bg-black text-white p-8 border border-black text-left relative flex flex-col">
               <div className="absolute top-4 right-4 text-xs bg-background text-black px-2 py-1 rounded">
                 Popular
               </div>
               <div className="text-sm font-medium text-gray-300 mb-2">Professional</div>
               <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-gray-400">/mo</span></div>
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-8 flex-grow">
                 <li className="flex items-start gap-2">
                   <Check className="w-6 h-6 flex-shrink-0 mt-0.5" />
                   <span className="text-gray-300">Unlimited proposals</span>
@@ -360,19 +367,21 @@ export default function Home() {
                   <span className="text-gray-300">Priority support</span>
                 </li>
               </ul>
-              {isAuthenticated ? (
-                <Link href="/create-ai">
-                  <Button className="w-full bg-background text-black hover:bg-accent">
-                    Create Proposal
-                  </Button>
-                </Link>
-              ) : (
-                <a href={getLoginUrl()}>
-                  <Button className="w-full bg-background text-black hover:bg-accent">
-                    Start Free Trial
-                  </Button>
-                </a>
-              )}
+              <div className="mt-auto">
+                {isAuthenticated ? (
+                  <Link href="/create-ai">
+                    <Button className="w-full bg-background text-black hover:bg-accent">
+                      Unlock Full Power
+                    </Button>
+                  </Link>
+                ) : (
+                  <a href={getLoginUrl()}>
+                    <Button className="w-full bg-background text-black hover:bg-accent">
+                      Unlock Full Power
+                    </Button>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -409,20 +418,80 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border py-8 md:py-12 px-4 md:px-6">
         <div className="container mx-auto max-w-6xl">
-          {/* Mobile: Compact with single column, Desktop: 4 columns */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
-            {/* Brand */}
-            <div className="text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start mb-4">
-                <img src="/logos/proposr-fulllogo.svg" alt="PROPOSR" className="h-6 w-auto" />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Interactive proposals that close deals faster.
-              </p>
+          {/* Brand */}
+          <div className="text-center md:text-left mb-8">
+            <div className="flex items-center justify-center md:justify-start mb-4">
+              <img src="/logos/proposr-fulllogo.svg" alt="PROPOSR" className="h-6 w-auto" />
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Interactive proposals that close deals faster.
+            </p>
+          </div>
+
+          {/* Mobile: Dropdown Menus */}
+          <div className="md:hidden space-y-2 mb-8">
+            {/* Product Dropdown */}
+            <div className="border-b border-border">
+              <button
+                onClick={() => toggleSection('product')}
+                className="w-full flex items-center justify-between py-4 text-sm font-semibold hover:text-muted-foreground transition-colors"
+              >
+                Product
+                <ChevronDown className={`w-4 h-4 transition-transform ${openSection === 'product' ? 'rotate-180' : ''}`} />
+              </button>
+              {openSection === 'product' && (
+                <ul className="space-y-2 pb-4 text-sm text-muted-foreground">
+                  <li><a href="#features" className="hover:text-foreground block py-2">Features</a></li>
+                  <li><Link href="/templates" className="hover:text-foreground block py-2">Templates</Link></li>
+                  <li><a href="#pricing" className="hover:text-foreground block py-2">Pricing</a></li>
+                  {isAuthenticated && (
+                    <li><Link href="/dashboard" className="hover:text-foreground block py-2">Dashboard</Link></li>
+                  )}
+                </ul>
+              )}
             </div>
 
-            {/* Product - Hidden on mobile, shown on desktop */}
-            <div className="hidden md:block">
+            {/* Resources Dropdown */}
+            <div className="border-b border-border">
+              <button
+                onClick={() => toggleSection('resources')}
+                className="w-full flex items-center justify-between py-4 text-sm font-semibold hover:text-muted-foreground transition-colors"
+              >
+                Resources
+                <ChevronDown className={`w-4 h-4 transition-transform ${openSection === 'resources' ? 'rotate-180' : ''}`} />
+              </button>
+              {openSection === 'resources' && (
+                <ul className="space-y-2 pb-4 text-sm text-muted-foreground">
+                  <li><a href="#how-it-works" className="hover:text-foreground block py-2">How It Works</a></li>
+                  <li><Link href="/#how-it-works" className="hover:text-foreground block py-2">Documentation</Link></li>
+                  <li><Link href="/support" className="hover:text-foreground block py-2">Support</Link></li>
+                </ul>
+              )}
+            </div>
+
+            {/* Company Dropdown */}
+            <div className="border-b border-border">
+              <button
+                onClick={() => toggleSection('company')}
+                className="w-full flex items-center justify-between py-4 text-sm font-semibold hover:text-muted-foreground transition-colors"
+              >
+                Company
+                <ChevronDown className={`w-4 h-4 transition-transform ${openSection === 'company' ? 'rotate-180' : ''}`} />
+              </button>
+              {openSection === 'company' && (
+                <ul className="space-y-2 pb-4 text-sm text-muted-foreground">
+                  <li><Link href="/#" className="hover:text-foreground block py-2">About</Link></li>
+                  <li><Link href="/privacy" className="hover:text-foreground block py-2">Privacy</Link></li>
+                  <li><Link href="/terms" className="hover:text-foreground block py-2">Terms</Link></li>
+                </ul>
+              )}
+            </div>
+          </div>
+
+          {/* Desktop: 4 columns */}
+          <div className="hidden md:grid md:grid-cols-4 gap-8 mb-8">
+            {/* Product */}
+            <div>
               <h4 className="font-semibold mb-4 text-sm">Product</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#features" className="hover:text-foreground">Features</a></li>
@@ -434,8 +503,8 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Resources - Hidden on mobile, shown on desktop */}
-            <div className="hidden md:block">
+            {/* Resources */}
+            <div>
               <h4 className="font-semibold mb-4 text-sm">Resources</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#how-it-works" className="hover:text-foreground">How It Works</a></li>
@@ -444,8 +513,8 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Company - Hidden on mobile, shown on desktop */}
-            <div className="hidden md:block">
+            {/* Company */}
+            <div>
               <h4 className="font-semibold mb-4 text-sm">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link href="/#" className="hover:text-foreground">About</Link></li>
@@ -453,16 +522,9 @@ export default function Home() {
                 <li><Link href="/terms" className="hover:text-foreground">Terms</Link></li>
               </ul>
             </div>
-          </div>
 
-          {/* Mobile: Compact links row */}
-          <div className="flex md:hidden justify-center gap-4 mb-6 text-sm text-muted-foreground flex-wrap">
-            <a href="#features" className="hover:text-foreground">Features</a>
-            <Link href="/templates" className="hover:text-foreground">Templates</Link>
-            <a href="#pricing" className="hover:text-foreground">Pricing</a>
-            <Link href="/support" className="hover:text-foreground">Support</Link>
-            <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
-            <Link href="/terms" className="hover:text-foreground">Terms</Link>
+            {/* Empty column for spacing */}
+            <div></div>
           </div>
 
           <div className="pt-6 md:pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
