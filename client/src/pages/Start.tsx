@@ -26,27 +26,27 @@ export default function Start() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-8 sm:py-10 md:py-12 lg:py-16">
         {/* Personalized Greeting */}
         <div className="mb-8 md:mb-10 lg:mb-12">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-2 md:mb-3">
             {getGreeting()}, {user?.name?.split(" ")[0] || "there"}
           </h1>
-          <p className="text-base md:text-lg lg:text-xl text-gray-600">
+          <p className="text-base md:text-lg lg:text-xl text-gray-600 text-sm sm:text-base">
             What will you build today?
           </p>
         </div>
 
         {/* Primary Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10 md:mb-12 lg:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-10 md:mb-12 lg:mb-16">
           <Link href="/create-ai">
-            <Card className="border-2 border-black bg-black text-white hover:bg-gray-900 transition-colors cursor-pointer group h-full">
+            <Card className="border-2 border-black bg-black text-white hover:bg-gray-900 active:scale-[0.98] transition-all duration-200 cursor-pointer group h-full touch-manipulation">
               <CardHeader>
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 bg-white rounded-lg flex items-center justify-center mb-3 sm:mb-4 flex-shrink-0">
                   <Sparkles className="w-6 h-6 text-black" />
                 </div>
-                <CardTitle className="text-white text-2xl mb-2">Generate with AI</CardTitle>
-                <CardDescription className="text-gray-300">
+                <CardTitle className="text-white text-xl sm:text-2xl mb-2">Generate with AI</CardTitle>
+                <CardDescription className="text-gray-300 text-sm sm:text-base">
                   Describe your project and let AI create a complete proposal in seconds
                 </CardDescription>
               </CardHeader>
@@ -60,13 +60,13 @@ export default function Start() {
           </Link>
 
           <Link href="/templates">
-            <Card className="border-2 border-gray-200 bg-white hover:border-gray-300 transition-colors cursor-pointer group h-full">
+            <Card className="border-2 border-gray-200 bg-white hover:border-gray-400 hover:shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer group h-full touch-manipulation">
               <CardHeader>
-                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-3 sm:mb-4 flex-shrink-0">
                   <FileText className="w-6 h-6 text-black" />
                 </div>
-                <CardTitle className="text-black text-2xl mb-2">Use a Template</CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardTitle className="text-black text-xl sm:text-2xl mb-2">Use a Template</CardTitle>
+                <CardDescription className="text-gray-600 text-sm sm:text-base">
                   Start with a professional template and customize it to your needs
                 </CardDescription>
               </CardHeader>
@@ -80,13 +80,13 @@ export default function Start() {
           </Link>
 
           <Link href="/create">
-            <Card className="border-2 border-gray-200 bg-white hover:border-gray-300 transition-colors cursor-pointer group h-full">
+            <Card className="border-2 border-gray-200 bg-white hover:border-gray-400 hover:shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer group h-full touch-manipulation">
               <CardHeader>
-                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-3 sm:mb-4 flex-shrink-0">
                   <Zap className="w-6 h-6 text-black" />
                 </div>
-                <CardTitle className="text-black text-2xl mb-2">Start from Scratch</CardTitle>
-                <CardDescription className="text-gray-600">
+                <CardTitle className="text-black text-xl sm:text-2xl mb-2">Start from Scratch</CardTitle>
+                <CardDescription className="text-gray-600 text-sm sm:text-base">
                   Build a custom proposal with full control over every detail
                 </CardDescription>
               </CardHeader>
@@ -104,7 +104,7 @@ export default function Start() {
         <div className="grid md:grid-cols-2 gap-8">
           {/* Quick Actions */}
           <div>
-            <h2 className="text-2xl font-bold text-black mb-6">Quick Actions</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-black mb-4 sm:mb-6 tracking-tight">Quick Actions</h2>
             <div className="space-y-3">
               <Link href="/dashboard">
                 <Button 
@@ -114,7 +114,7 @@ export default function Start() {
                   <BarChart3 className="w-5 h-5 mr-3 text-black flex-shrink-0" />
                   <div className="text-left">
                     <div className="font-semibold text-black">View Dashboard</div>
-                    <div className="text-sm text-gray-600">See all proposals and analytics</div>
+                    <div className="text-sm text-gray-600 text-sm sm:text-base">See all proposals and analytics</div>
                   </div>
                 </Button>
               </Link>
@@ -127,7 +127,7 @@ export default function Start() {
                   <Sparkles className="w-5 h-5 mr-3 text-black flex-shrink-0" />
                   <div className="text-left">
                     <div className="font-semibold text-black">Brand Settings</div>
-                    <div className="text-sm text-gray-600">Customize your proposal branding</div>
+                    <div className="text-sm text-gray-600 text-sm sm:text-base">Customize your proposal branding</div>
                   </div>
                 </Button>
               </Link>
@@ -137,7 +137,7 @@ export default function Start() {
           {/* Recent Proposals */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-black">Recent Work</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Recent Work</h2>
               {recentProposals.length > 0 && (
                 <Link href="/dashboard">
                   <Button variant="ghost" size="sm" className="text-gray-600 hover:text-black">
@@ -169,7 +169,7 @@ export default function Start() {
                             <h3 className="font-semibold text-black truncate mb-1">
                               {proposal.title}
                             </h3>
-                            <div className="flex items-center gap-3 text-sm text-gray-600">
+                            <div className="flex items-center gap-3 text-sm text-gray-600 text-sm sm:text-base">
                               <span className="flex items-center">
                                 <Clock className="w-3 h-3 mr-1" />
                                 {new Date(proposal.updatedAt).toLocaleDateString()}
@@ -194,14 +194,14 @@ export default function Start() {
         <Card className="mt-12 border-gray-200 bg-gray-50">
           <CardContent className="py-6 px-4 md:py-8 md:px-8">
             <div className="flex items-start gap-6">
-              <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-black rounded-lg flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-black mb-2">
+                <h3 className="text-lg sm:text-xl font-bold text-black mb-2 tracking-tight">
                   Pro Tip: Start with AI
                 </h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-sm sm:text-base text-gray-700 mb-4 leading-relaxed">
                   Save hours of work by describing your project to our AI. It will generate a complete, 
                   professional proposal that you can customize and send in minutes.
                 </p>

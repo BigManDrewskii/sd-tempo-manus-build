@@ -264,7 +264,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-white">
       {/* Main Content */}
-      <main className="container max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16">
+      <main className="container max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 py-8 sm:py-10 md:py-12 lg:py-16">
         {/* Title */}
         <div className="mb-8 md:mb-10 lg:mb-12">
           <div className="flex items-start gap-3 md:gap-4 mb-2 md:mb-3">
@@ -277,34 +277,34 @@ export default function Dashboard() {
         </div>
 
         {/* Stats - Minimal Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-12">
-          <div className="border border-gray-200 p-4 md:p-6">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3 md:gap-4 mb-10 sm:mb-12">
+          <div className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 transition-shadow duration-200">
             <div className="text-xs md:text-sm text-gray-500 mb-1">Total</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.total}</div>
           </div>
           <div 
-            className="border border-gray-200 p-4 md:p-6 cursor-pointer hover:border-gray-400 transition-colors active:scale-[0.98]"
+            className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("draft")}
           >
             <div className="text-xs md:text-sm text-gray-500 mb-1">Drafts</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.draft}</div>
           </div>
           <div 
-            className="border border-gray-200 p-4 md:p-6 cursor-pointer hover:border-gray-400 transition-colors active:scale-[0.98]"
+            className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("published")}
           >
             <div className="text-xs md:text-sm text-gray-500 mb-1">Published</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.published}</div>
           </div>
           <div 
-            className="border border-gray-200 p-4 md:p-6 cursor-pointer hover:border-gray-400 transition-colors active:scale-[0.98]"
+            className="border border-gray-200 rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("archived")}
           >
             <div className="text-xs md:text-sm text-gray-500 mb-1">Archived</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.archived}</div>
           </div>
           {stats.expiringSoon > 0 && (
-            <div className="border border-orange-300 bg-orange-50 p-4 md:p-6">
+            <div className="border border-orange-300 bg-orange-50 rounded-lg p-4 sm:p-5 md:p-6 shadow-sm">
               <div className="text-xs md:text-sm text-orange-700 mb-1">Expiring Soon</div>
               <div className="text-2xl md:text-3xl font-semibold text-orange-700">{stats.expiringSoon}</div>
             </div>
@@ -422,7 +422,7 @@ export default function Dashboard() {
               return (
                 <div
                   key={proposal.id}
-                  className="border border-gray-200 hover:border-gray-400 transition-all p-4 md:p-5 group"
+                  className="border border-gray-200 rounded-lg hover:border-gray-400 hover:shadow-sm transition-all duration-200 p-4 sm:p-4.5 md:p-5 group active:scale-[0.99] touch-manipulation"
                 >
                   <div className="flex items-start gap-4">
                     {/* Checkbox */}

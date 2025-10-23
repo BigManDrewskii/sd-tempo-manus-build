@@ -577,7 +577,7 @@ export default function ViewProposal() {
       </section>
 
       {/* Problems Section */}
-      <section id="problems" data-section className="py-12 md:py-20 px-4 md:px-6">
+      <section id="problems" data-section className="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-5 md:px-6">
         <div className="container max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -585,7 +585,7 @@ export default function ViewProposal() {
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">The Challenge</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 tracking-tight">The Challenge</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {proposal.problems.map((problem, index) => {
                 const Icon = problem.icon === "AlertCircle" ? AlertCircle :
@@ -618,7 +618,7 @@ export default function ViewProposal() {
       </section>
 
       {/* Solution Section */}
-      <section id="solution" data-section className="py-12 md:py-20 px-4 md:px-6 bg-gray-50">
+      <section id="solution" data-section className="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-5 md:px-6 bg-gray-50">
         <div className="container max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -626,7 +626,7 @@ export default function ViewProposal() {
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Our Solution</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 tracking-tight">Our Solution</h2>
             <div className="grid md:grid-cols-2 gap-12">
               {/* Timeline */}
               <div>
@@ -678,7 +678,7 @@ export default function ViewProposal() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" data-section className="py-20 px-6">
+      <section id="pricing" data-section className="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-5 md:px-6">
         <div className="container max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -686,10 +686,10 @@ export default function ViewProposal() {
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Investment Options</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 tracking-tight">Investment Options</h2>
             
             {/* Pricing Tiers */}
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-8 md:mb-12">
               {proposal.pricingTiers.map((tier, index) => (
                 <motion.div
                   key={index}
@@ -701,7 +701,7 @@ export default function ViewProposal() {
                   className="cursor-pointer"
                   onClick={() => handleTierChange(tier.name.toLowerCase())}
                 >
-                  <Card className={`h-full transition-all ${
+                  <Card className={`h-full transition-all duration-200 touch-manipulation ${
                     selectedTier === tier.name.toLowerCase()
                       ? "border-black border border-gray-200 ring-2 ring-black"
                       : "hover:border-gray-300"
@@ -733,8 +733,8 @@ export default function ViewProposal() {
             {/* Add-ons */}
             {proposal.addOns.length > 0 && (
               <div className="mb-8">
-                <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">Optional Add-ons</h3>
-                <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 md:mb-6 tracking-tight">Optional Add-ons</h3>
+                <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-3 md:gap-4">
                   {proposal.addOns.map((addOn) => (
                     <Card key={addOn.id} className="cursor-pointer hover:border-gray-300 transition-colors active:scale-98"
                           onClick={() => handleAddOnToggle(addOn.id)}>
@@ -786,7 +786,7 @@ export default function ViewProposal() {
 
       {/* Case Studies Section */}
       {proposal.caseStudies.length > 0 && (
-        <section id="case-studies" data-section className="py-20 px-6 bg-gray-50">
+        <section id="case-studies" data-section className="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-5 md:px-6 bg-gray-50">
           <div className="container max-w-6xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -831,7 +831,7 @@ export default function ViewProposal() {
 
       {/* Signature Section */}
       {!isSigned && !isExpired && (
-        <section id="signature" data-section className="py-20 px-6">
+        <section id="signature" data-section className="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-5 md:px-6">
           <div className="container max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -839,7 +839,7 @@ export default function ViewProposal() {
               viewport={{ once: true }}
               transition={{ duration: 0.3 }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">Accept & Sign</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 tracking-tight">Accept & Sign</h2>
               
               <Card>
                 <CardContent className="p-4 md:p-8 space-y-6">
@@ -1008,7 +1008,7 @@ export default function ViewProposal() {
 
       {/* Signed Confirmation */}
       {isSigned && signature && (
-        <section id="signed" data-section className="py-20 px-6">
+        <section id="signed" data-section className="py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-5 md:px-6">
           <div className="container max-w-4xl">
             <Card className="border-green-500">
               <CardContent className="p-12 text-center">

@@ -136,15 +136,15 @@ export default function Home() {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-16 pt-16 border-t border-gray-200">
             <div>
-              <div className="text-3xl font-bold mb-1">2.5x</div>
+              <div className="text-2xl sm:text-3xl font-bold mb-1 tracking-tight">2.5x</div>
               <div className="text-sm text-gray-600">Higher Close Rate</div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-1">60%</div>
+              <div className="text-2xl sm:text-3xl font-bold mb-1 tracking-tight">60%</div>
               <div className="text-sm text-gray-600">Faster Decisions</div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-1">100%</div>
+              <div className="text-2xl sm:text-3xl font-bold mb-1 tracking-tight">100%</div>
               <div className="text-sm text-gray-600">Trackable</div>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function Home() {
       <section id="features" className="py-20 px-6 bg-gray-50">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-tight">
               Everything You Need to Win
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -239,7 +239,7 @@ export default function Home() {
       <section id="how-it-works" className="py-20 px-6">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-tight">
               From Idea to Signed Deal in Minutes
             </h2>
             <p className="text-lg text-gray-600">
@@ -296,7 +296,7 @@ export default function Home() {
       {/* Pricing Preview */}
       <section id="pricing" className="py-20 px-6 bg-gray-50">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-tight">
             Simple, Transparent Pricing
           </h2>
           <p className="text-lg text-gray-600 mb-12">
