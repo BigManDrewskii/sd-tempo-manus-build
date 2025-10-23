@@ -40,7 +40,7 @@ export default function Home() {
               </div>
             </Link>
 
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
               <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Features
               </a>
@@ -137,21 +137,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-16 pt-16 border-t border-border">
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">2.5x</div>
-              <div className="text-sm text-muted-foreground">Higher Close Rate</div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">60%</div>
-              <div className="text-sm text-muted-foreground">Faster Decisions</div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">100%</div>
-              <div className="text-sm text-muted-foreground">Trackable</div>
-            </div>
-          </div>
+
         </div>
       </section>
 
@@ -528,10 +514,9 @@ export default function Home() {
           </div>
 
           <div className="pt-6 md:pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <div className="text-center md:text-left">© 2025 PROPOSR. Built for businesses that want to close more deals.</div>
+            <div className="text-center md:text-left">© 2025 PROPOSR - by STUDIO DREWSKII</div>
             <div className="flex gap-4 md:gap-6">
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Twitter</a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">LinkedIn</a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">X</a>
               <a href="https://github.com/BigManDrewskii/sd-tempo-manus-build" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">GitHub</a>
             </div>
           </div>
