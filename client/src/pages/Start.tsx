@@ -3,15 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "wouter";
 import { Sparkles, FileText, Zap, BarChart3, ArrowRight, Clock } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { trpc } from "@/lib/trpc";
 
 export default function Start() {
   const { user } = useAuth();
   
   // Fetch recent proposals
-  const { data: proposals } = useQuery({
-    queryKey: ["/api/proposals"],
-  });
+  const { data: proposals } = trpc.proposals.list.useQuery(
+    { page: 1, limit: 3 },
+    { enabled: !!user }
+  );
 
   const recentProposals = proposals?.slice(0, 3) || [];
 
