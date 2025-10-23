@@ -492,7 +492,7 @@ export default function ViewProposal() {
 
       {/* Action Buttons - Responsive */}
       {user && (
-        <div className="fixed top-16 md:top-20 left-4 md:left-6 z-40 flex gap-2">
+        <div className="fixed top-16 md:top-20 left-4 md:left-6 z-50 flex gap-2">
           <Button
             variant="outline"
             size="sm"
