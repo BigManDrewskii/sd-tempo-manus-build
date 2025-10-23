@@ -30,11 +30,11 @@ export function captureError(error: Error, context?: Record<string, any>) {
 }
 
 // Helper to set user context
-export function setUserContext(user: { id: number; email: string; name: string }) {
+export function setUserContext(user: { id: number; email?: string; name?: string }) {
   Sentry.setUser({
     id: user.id.toString(),
-    email: user.email,
-    username: user.name,
+    email: user.email || undefined,
+    username: user.name || undefined,
   });
 }
 

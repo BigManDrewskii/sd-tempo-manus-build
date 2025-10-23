@@ -54,8 +54,8 @@ export function useAuth(options?: UseAuthOptions) {
     if (meQuery.data) {
       setUserContext({
         id: meQuery.data.id,
-        email: meQuery.data.email,
-        name: meQuery.data.name,
+        email: meQuery.data.email || undefined,
+        name: meQuery.data.name || undefined,
       });
     }
     

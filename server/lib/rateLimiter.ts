@@ -1,4 +1,17 @@
-import rateLimit, { ipKeyGenerator } from "express-rate-limit";
+import rateLimit from "express-rate-limit";
+import type { Request } from "express";
+
+// Helper to safely get IP address
+function getClientIp(req: Request): string {
+  return req.ip || req.socket.remoteAddress || 'unknown';
+}
+
+// Extend Express Request type to include user property
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: number;
+  };
+}
 
 // General API rate limiter - 100 requests per 15 minutes
 export const apiLimiter = rateLimit({
@@ -26,11 +39,11 @@ export const emailLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   // Key by user ID if authenticated, otherwise by IP
-  keyGenerator: (req) => {
+  keyGenerator: (req: AuthenticatedRequest) => {
     if (req.user?.id) {
       return `user_${req.user.id}`;
     }
-    return ipKeyGenerator(req);
+    return getClientIp(req);
   },
 });
 
@@ -41,11 +54,11 @@ export const proposalCreationLimiter = rateLimit({
   message: "Too many proposals created, please try again later.",
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => {
+  keyGenerator: (req: AuthenticatedRequest) => {
     if (req.user?.id) {
       return `user_${req.user.id}`;
     }
-    return ipKeyGenerator(req);
+    return getClientIp(req);
   },
 });
 

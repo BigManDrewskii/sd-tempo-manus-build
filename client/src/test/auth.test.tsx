@@ -68,8 +68,8 @@ describe('Authentication Flow', () => {
     } as any);
 
     const TestComponent = () => {
-      const { user, isLoading } = useAuth();
-      return <div>{isLoading ? 'Loading...' : 'Loaded'}</div>;
+      const { user, loading } = useAuth();
+      return <div>{loading ? 'Loading...' : 'Loaded'}</div>;
     };
 
     render(<TestComponent />);
