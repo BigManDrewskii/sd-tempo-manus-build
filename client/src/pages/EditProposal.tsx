@@ -312,7 +312,7 @@ export default function EditProposal() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Palette className="w-5 h-5 text-black" />
+                <Palette className="w-6 h-6 text-black" />
                 <CardTitle>Proposal Theme</CardTitle>
               </div>
               <CardDescription>
@@ -412,7 +412,7 @@ export default function EditProposal() {
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <Input
                       placeholder="Phase title"
                       value={phase.title}
@@ -513,7 +513,7 @@ export default function EditProposal() {
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <Input
                       placeholder="Tier name"
                       value={tier.name}
@@ -594,7 +594,7 @@ export default function EditProposal() {
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     <Input
                       placeholder="Add-on name"
                       value={addon.name}

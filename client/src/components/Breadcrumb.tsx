@@ -13,7 +13,7 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-      <Link href="/dashboard" className="hover:text-black transition-colors flex items-center gap-1">
+      <Link href="/dashboard" className="hover:text-black transition-colors flex items-center gap-2">
         <Home className="w-4 h-4" />
         <span>Dashboard</span>
       </Link>

@@ -211,9 +211,9 @@ export default function ComponentsShowcase() {
           </h2>
           <Button variant="outline" size="icon" onClick={toggleTheme}>
             {theme === "light" ? (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-6 w-6" />
             ) : (
-              <Sun className="h-5 w-5" />
+              <Sun className="h-6 w-6" />
             )}
           </Button>
         </div>
@@ -227,7 +227,7 @@ export default function ComponentsShowcase() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Foreground (Default)
                       </p>
                       <p className="text-foreground text-lg">
@@ -235,7 +235,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Muted Foreground
                       </p>
                       <p className="text-muted-foreground text-lg">
@@ -243,7 +243,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Primary
                       </p>
                       <p className="text-primary text-lg font-medium">
@@ -251,7 +251,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Secondary Foreground
                       </p>
                       <p className="text-secondary-foreground text-lg">
@@ -261,7 +261,7 @@ export default function ComponentsShowcase() {
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Accent Foreground
                       </p>
                       <p className="text-accent-foreground text-lg">
@@ -269,7 +269,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Destructive
                       </p>
                       <p className="text-destructive text-lg font-medium">
@@ -277,7 +277,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Card Foreground
                       </p>
                       <p className="text-card-foreground text-lg">
@@ -285,7 +285,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-sm text-muted-foreground mb-2">
                         Popover Foreground
                       </p>
                       <p className="text-popover-foreground text-lg">
@@ -305,49 +305,49 @@ export default function ComponentsShowcase() {
               <CardContent className="pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="bg-primary text-primary-foreground rounded-lg p-4">
-                    <p className="font-medium mb-1">Primary</p>
+                    <p className="font-medium mb-2">Primary</p>
                     <p className="text-sm opacity-90">
                       Primary background with foreground text
                     </p>
                   </div>
                   <div className="bg-secondary text-secondary-foreground rounded-lg p-4">
-                    <p className="font-medium mb-1">Secondary</p>
+                    <p className="font-medium mb-2">Secondary</p>
                     <p className="text-sm opacity-90">
                       Secondary background with foreground text
                     </p>
                   </div>
                   <div className="bg-muted text-muted-foreground rounded-lg p-4">
-                    <p className="font-medium mb-1">Muted</p>
+                    <p className="font-medium mb-2">Muted</p>
                     <p className="text-sm opacity-90">
                       Muted background with foreground text
                     </p>
                   </div>
                   <div className="bg-accent text-accent-foreground rounded-lg p-4">
-                    <p className="font-medium mb-1">Accent</p>
+                    <p className="font-medium mb-2">Accent</p>
                     <p className="text-sm opacity-90">
                       Accent background with foreground text
                     </p>
                   </div>
                   <div className="bg-destructive text-destructive-foreground rounded-lg p-4">
-                    <p className="font-medium mb-1">Destructive</p>
+                    <p className="font-medium mb-2">Destructive</p>
                     <p className="text-sm opacity-90">
                       Destructive background with foreground text
                     </p>
                   </div>
                   <div className="bg-card text-card-foreground rounded-lg p-4 border">
-                    <p className="font-medium mb-1">Card</p>
+                    <p className="font-medium mb-2">Card</p>
                     <p className="text-sm opacity-90">
                       Card background with foreground text
                     </p>
                   </div>
                   <div className="bg-popover text-popover-foreground rounded-lg p-4 border">
-                    <p className="font-medium mb-1">Popover</p>
+                    <p className="font-medium mb-2">Popover</p>
                     <p className="text-sm opacity-90">
                       Popover background with foreground text
                     </p>
                   </div>
                   <div className="bg-background text-foreground rounded-lg p-4 border">
-                    <p className="font-medium mb-1">Background</p>
+                    <p className="font-medium mb-2">Background</p>
                     <p className="text-sm opacity-90">
                       Default background with foreground text
                     </p>
@@ -465,13 +465,13 @@ export default function ComponentsShowcase() {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <div className="p-3 space-y-3">
+                      <div className="p-4 space-y-3">
                         <Calendar
                           mode="single"
                           selected={datePickerDate}
                           onSelect={setDatePickerDate}
                         />
-                        <div className="border-t pt-3 space-y-2">
+                        <div className="border-t pt-4 space-y-2">
                           <Label className="flex items-center gap-2">
                             <Clock className="h-4 w-4" />
                             Time
@@ -936,7 +936,7 @@ export default function ComponentsShowcase() {
           <section className="space-y-4">
             <h3 className="text-2xl font-semibold">Accordion</h3>
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
+              <AccordionItem value="item-2">
                 <AccordionTrigger>Is it accessible?</AccordionTrigger>
                 <AccordionContent>
                   Yes. It adheres to the WAI-ARIA design pattern.
@@ -949,7 +949,7 @@ export default function ComponentsShowcase() {
                   components' aesthetic.
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="item-3">
+              <AccordionItem value="item-4">
                 <AccordionTrigger>Is it animated?</AccordionTrigger>
                 <AccordionContent>
                   Yes. It's animated by default, but you can disable it if you
@@ -974,13 +974,13 @@ export default function ComponentsShowcase() {
                 <CollapsibleContent>
                   <CardContent>
                     <div className="space-y-2">
-                      <div className="rounded-md border px-4 py-3 font-mono text-sm">
+                      <div className="rounded-md border px-4 py-4 font-mono text-sm">
                         @radix-ui/primitives
                       </div>
-                      <div className="rounded-md border px-4 py-3 font-mono text-sm">
+                      <div className="rounded-md border px-4 py-4 font-mono text-sm">
                         @radix-ui/colors
                       </div>
-                      <div className="rounded-md border px-4 py-3 font-mono text-sm">
+                      <div className="rounded-md border px-4 py-4 font-mono text-sm">
                         @stitches/react
                       </div>
                     </div>

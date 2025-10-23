@@ -35,11 +35,11 @@ export default function NotFound() {
 
           <div
             id="not-found-button-group"
-            className="flex flex-col sm:flex-row gap-3 justify-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button
               onClick={handleGoHome}
-              className="bg-black hover:bg-gray-800 text-white px-6 py-2.5 rounded-lg transition-all duration-200"
+              className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-lg transition-all duration-200"
             >
               <Home className="w-4 h-4 mr-2" />
               Go Home

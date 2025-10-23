@@ -445,7 +445,7 @@ export default function ViewProposal() {
             <Button
               variant="outline"
               size="sm"
-              className="bg-white border border-gray-300 h-auto py-2 px-3"
+              className="bg-white border border-gray-300 h-auto py-2 px-4"
               onClick={() => setShowAnalytics(false)}
             >
               <div className="flex items-center gap-2">
@@ -459,7 +459,7 @@ export default function ViewProposal() {
           
           {/* Desktop: Full card */}
           <Card className="hidden md:block w-64 border border-gray-300 bg-white">
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-4">
               <CardTitle className="text-sm flex items-center justify-between">
                 Engagement
                 <Button
@@ -497,7 +497,7 @@ export default function ViewProposal() {
             variant="outline"
             size="sm"
             onClick={() => window.history.back()}
-            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-3"
+            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-4"
             title="Back"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -507,7 +507,7 @@ export default function ViewProposal() {
             variant="outline"
             size="sm"
             onClick={() => setSendDialogOpen(true)}
-            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-3"
+            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-4"
             title="Send to Client"
           >
             <Mail className="w-4 h-4" />
@@ -518,7 +518,7 @@ export default function ViewProposal() {
             size="sm"
             onClick={handleExportPDF}
             disabled={exportMutation.isPending}
-            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-3"
+            className="bg-background/95 md:bg-background/80 h-10 w-10 md:w-auto md:px-4"
             title="Export PDF"
           >
             {exportMutation.isPending ? (
@@ -664,9 +664,9 @@ export default function ViewProposal() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.1, duration: 0.3 }}
-                      className="flex items-center gap-3"
+                      className="flex items-center gap-4"
                     >
-                      <CheckCircle className="w-5 h-5 text-black flex-shrink-0" />
+                      <CheckCircle className="w-6 h-6 text-black flex-shrink-0" />
                       <span>{deliverable}</span>
                     </motion.div>
                   ))}
@@ -689,7 +689,7 @@ export default function ViewProposal() {
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 tracking-tight">Investment Options</h2>
             
             {/* Pricing Tiers */}
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-8 md:mb-12">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-4 md:gap-5 lg:gap-6 mb-8 md:mb-12">
               {proposal.pricingTiers.map((tier, index) => (
                 <motion.div
                   key={index}
@@ -734,18 +734,18 @@ export default function ViewProposal() {
             {proposal.addOns.length > 0 && (
               <div className="mb-8">
                 <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 md:mb-6 tracking-tight">Optional Add-ons</h3>
-                <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-3 md:gap-4">
+                <div className="grid sm:grid-cols-2 gap-2 sm:gap-4 md:gap-4">
                   {proposal.addOns.map((addOn) => (
                     <Card key={addOn.id} className="cursor-pointer hover:border-gray-300 transition-colors active:scale-98"
                           onClick={() => handleAddOnToggle(addOn.id)}>
-                      <CardContent className="p-4 md:p-5 flex items-start gap-3 md:gap-4">
+                      <CardContent className="p-4 md:p-5 flex items-start gap-4 md:gap-4">
                         <Checkbox
                           checked={selectedAddOns.has(addOn.id)}
                           onCheckedChange={() => handleAddOnToggle(addOn.id)}
-                          className="mt-0.5 h-5 w-5 md:h-4 md:w-4"
+                          className="mt-0.5 h-6 w-6 md:h-4 md:w-4"
                         />
                         <div className="flex-1">
-                          <div className="flex justify-between items-start mb-1">
+                          <div className="flex justify-between items-start mb-2">
                             <h4 className="font-semibold">{addOn.name}</h4>
                             <span className="font-semibold text-black">
                               +${addOn.price.toLocaleString()}
@@ -811,9 +811,9 @@ export default function ViewProposal() {
                         <CardDescription>{study.description}</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid grid-cols-2 gap-3 md:gap-4">
+                        <div className="grid grid-cols-2 gap-4 md:gap-4">
                           {study.metrics.map((metric, i) => (
-                            <div key={i} className="text-center p-3 md:p-4 rounded-lg bg-gray-50">
+                            <div key={i} className="text-center p-4 md:p-4 rounded-lg bg-gray-50">
                               <div className="text-3xl font-bold text-black">{metric.value}</div>
                               <div className="text-sm text-muted-foreground">{metric.label}</div>
                             </div>
@@ -861,7 +861,7 @@ export default function ViewProposal() {
                           }
                         }}
                         placeholder="John Doe"
-                        className="mt-1"
+                        className="mt-2"
                       />
                     </div>
                     <div>
@@ -882,14 +882,14 @@ export default function ViewProposal() {
                           }
                         }}
                         placeholder="john@example.com"
-                        className="mt-1"
+                        className="mt-2"
                       />
                     </div>
                   </div>
 
                   <div>
                     <Label className="text-base">Signature *</Label>
-                    <p className="text-sm text-muted-foreground mt-1 mb-2">Choose how you'd like to sign</p>
+                    <p className="text-sm text-muted-foreground mt-2 mb-2">Choose how you'd like to sign</p>
                     
                     {/* Signature Method Tabs */}
                     <div className="flex gap-2 mb-4">
@@ -1018,7 +1018,7 @@ export default function ViewProposal() {
                   Signed by {signature.signerName} on {format(new Date(signature.signedAt), "MMMM d, yyyy 'at' h:mm a")}
                 </p>
                 <div className="inline-block p-4 bg-muted rounded-lg">
-                  <p className="text-sm text-muted-foreground mb-1">Total Investment</p>
+                  <p className="text-sm text-muted-foreground mb-2">Total Investment</p>
                   <p className="text-3xl font-bold text-black">
                     ${(signature.totalPrice / 100).toLocaleString()}
                   </p>

@@ -56,7 +56,7 @@ export function ThemeSelector({ selectedTheme, onThemeChange }: ThemeSelectorPro
                     <Check className="w-4 h-4 text-[#644a40]" />
                   )}
                 </h3>
-                <p className="text-xs text-gray-500 mt-1">{theme.description}</p>
+                <p className="text-xs text-gray-500 mt-2">{theme.description}</p>
               </div>
 
               {/* Font Preview */}

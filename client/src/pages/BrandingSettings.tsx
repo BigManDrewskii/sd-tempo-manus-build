@@ -180,7 +180,7 @@ export default function BrandingSettings() {
             {/* Logo Upload */}
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Upload className="w-5 h-5 text-black" />
+                <Upload className="w-6 h-6 text-black" />
                 <h2 className="text-xl font-semibold text-black">Logo</h2>
               </div>
               
@@ -230,14 +230,14 @@ export default function BrandingSettings() {
             {/* Colors */}
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Palette className="w-5 h-5 text-black" />
+                <Palette className="w-6 h-6 text-black" />
                 <h2 className="text-xl font-semibold text-black">Colors</h2>
               </div>
               
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="primaryColor">Primary Color</Label>
-                  <div className="flex gap-2 mt-1">
+                  <div className="flex gap-2 mt-2">
                     <Input
                       id="primaryColor"
                       type="color"
@@ -260,7 +260,7 @@ export default function BrandingSettings() {
 
                 <div>
                   <Label htmlFor="secondaryColor">Secondary Color</Label>
-                  <div className="flex gap-2 mt-1">
+                  <div className="flex gap-2 mt-2">
                     <Input
                       id="secondaryColor"
                       type="color"
@@ -283,7 +283,7 @@ export default function BrandingSettings() {
 
                 <div>
                   <Label htmlFor="accentColor">Accent Color</Label>
-                  <div className="flex gap-2 mt-1">
+                  <div className="flex gap-2 mt-2">
                     <Input
                       id="accentColor"
                       type="color"
@@ -309,7 +309,7 @@ export default function BrandingSettings() {
             {/* Typography & Company */}
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-4">
-                <Type className="w-5 h-5 text-black" />
+                <Type className="w-6 h-6 text-black" />
                 <h2 className="text-xl font-semibold text-black">Typography & Company</h2>
               </div>
               
@@ -322,7 +322,7 @@ export default function BrandingSettings() {
                     onChange={(e) =>
                       setFormData({ ...formData, fontFamily: e.target.value })
                     }
-                    className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
                   >
                     <option value="Inter">Inter</option>
                     <option value="Roboto">Roboto</option>
@@ -343,7 +343,7 @@ export default function BrandingSettings() {
                       setFormData({ ...formData, companyName: e.target.value })
                     }
                     placeholder="Your Company Name"
-                    className="mt-1"
+                    className="mt-2"
                   />
                 </div>
               </div>

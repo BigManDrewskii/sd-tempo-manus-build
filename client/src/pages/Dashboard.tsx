@@ -267,9 +267,9 @@ export default function Dashboard() {
       <main className="container max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 py-8 sm:py-10 md:py-12 lg:py-16">
         {/* Title */}
         <div className="mb-8 md:mb-10 lg:mb-12">
-          <div className="flex items-start gap-3 md:gap-4 mb-2 md:mb-3">
-            <div className="p-2.5 md:p-3.5 bg-black rounded-lg flex-shrink-0 flex items-center justify-center">
-              <img src="/logos/proposr-icon.svg" alt="PROPOSR" className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 invert" />
+          <div className="flex items-start gap-4 md:gap-4 mb-2 md:mb-4">
+            <div className="p-2 md:p-4 bg-black rounded-lg flex-shrink-0 flex items-center justify-center">
+              <img src="/logos/proposr-icon.svg" alt="PROPOSR" className="w-6 h-6 md:w-6 md:h-6 lg:w-7 lg:h-7 invert" />
             </div>
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">Proposals</h1>
           </div>
@@ -277,35 +277,35 @@ export default function Dashboard() {
         </div>
 
         {/* Stats - Minimal Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3 md:gap-4 mb-10 sm:mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-4 md:gap-4 mb-10 sm:mb-12">
           <div className="border border-border rounded-lg p-4 sm:p-5 md:p-6 transition-shadow duration-200">
-            <div className="text-xs md:text-sm text-gray-500 mb-1">Total</div>
+            <div className="text-xs md:text-sm text-gray-500 mb-2">Total</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.total}</div>
           </div>
           <div 
             className="border border-border rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("draft")}
           >
-            <div className="text-xs md:text-sm text-gray-500 mb-1">Drafts</div>
+            <div className="text-xs md:text-sm text-gray-500 mb-2">Drafts</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.draft}</div>
           </div>
           <div 
             className="border border-border rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("published")}
           >
-            <div className="text-xs md:text-sm text-gray-500 mb-1">Published</div>
+            <div className="text-xs md:text-sm text-gray-500 mb-2">Published</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.published}</div>
           </div>
           <div 
             className="border border-border rounded-lg p-4 sm:p-5 md:p-6 cursor-pointer hover:border-gray-400 hover:shadow-sm transition-all duration-200 active:scale-[0.98] touch-manipulation"
             onClick={() => setStatusFilter("archived")}
           >
-            <div className="text-xs md:text-sm text-gray-500 mb-1">Archived</div>
+            <div className="text-xs md:text-sm text-gray-500 mb-2">Archived</div>
             <div className="text-2xl md:text-3xl font-semibold">{stats.archived}</div>
           </div>
           {stats.expiringSoon > 0 && (
             <div className="border border-orange-300 bg-orange-50 dark:border-orange-900/50 dark:bg-orange-900/20 rounded-lg p-4 sm:p-5 md:p-6 shadow-sm">
-              <div className="text-xs md:text-sm text-orange-700 dark:text-orange-400 mb-1">Expiring Soon</div>
+              <div className="text-xs md:text-sm text-orange-700 dark:text-orange-400 mb-2">Expiring Soon</div>
               <div className="text-2xl md:text-3xl font-semibold text-orange-700 dark:text-orange-400">{stats.expiringSoon}</div>
             </div>
           )}
@@ -314,7 +314,7 @@ export default function Dashboard() {
         {/* Filters - Clean */}
         <div className="mb-8 space-y-4">
           {/* Search and Sort */}
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
@@ -357,7 +357,7 @@ export default function Dashboard() {
 
           {/* Bulk Actions */}
           {selectedIds.size > 0 && (
-            <div className="flex items-center justify-between p-4 md:p-3 bg-muted border border-border">
+            <div className="flex items-center justify-between p-4 md:p-4 bg-muted border border-border">
               <span className="text-sm text-gray-700">{selectedIds.size} selected</span>
               <div className="flex gap-2">
                 {statusFilter === "archived" ? (
@@ -435,12 +435,12 @@ export default function Dashboard() {
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-4 mb-3">
+                      <div className="flex items-start justify-between gap-4 mb-4">
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-lg font-medium text-foreground mb-1 truncate">
+                          <h3 className="text-lg font-medium text-foreground mb-2 truncate">
                             {proposal.title}
                           </h3>
-                          <div className="flex items-center gap-3 text-sm text-gray-500">
+                          <div className="flex items-center gap-4 text-sm text-gray-500">
                             <span>{proposal.clientName}</span>
                             <span>•</span>
                             <span>{proposal.projectName}</span>
@@ -511,7 +511,7 @@ export default function Dashboard() {
                         {isExpiringSoon && (
                           <>
                             <span>•</span>
-                            <span className="text-orange-600 flex items-center gap-1">
+                            <span className="text-orange-600 flex items-center gap-2">
                               <AlertCircle className="w-3 h-3" />
                               Expires in {daysUntilExpiry} days
                             </span>

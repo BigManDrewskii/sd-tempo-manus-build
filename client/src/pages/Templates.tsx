@@ -48,7 +48,7 @@ export default function Templates() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-black border-t-transparent mx-auto mb-3"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-black border-t-transparent mx-auto mb-4"></div>
           <p className="text-sm text-gray-500">Loading templates...</p>
         </div>
       </div>
@@ -67,9 +67,9 @@ export default function Templates() {
       <main className="container max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16">
         {/* Title */}
         <div className="mb-8 md:mb-10 lg:mb-12">
-          <div className="flex items-start gap-3 md:gap-4 mb-2 md:mb-3">
-            <div className="p-2 md:p-3 bg-black rounded-lg flex-shrink-0">
-              <FileText className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
+          <div className="flex items-start gap-4 md:gap-4 mb-2 md:mb-4">
+            <div className="p-2 md:p-4 bg-black rounded-lg flex-shrink-0">
+              <FileText className="w-6 h-6 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
             </div>
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">
               Proposal Templates
@@ -125,7 +125,7 @@ export default function Templates() {
                 >
                   {/* Card Header */}
                   <div className="p-6 border-b border-gray-200">
-                    <Badge variant="secondary" className="text-xs capitalize mb-3 inline-block">
+                    <Badge variant="secondary" className="text-xs capitalize mb-4 inline-block">
                       {template.industry.replace("-", " ")}
                     </Badge>
                     <h3 className="text-xl font-semibold mb-2">{template.name}</h3>
@@ -136,7 +136,7 @@ export default function Templates() {
                   <div className="p-6 space-y-4">
                     {/* Pricing */}
                     <div>
-                      <div className="text-xs text-gray-500 mb-1">Pricing Range</div>
+                      <div className="text-xs text-gray-500 mb-2">Pricing Range</div>
                       <div className="flex items-baseline gap-2">
                         <span className="text-2xl font-semibold">
                           ${lowestPrice.toLocaleString()}
@@ -149,7 +149,7 @@ export default function Templates() {
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-2 gap-3 text-xs text-gray-600">
+                    <div className="grid grid-cols-2 gap-4 text-xs text-gray-600">
                       <div>
                         <span className="font-medium text-gray-900">{template.pricingTiers.length}</span> pricing tiers
                       </div>
@@ -224,7 +224,7 @@ export default function Templates() {
             <div className="space-y-6 mt-6">
               {/* Problems */}
               <div>
-                <h3 className="font-semibold mb-3">Problems Addressed</h3>
+                <h3 className="font-semibold mb-4">Problems Addressed</h3>
                 <ul className="space-y-2">
                   {previewTemplate.problems.map((problem: any, idx: number) => (
                     <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
@@ -237,11 +237,11 @@ export default function Templates() {
 
               {/* Solution Phases */}
               <div>
-                <h3 className="font-semibold mb-3">Solution Phases</h3>
+                <h3 className="font-semibold mb-4">Solution Phases</h3>
                 <div className="space-y-3">
                   {previewTemplate.solutionPhases.map((phase: any, idx: number) => (
                     <div key={idx} className="border border-gray-200 p-4 md:p-5">
-                      <div className="flex items-start justify-between mb-1">
+                      <div className="flex items-start justify-between mb-2">
                         <p className="font-medium">{phase.title}</p>
                         <span className="text-xs text-gray-500">{phase.duration}</span>
                       </div>
@@ -253,7 +253,7 @@ export default function Templates() {
 
               {/* Deliverables */}
               <div>
-                <h3 className="font-semibold mb-3">Deliverables</h3>
+                <h3 className="font-semibold mb-4">Deliverables</h3>
                 <ul className="space-y-1">
                   {previewTemplate.deliverables.map((deliverable: string, idx: number) => (
                     <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
@@ -266,11 +266,11 @@ export default function Templates() {
 
               {/* Pricing Tiers */}
               <div>
-                <h3 className="font-semibold mb-3">Pricing Tiers</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <h3 className="font-semibold mb-4">Pricing Tiers</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {previewTemplate.pricingTiers.map((tier: any, idx: number) => (
                     <div key={idx} className="border border-gray-200 p-4 md:p-5">
-                      <p className="font-medium mb-1">{tier.name}</p>
+                      <p className="font-medium mb-2">{tier.name}</p>
                       <p className="text-2xl font-semibold mb-2">${tier.price.toLocaleString()}</p>
                       <p className="text-xs text-gray-600">{tier.description}</p>
                     </div>

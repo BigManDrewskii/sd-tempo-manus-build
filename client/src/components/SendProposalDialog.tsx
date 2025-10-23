@@ -82,7 +82,7 @@ export function SendProposalDialog({
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Mail className="h-5 w-5" />
+            <Mail className="h-6 w-6" />
             Send Proposal to Client
           </DialogTitle>
           <DialogDescription>

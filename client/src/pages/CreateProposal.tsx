@@ -188,9 +188,9 @@ export default function CreateProposal() {
       {/* Main Content */}
       <main className="container max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16">
         <div className="mb-8 md:mb-10 lg:mb-12">
-          <div className="flex items-start gap-3 md:gap-4 mb-2 md:mb-3">
-            <div className="p-2 md:p-3 bg-black rounded-lg flex-shrink-0">
-              <FileText className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
+          <div className="flex items-start gap-4 md:gap-4 mb-2 md:mb-4">
+            <div className="p-2 md:p-4 bg-black rounded-lg flex-shrink-0">
+              <FileText className="w-6 h-6 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
             </div>
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">Create New Proposal</h1>
           </div>
@@ -216,7 +216,7 @@ export default function CreateProposal() {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Website Redesign & Development Proposal"
                   required
-                  className="mt-1"
+                  className="mt-2"
                 />
               </div>
 
@@ -229,7 +229,7 @@ export default function CreateProposal() {
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="Acme Corp"
                     required
-                    className="mt-1"
+                    className="mt-2"
                   />
                 </div>
                 <div>
@@ -240,7 +240,7 @@ export default function CreateProposal() {
                     onChange={(e) => setProjectName(e.target.value)}
                     placeholder="Website Redesign & Development"
                     required
-                    className="mt-1"
+                    className="mt-2"
                   />
                 </div>
               </div>
@@ -253,7 +253,7 @@ export default function CreateProposal() {
                   value={validUntil}
                   onChange={(e) => setValidUntil(e.target.value)}
                   required
-                  className="mt-1"
+                  className="mt-2"
                   min={new Date().toISOString().split('T')[0]}
                 />
               </div>

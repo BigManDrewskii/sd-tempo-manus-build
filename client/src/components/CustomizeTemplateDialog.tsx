@@ -113,7 +113,7 @@ export function CustomizeTemplateDialog({ template, open, onOpenChange }: Custom
             </div>
           </div>
 
-          <DialogFooter className="gap-3">
+          <DialogFooter className="gap-4">
             <Button
               type="button"
               variant="outline"

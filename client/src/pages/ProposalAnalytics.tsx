@@ -134,7 +134,7 @@ export default function ProposalAnalytics() {
                 <Edit className="w-4 h-4" />
                 Edit Proposal
               </Button>
-              <Badge variant={isSigned ? "default" : "secondary"} className="text-sm md:text-lg px-3 md:px-4 py-1 md:py-2 w-fit">
+              <Badge variant={isSigned ? "default" : "secondary"} className="text-sm md:text-lg px-4 md:px-4 py-1 md:py-2 w-fit">
                 {isSigned ? "Signed" : proposal.status}
               </Badge>
             </div>
@@ -146,7 +146,7 @@ export default function ProposalAnalytics() {
           <Card className="mb-6 md:mb-8 border-gray-200 bg-gray-50">
             <CardHeader>
               <CardTitle className="text-lg md:text-xl flex items-center gap-2">
-                <Mail className="w-5 h-5" />
+                <Mail className="w-6 h-6" />
                 Email Delivery & Tracking
               </CardTitle>
               <CardDescription className="text-sm">
@@ -156,7 +156,7 @@ export default function ProposalAnalytics() {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 <div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                     <Mail className="w-4 h-4" />
                     Emails Sent
                   </div>
@@ -164,36 +164,36 @@ export default function ProposalAnalytics() {
                 </div>
                 
                 <div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                     <MailOpen className="w-4 h-4" />
                     Open Rate
                   </div>
                   <div className="text-2xl md:text-3xl font-bold text-black">{emailStats.openRate}%</div>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-muted-foreground mt-2">
                     {emailStats.totalOpened} opened
                   </p>
                 </div>
                 
                 <div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                     <Eye className="w-4 h-4" />
                     View Rate
                   </div>
                   <div className="text-2xl md:text-3xl font-bold text-green-600">{emailStats.viewRate}%</div>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-muted-foreground mt-2">
                     {emailStats.totalViewed} viewed
                   </p>
                 </div>
                 
                 <div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                     <Timer className="w-4 h-4" />
                     Avg. Time Spent
                   </div>
                   <div className="text-2xl md:text-3xl font-bold">
                     {Math.floor(emailStats.avgTimeSpent / 60)}m {emailStats.avgTimeSpent % 60}s
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-muted-foreground mt-2">
                     Per view
                   </p>
                 </div>
@@ -205,7 +205,7 @@ export default function ProposalAnalytics() {
                   <h4 className="font-semibold mb-4">Recent Activity</h4>
                   <div className="space-y-3 max-h-64 overflow-y-auto">
                     {emailActivity.slice(0, 10).map((activity: any, idx: number) => (
-                      <div key={idx} className="flex items-start gap-3 text-sm">
+                      <div key={idx} className="flex items-start gap-4 text-sm">
                         <div className="w-2 h-2 rounded-full bg-black mt-1.5" />
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
@@ -234,7 +234,7 @@ export default function ProposalAnalytics() {
         {/* Key Metrics */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-4">
               <CardDescription className="flex items-center gap-2">
                 <Eye className="w-4 h-4" />
                 Total Views
@@ -242,14 +242,14 @@ export default function ProposalAnalytics() {
             </CardHeader>
             <CardContent>
               <div className="text-4xl font-bold text-black">{totalViews}</div>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mt-2">
                 {uniqueSessions} unique session{uniqueSessions !== 1 ? 's' : ''}
               </p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-4">
               <CardDescription className="flex items-center gap-2">
                 <MousePointerClick className="w-4 h-4" />
                 Interactions
@@ -259,14 +259,14 @@ export default function ProposalAnalytics() {
               <div className="text-4xl font-bold text-black">
                 {pricingChanges + addOnToggles}
               </div>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mt-2">
                 Pricing & add-on changes
               </p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-4">
               <CardDescription className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4" />
                 Engagement Score
@@ -274,14 +274,14 @@ export default function ProposalAnalytics() {
             </CardHeader>
             <CardContent>
               <div className="text-4xl font-bold text-black">{engagementScore}%</div>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mt-2">
                 {engagementScore >= 70 ? "High" : engagementScore >= 40 ? "Medium" : "Low"} engagement
               </p>
             </CardContent>
           </Card>
 
           <Card className={isSigned ? "border-black bg-gray-50" : ""}>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-4">
               <CardDescription className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
                 Status
@@ -291,7 +291,7 @@ export default function ProposalAnalytics() {
               <div className="text-4xl font-bold">
                 {isSigned ? "✓" : "○"}
               </div>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mt-2">
                 {isSigned ? "Signed" : "Awaiting signature"}
               </p>
             </CardContent>
@@ -427,7 +427,7 @@ export default function ProposalAnalytics() {
           <Card className="border-green-500">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-green-500" />
+                <FileText className="w-6 h-6 text-green-500" />
                 Signature Details
               </CardTitle>
               <CardDescription>Proposal accepted and signed</CardDescription>
@@ -485,7 +485,7 @@ export default function ProposalAnalytics() {
             <CardContent>
               <ul className="space-y-3">
                 {totalViews === 0 && (
-                  <li className="flex items-start gap-3">
+                  <li className="flex items-start gap-4">
                     <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">No views yet</p>
@@ -497,7 +497,7 @@ export default function ProposalAnalytics() {
                 )}
                 
                 {totalViews > 0 && sectionsViewed < 4 && (
-                  <li className="flex items-start gap-3">
+                  <li className="flex items-start gap-4">
                     <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">Low section engagement</p>
@@ -509,7 +509,7 @@ export default function ProposalAnalytics() {
                 )}
 
                 {(pricingChanges + addOnToggles) === 0 && totalViews > 0 && (
-                  <li className="flex items-start gap-3">
+                  <li className="flex items-start gap-4">
                     <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">No pricing interaction</p>
@@ -521,7 +521,7 @@ export default function ProposalAnalytics() {
                 )}
 
                 {signatureStarted > 0 && !isSigned && (
-                  <li className="flex items-start gap-3">
+                  <li className="flex items-start gap-4">
                     <div className="w-2 h-2 rounded-full bg-black mt-2" />
                     <div>
                       <p className="font-medium">Signature started but not completed</p>
@@ -533,7 +533,7 @@ export default function ProposalAnalytics() {
                 )}
 
                 {engagementScore >= 70 && !isSigned && (
-                  <li className="flex items-start gap-3">
+                  <li className="flex items-start gap-4">
                     <div className="w-2 h-2 rounded-full bg-green-500 dark:bg-green-600 mt-2" />
                     <div>
                       <p className="font-medium">High engagement detected</p>

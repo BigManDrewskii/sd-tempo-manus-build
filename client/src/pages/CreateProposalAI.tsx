@@ -148,9 +148,9 @@ export default function CreateProposalAI() {
         {step === "input" && (
           <>
             <div className="mb-8 md:mb-10 lg:mb-12">
-              <div className="flex items-start gap-3 md:gap-4 mb-2 md:mb-3">
-                <div className="p-2 md:p-3 bg-black rounded-lg flex-shrink-0">
-                  <Wand2 className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
+              <div className="flex items-start gap-4 md:gap-4 mb-2 md:mb-4">
+                <div className="p-2 md:p-4 bg-black rounded-lg flex-shrink-0">
+                  <Wand2 className="w-6 h-6 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
                 </div>
                 <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">AI-Powered Proposal</h1>
               </div>
@@ -177,7 +177,7 @@ export default function CreateProposalAI() {
                         onChange={(e) => setClientName(e.target.value)}
                         placeholder="Acme Corp"
                         required
-                        className="mt-1"
+                        className="mt-2"
                       />
                     </div>
                     <div>
@@ -188,7 +188,7 @@ export default function CreateProposalAI() {
                         onChange={(e) => setProjectName(e.target.value)}
                         placeholder="Website Redesign"
                         required
-                        className="mt-1"
+                        className="mt-2"
                       />
                     </div>
                   </div>
@@ -202,7 +202,7 @@ export default function CreateProposalAI() {
                         onChange={(e) => setIndustry(e.target.value)}
                         placeholder="E-commerce, SaaS, Healthcare, etc."
                         required
-                        className="mt-1"
+                        className="mt-2"
                       />
                     </div>
                     <div>
@@ -213,7 +213,7 @@ export default function CreateProposalAI() {
                         onChange={(e) => setServiceType(e.target.value)}
                         placeholder="Web Development, Design, Consulting, etc."
                         required
-                        className="mt-1"
+                        className="mt-2"
                       />
                     </div>
                   </div>
@@ -226,10 +226,10 @@ export default function CreateProposalAI() {
                       onChange={(e) => setProjectDescription(e.target.value)}
                       placeholder="Describe what the client needs, their main challenges, and what success looks like..."
                       required
-                      className="mt-1 min-h-32"
+                      className="mt-2 min-h-32"
                       minLength={10}
                     />
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-gray-600 mt-2">
                       Be specific about the client's needs and goals. More detail = better proposal.
                     </p>
                   </div>
@@ -238,7 +238,7 @@ export default function CreateProposalAI() {
                     <div>
                       <Label htmlFor="budgetRange">Budget Range *</Label>
                       <Select value={budgetRange} onValueChange={(v: any) => setBudgetRange(v)}>
-                        <SelectTrigger className="mt-1">
+                        <SelectTrigger className="mt-2">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -252,7 +252,7 @@ export default function CreateProposalAI() {
                     <div>
                       <Label htmlFor="timeline">Timeline *</Label>
                       <Select value={timeline} onValueChange={(v: any) => setTimeline(v)}>
-                        <SelectTrigger className="mt-1">
+                        <SelectTrigger className="mt-2">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -271,7 +271,7 @@ export default function CreateProposalAI() {
                         value={validUntil}
                         onChange={(e) => setValidUntil(e.target.value)}
                         required
-                        className="mt-1"
+                        className="mt-2"
                         min={new Date().toISOString().split('T')[0]}
                       />
                     </div>
@@ -309,7 +309,7 @@ export default function CreateProposalAI() {
             <Card className="mt-10 border-gray-200 bg-gray-50">
               <CardContent className="p-8">
                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-black">
-                  <Sparkles className="w-5 h-5" />
+                  <Sparkles className="w-6 h-6" />
                   What AI Will Generate
                 </h3>
                 <ul className="space-y-3 text-base text-gray-600">

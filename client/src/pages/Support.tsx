@@ -14,7 +14,7 @@ export default function Support() {
               ← Back to Home
             </Button>
           </Link>
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="flex items-center justify-center gap-4 mb-4">
             <HelpCircle className="w-10 h-10 text-black" />
             <h1 className="text-5xl font-bold text-black">Support & Help</h1>
           </div>
@@ -28,7 +28,7 @@ export default function Support() {
           {/* Email Support */}
           <Card className="border-gray-200 hover:border-gray-300 transition-colors">
             <CardHeader>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center gap-4 mb-2">
                 <Mail className="w-6 h-6 text-black" />
                 <CardTitle className="text-xl">Email Support</CardTitle>
               </div>
@@ -52,7 +52,7 @@ export default function Support() {
           {/* Documentation */}
           <Card className="border-gray-200 hover:border-gray-300 transition-colors">
             <CardHeader>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center gap-4 mb-2">
                 <Book className="w-6 h-6 text-black" />
                 <CardTitle className="text-xl">Documentation</CardTitle>
               </div>

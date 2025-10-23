@@ -13,7 +13,7 @@ export default function Privacy() {
               ← Back to Home
             </Button>
           </Link>
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-4 mb-4">
             <Shield className="w-8 h-8 text-black" />
             <h1 className="text-4xl font-bold text-black">Privacy Policy</h1>
           </div>
@@ -32,7 +32,7 @@ export default function Privacy() {
           <section>
             <h2 className="text-2xl font-bold text-black mb-4">2. Information We Collect</h2>
             
-            <h3 className="text-xl font-semibold text-black mt-6 mb-3">2.1 Information You Provide</h3>
+            <h3 className="text-xl font-semibold text-black mt-6 mb-4">2.1 Information You Provide</h3>
             <p className="text-gray-700 leading-relaxed mb-4">
               We collect information you provide directly to us, including:
             </p>
@@ -44,7 +44,7 @@ export default function Privacy() {
               <li><strong>Payment Information:</strong> Billing address and payment method details (processed securely by third-party payment processors)</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-black mt-6 mb-3">2.2 Automatically Collected Information</h3>
+            <h3 className="text-xl font-semibold text-black mt-6 mb-4">2.2 Automatically Collected Information</h3>
             <p className="text-gray-700 leading-relaxed mb-4">
               When you use our Service, we automatically collect certain information, including:
             </p>

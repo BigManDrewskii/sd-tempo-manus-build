@@ -13,7 +13,7 @@ export default function Terms() {
               ← Back to Home
             </Button>
           </Link>
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-4 mb-4">
             <FileText className="w-8 h-8 text-black" />
             <h1 className="text-4xl font-bold text-black">Terms of Service</h1>
           </div>

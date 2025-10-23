@@ -41,7 +41,7 @@ const itemVariants = cva(
       },
       size: {
         default: "p-4 gap-4 ",
-        sm: "py-3 px-4 gap-2.5",
+        sm: "py-4 px-4 gap-2",
       },
     },
     defaultVariants: {
@@ -108,7 +108,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-content"
       className={cn(
-        "flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none",
+        "flex flex-1 flex-col gap-2 [&+[data-slot=item-content]]:flex-none",
         className
       )}
       {...props}
