@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { trpc } from "@/lib/trpc";
 import { FileText, LogOut, Menu, Plus, Sparkles, User, X, Palette, Edit } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -123,7 +122,6 @@ export function Navbar() {
                 )}
 
                 {/* Theme Toggle */}
-                <ThemeToggle />
 
                 {/* User Menu */}
                 <DropdownMenu>

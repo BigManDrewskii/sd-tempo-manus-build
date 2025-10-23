@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { ArrowRight, Check, Zap, FileText, BarChart3, Users, Mail, Shield } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -49,7 +48,6 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-3">
-              <ThemeToggle />
               {isAuthenticated ? (
                 <>
                   <Link href="/start">
