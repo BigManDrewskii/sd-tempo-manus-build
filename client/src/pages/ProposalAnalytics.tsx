@@ -29,27 +29,27 @@ export default function ProposalAnalytics() {
 
   const { data: proposal, isLoading: proposalLoading } = trpc.proposals.get.useQuery(
     { id: proposalId },
-    { enabled: isAuthenticated }
+    { enabled: isAuthenticated && proposalId > 0 }
   );
   
   const { data: analytics, isLoading: analyticsLoading } = trpc.proposals.analytics.useQuery(
     { id: proposalId },
-    { enabled: isAuthenticated }
+    { enabled: isAuthenticated && proposalId > 0 }
   );
 
   const { data: signature } = trpc.signatures.get.useQuery(
     { proposalId },
-    { enabled: isAuthenticated }
+    { enabled: isAuthenticated && proposalId > 0 }
   );
   
   const { data: emailStats } = trpc.proposals.getEmailStats.useQuery(
     { proposalId },
-    { enabled: isAuthenticated }
+    { enabled: isAuthenticated && proposalId > 0 }
   );
   
   const { data: emailActivity } = trpc.proposals.getEmailActivity.useQuery(
     { proposalId },
-    { enabled: isAuthenticated }
+    { enabled: isAuthenticated && proposalId > 0 }
   );
 
   if (authLoading || proposalLoading || analyticsLoading) {

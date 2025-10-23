@@ -25,8 +25,8 @@ export default function EditProposal() {
 
   // Fetch proposal data
   const { data: proposal, isLoading } = trpc.proposals.get.useQuery(
-    { id: proposalId! },
-    { enabled: !!proposalId }
+    { id: proposalId || 0 },
+    { enabled: !!proposalId && proposalId > 0 }
   );
 
   // Form state
