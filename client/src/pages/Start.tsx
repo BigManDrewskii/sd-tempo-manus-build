@@ -9,12 +9,12 @@ export default function Start() {
   const { user } = useAuth();
   
   // Fetch recent proposals
-  const { data: proposals } = trpc.proposals.list.useQuery(
+  const { data } = trpc.proposals.list.useQuery(
     { page: 1, limit: 3 },
     { enabled: !!user }
   );
 
-  const recentProposals = proposals?.slice(0, 3) || [];
+  const recentProposals = data?.proposals || [];
 
   // Get time-based greeting
   const getGreeting = () => {
