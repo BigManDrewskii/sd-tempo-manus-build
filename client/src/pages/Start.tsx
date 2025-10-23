@@ -109,9 +109,9 @@ export default function Start() {
               <Link href="/dashboard">
                 <Button 
                   variant="outline" 
-                  className="w-full justify-start h-auto py-4 px-6 border-gray-200 hover:border-gray-300"
+                  className="w-full justify-start h-auto py-4 px-4 md:px-6 border-gray-200 hover:border-gray-300 active:scale-[0.98] min-h-[56px]"
                 >
-                  <BarChart3 className="w-5 h-5 mr-3 text-black" />
+                  <BarChart3 className="w-5 h-5 mr-3 text-black flex-shrink-0" />
                   <div className="text-left">
                     <div className="font-semibold text-black">View Dashboard</div>
                     <div className="text-sm text-gray-600">See all proposals and analytics</div>
@@ -122,9 +122,9 @@ export default function Start() {
               <Link href="/settings/branding">
                 <Button 
                   variant="outline" 
-                  className="w-full justify-start h-auto py-4 px-6 border-gray-200 hover:border-gray-300"
+                  className="w-full justify-start h-auto py-4 px-4 md:px-6 border-gray-200 hover:border-gray-300 active:scale-[0.98] min-h-[56px]"
                 >
-                  <Sparkles className="w-5 h-5 mr-3 text-black" />
+                  <Sparkles className="w-5 h-5 mr-3 text-black flex-shrink-0" />
                   <div className="text-left">
                     <div className="font-semibold text-black">Brand Settings</div>
                     <div className="text-sm text-gray-600">Customize your proposal branding</div>
@@ -162,8 +162,8 @@ export default function Start() {
               <div className="space-y-3">
                 {recentProposals.map((proposal: any) => (
                   <Link key={proposal.id} href={`/proposal/${proposal.id}/edit`}>
-                    <Card className="border-gray-200 hover:border-gray-300 transition-colors cursor-pointer">
-                      <CardContent className="py-4 px-6">
+                    <Card className="border-gray-200 hover:border-gray-300 transition-colors cursor-pointer active:scale-[0.98]">
+                      <CardContent className="py-4 px-4 md:px-6">
                         <div className="flex items-start justify-between">
                           <div className="flex-1 min-w-0">
                             <h3 className="font-semibold text-black truncate mb-1">
@@ -192,7 +192,7 @@ export default function Start() {
 
         {/* Getting Started Tip */}
         <Card className="mt-12 border-gray-200 bg-gray-50">
-          <CardContent className="py-8 px-8">
+          <CardContent className="py-6 px-4 md:py-8 md:px-8">
             <div className="flex items-start gap-6">
               <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-6 h-6 text-white" />

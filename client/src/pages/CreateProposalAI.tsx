@@ -415,7 +415,7 @@ export default function CreateProposalAI() {
                     {generatedData.pricingTiers.map((tier: any, idx: number) => (
                       <div
                         key={idx}
-                        className={`border rounded-lg p-4 ${
+                        className={`border rounded-lg p-4 md:p-5 ${
                           tier.recommended ? "border-black bg-gray-50" : ""
                         }`}
                       >

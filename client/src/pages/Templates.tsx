@@ -240,7 +240,7 @@ export default function Templates() {
                 <h3 className="font-semibold mb-3">Solution Phases</h3>
                 <div className="space-y-3">
                   {previewTemplate.solutionPhases.map((phase: any, idx: number) => (
-                    <div key={idx} className="border border-gray-200 p-4">
+                    <div key={idx} className="border border-gray-200 p-4 md:p-5">
                       <div className="flex items-start justify-between mb-1">
                         <p className="font-medium">{phase.title}</p>
                         <span className="text-xs text-gray-500">{phase.duration}</span>
@@ -269,7 +269,7 @@ export default function Templates() {
                 <h3 className="font-semibold mb-3">Pricing Tiers</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {previewTemplate.pricingTiers.map((tier: any, idx: number) => (
-                    <div key={idx} className="border border-gray-200 p-4">
+                    <div key={idx} className="border border-gray-200 p-4 md:p-5">
                       <p className="font-medium mb-1">{tier.name}</p>
                       <p className="text-2xl font-semibold mb-2">${tier.price.toLocaleString()}</p>
                       <p className="text-xs text-gray-600">{tier.description}</p>

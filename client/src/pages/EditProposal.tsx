@@ -343,7 +343,7 @@ export default function EditProposal() {
             </CardHeader>
             <CardContent className="space-y-4">
               {problems.map((problem, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3 bg-white">
+                <div key={index} className="p-4 md:p-5 border border-gray-200 rounded-lg space-y-3 bg-white">
                   <div className="flex justify-between items-start">
                     <Label className="text-sm font-medium">Problem {index + 1}</Label>
                     <Button
@@ -399,7 +399,7 @@ export default function EditProposal() {
             </CardHeader>
             <CardContent className="space-y-4">
               {phases.map((phase, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3 bg-white">
+                <div key={index} className="p-4 md:p-5 border border-gray-200 rounded-lg space-y-3 bg-white">
                   <div className="flex justify-between items-start">
                     <Label className="text-sm font-medium">Phase {index + 1}</Label>
                     <Button
@@ -500,7 +500,7 @@ export default function EditProposal() {
             </CardHeader>
             <CardContent className="space-y-4">
               {pricingTiers.map((tier, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3 bg-white">
+                <div key={index} className="p-4 md:p-5 border border-gray-200 rounded-lg space-y-3 bg-white">
                   <div className="flex justify-between items-start">
                     <Label className="text-sm font-medium">Tier {index + 1}</Label>
                     <Button
@@ -581,7 +581,7 @@ export default function EditProposal() {
             </CardHeader>
             <CardContent className="space-y-4">
               {addOns.map((addon, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3 bg-white">
+                <div key={index} className="p-4 md:p-5 border border-gray-200 rounded-lg space-y-3 bg-white">
                   <div className="flex justify-between items-start">
                     <Label className="text-sm font-medium">Add-on {index + 1}</Label>
                     <Button

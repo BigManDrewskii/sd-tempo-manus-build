@@ -811,9 +811,9 @@ export default function ViewProposal() {
                         <CardDescription>{study.description}</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-3 md:gap-4">
                           {study.metrics.map((metric, i) => (
-                            <div key={i} className="text-center p-4 rounded-lg bg-gray-50">
+                            <div key={i} className="text-center p-3 md:p-4 rounded-lg bg-gray-50">
                               <div className="text-3xl font-bold text-black">{metric.value}</div>
                               <div className="text-sm text-muted-foreground">{metric.label}</div>
                             </div>

@@ -277,36 +277,36 @@ export default function Dashboard() {
         </div>
 
         {/* Stats - Minimal Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
-          <div className="border border-gray-200 p-4">
-            <div className="text-sm text-gray-500 mb-1">Total</div>
-            <div className="text-3xl font-semibold">{stats.total}</div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-12">
+          <div className="border border-gray-200 p-4 md:p-6">
+            <div className="text-xs md:text-sm text-gray-500 mb-1">Total</div>
+            <div className="text-2xl md:text-3xl font-semibold">{stats.total}</div>
           </div>
           <div 
-            className="border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
+            className="border border-gray-200 p-4 md:p-6 cursor-pointer hover:border-gray-400 transition-colors active:scale-[0.98]"
             onClick={() => setStatusFilter("draft")}
           >
-            <div className="text-sm text-gray-500 mb-1">Drafts</div>
-            <div className="text-3xl font-semibold">{stats.draft}</div>
+            <div className="text-xs md:text-sm text-gray-500 mb-1">Drafts</div>
+            <div className="text-2xl md:text-3xl font-semibold">{stats.draft}</div>
           </div>
           <div 
-            className="border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
+            className="border border-gray-200 p-4 md:p-6 cursor-pointer hover:border-gray-400 transition-colors active:scale-[0.98]"
             onClick={() => setStatusFilter("published")}
           >
-            <div className="text-sm text-gray-500 mb-1">Published</div>
-            <div className="text-3xl font-semibold">{stats.published}</div>
+            <div className="text-xs md:text-sm text-gray-500 mb-1">Published</div>
+            <div className="text-2xl md:text-3xl font-semibold">{stats.published}</div>
           </div>
           <div 
-            className="border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
+            className="border border-gray-200 p-4 md:p-6 cursor-pointer hover:border-gray-400 transition-colors active:scale-[0.98]"
             onClick={() => setStatusFilter("archived")}
           >
-            <div className="text-sm text-gray-500 mb-1">Archived</div>
-            <div className="text-3xl font-semibold">{stats.archived}</div>
+            <div className="text-xs md:text-sm text-gray-500 mb-1">Archived</div>
+            <div className="text-2xl md:text-3xl font-semibold">{stats.archived}</div>
           </div>
           {stats.expiringSoon > 0 && (
-            <div className="border border-orange-300 bg-orange-50 p-4">
-              <div className="text-sm text-orange-700 mb-1">Expiring Soon</div>
-              <div className="text-3xl font-semibold text-orange-700">{stats.expiringSoon}</div>
+            <div className="border border-orange-300 bg-orange-50 p-4 md:p-6">
+              <div className="text-xs md:text-sm text-orange-700 mb-1">Expiring Soon</div>
+              <div className="text-2xl md:text-3xl font-semibold text-orange-700">{stats.expiringSoon}</div>
             </div>
           )}
         </div>
@@ -357,7 +357,7 @@ export default function Dashboard() {
 
           {/* Bulk Actions */}
           {selectedIds.size > 0 && (
-            <div className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200">
+            <div className="flex items-center justify-between p-4 md:p-3 bg-gray-50 border border-gray-200">
               <span className="text-sm text-gray-700">{selectedIds.size} selected</span>
               <div className="flex gap-2">
                 {statusFilter === "archived" ? (
@@ -422,7 +422,7 @@ export default function Dashboard() {
               return (
                 <div
                   key={proposal.id}
-                  className="border border-gray-200 hover:border-gray-400 transition-all p-5 group"
+                  className="border border-gray-200 hover:border-gray-400 transition-all p-4 md:p-5 group"
                 >
                   <div className="flex items-start gap-4">
                     {/* Checkbox */}
