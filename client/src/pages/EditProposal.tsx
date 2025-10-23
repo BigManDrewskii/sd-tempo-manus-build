@@ -34,7 +34,7 @@ export default function EditProposal() {
   const [projectName, setProjectName] = useState("");
   const [validUntil, setValidUntil] = useState("");
   const [problems, setProblems] = useState<Array<{ title: string; description: string; icon: string }>>([]);
-  const [phases, setPhases] = useState<Array<{ title: string; duration: string }>>([]);
+  const [phases, setPhases] = useState<Array<{ title: string; duration?: string }>>([]);
   const [deliverables, setDeliverables] = useState<string[]>([]);
   const [pricingTiers, setPricingTiers] = useState<Array<{ name: string; price: number; features: string[]; recommended?: boolean }>>([]);
   const [addOns, setAddOns] = useState<Array<{ id: string; name: string; price: number; description: string }>>([]);

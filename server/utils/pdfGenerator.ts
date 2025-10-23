@@ -6,7 +6,7 @@ interface ProposalData {
   clientName: string;
   validUntil: Date;
   problems: Array<{ title: string; description: string }>;
-  solutionPhases: Array<{ title: string; duration: string; description?: string }>;
+  solutionPhases: Array<{ title: string; duration?: string; description?: string }>;
   deliverables: string[];
   pricingTiers: Array<{ name: string; price: number; features: string[] }>;
   addOns: Array<{ name: string; description: string; price: number }>;

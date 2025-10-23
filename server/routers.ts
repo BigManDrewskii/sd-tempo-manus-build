@@ -69,7 +69,7 @@ export const appRouter = router({
         })),
         solutionPhases: z.array(z.object({
           title: z.string(),
-          duration: z.string(),
+          duration: z.string().optional(),
         })),
         deliverables: z.array(z.string()),
         caseStudies: z.array(z.object({
@@ -123,7 +123,7 @@ export const appRouter = router({
           })).optional(),
           solutionPhases: z.array(z.object({
             title: z.string(),
-            duration: z.string(),
+            duration: z.string().optional(),
           })).optional(),
           deliverables: z.array(z.string()).optional(),
           caseStudies: z.array(z.object({

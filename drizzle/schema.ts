@@ -51,7 +51,7 @@ export const templates = mysqlTable("templates", {
   
   // Template content (same structure as proposals)
   problems: json("problems").$type<Array<{ title: string; description: string; icon: string }>>().notNull(),
-  solutionPhases: json("solutionPhases").$type<Array<{ title: string; duration: string }>>().notNull(),
+  solutionPhases: json("solutionPhases").$type<Array<{ title: string; duration?: string }>>().notNull(),
   deliverables: json("deliverables").$type<Array<string>>().notNull(),
   caseStudies: json("caseStudies").$type<Array<{ title: string; description: string; metrics: Array<{ label: string; value: string }> }>>().notNull(),
   pricingTiers: json("pricingTiers").$type<Array<{ 
@@ -93,7 +93,7 @@ export const proposals = mysqlTable("proposals", {
   
   // Content sections (stored as JSON)
   problems: json("problems").$type<Array<{ title: string; description: string; icon: string }>>().notNull(),
-  solutionPhases: json("solutionPhases").$type<Array<{ title: string; duration: string }>>().notNull(),
+  solutionPhases: json("solutionPhases").$type<Array<{ title: string; duration?: string }>>().notNull(),
   deliverables: json("deliverables").$type<Array<string>>().notNull(),
   caseStudies: json("caseStudies").$type<Array<{ title: string; description: string; metrics: Array<{ label: string; value: string }> }>>().notNull(),
   
