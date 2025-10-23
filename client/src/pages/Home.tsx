@@ -50,10 +50,10 @@ export default function Home() {
             <div className="flex items-center gap-4">
               {isAuthenticated ? (
                 <>
-                  <Link href="/start">
+                  <Link href="/dashboard">
                     <div>
                       <Button variant="ghost" size="sm">
-                        Start
+                        Dashboard
                       </Button>
                     </div>
                   </Link>
@@ -162,28 +162,21 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Bento Box Grid - Asymmetric Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5 lg:gap-6 auto-rows-fr">
-            {/* Hero Feature - Real-Time Pricing (Large, spans 7 columns, 2 rows) */}
-            <div className="md:col-span-7 md:row-span-2 bg-black text-white p-8 md:p-10 lg:p-12 flex flex-col justify-between min-h-[400px] md:min-h-[480px]">
-              <div>
-                <div className="w-16 h-16 bg-background text-black flex items-center justify-center mb-10">
-                  <Zap className="w-8 h-8" />
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 leading-tight">Real-Time Pricing Calculator</h3>
-                <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-lg">
-                  Interactive calculators let clients customize packages and see pricing instantly. 
-                  No more back-and-forth emails. Close deals faster with transparent, dynamic pricing that adapts to their needs.
-                </p>
+          {/* Features Grid - Consistent Card Style */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {/* Feature Card - Real-Time Pricing */}
+            <div className="bg-background border border-border p-6 md:p-8 hover:border-gray-300 transition-all duration-200 flex flex-col">
+              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
+                <Zap className="w-6 h-6" />
               </div>
-              <div className="flex items-center gap-2 mt-10">
-                <div className="h-1 w-12 bg-background"></div>
-                <span className="text-sm text-gray-400">Most popular feature</span>
-              </div>
+              <h3 className="text-xl font-semibold mb-4">Real-Time Pricing Calculator</h3>
+              <p className="text-muted-foreground flex-grow">
+                Interactive calculators let clients customize packages and see pricing instantly. Close deals faster with transparent, dynamic pricing.
+              </p>
             </div>
 
-            {/* Secondary Feature - Digital Signatures (Medium, 5 columns, 1 row) */}
-            <div className="md:col-span-5 bg-background p-6 md:p-8 border border-border min-h-[200px] md:min-h-[230px] flex flex-col">
+            {/* Feature Card - Digital Signatures */}
+            <div className="bg-background border border-border p-6 md:p-8 hover:border-gray-300 transition-all duration-200 flex flex-col">
               <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
                 <FileText className="w-6 h-6" />
               </div>
@@ -193,8 +186,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Secondary Feature - Analytics (Medium, 5 columns, 1 row) */}
-            <div className="md:col-span-5 bg-background p-6 md:p-8 border border-border min-h-[200px] md:min-h-[230px] flex flex-col">
+            {/* Feature Card - Analytics */}
+            <div className="bg-background border border-border p-6 md:p-8 hover:border-gray-300 transition-all duration-200 flex flex-col">
               <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
                 <BarChart3 className="w-6 h-6" />
               </div>
@@ -204,29 +197,35 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Tertiary Feature - Email Tracking (Small, 4 columns) */}
-            <div className="md:col-span-4 bg-muted p-6 md:p-7 border border-border min-h-[180px] md:min-h-[200px] hover:border-gray-300 transition-colors">
-              <Mail className="w-10 h-10 text-black mb-5" />
-              <h3 className="text-lg font-semibold mb-2">Email Tracking</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+            {/* Feature Card - Email Tracking */}
+            <div className="bg-background border border-border p-6 md:p-8 hover:border-gray-300 transition-all duration-200 flex flex-col">
+              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
+                <Mail className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Email Tracking</h3>
+              <p className="text-muted-foreground flex-grow">
                 Get notified when clients open your proposals and track engagement.
               </p>
             </div>
 
-            {/* Tertiary Feature - Templates (Small, 4 columns) */}
-            <div className="md:col-span-4 bg-muted p-6 md:p-7 border border-border min-h-[180px] md:min-h-[200px] hover:border-gray-300 transition-colors">
-              <Users className="w-10 h-10 text-black mb-5" />
-              <h3 className="text-lg font-semibold mb-2">Template Library</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+            {/* Feature Card - Templates */}
+            <div className="bg-background border border-border p-6 md:p-8 hover:border-gray-300 transition-all duration-200 flex flex-col">
+              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
+                <Users className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Template Library</h3>
+              <p className="text-muted-foreground flex-grow">
                 Industry-specific templates ready to customize and send.
               </p>
             </div>
 
-            {/* Tertiary Feature - Security (Small, 4 columns) */}
-            <div className="md:col-span-4 bg-muted p-6 md:p-7 border border-border min-h-[180px] md:min-h-[200px] hover:border-gray-300 transition-colors">
-              <Shield className="w-10 h-10 text-black mb-5" />
-              <h3 className="text-lg font-semibold mb-2">Secure & Professional</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+            {/* Feature Card - Security */}
+            <div className="bg-background border border-border p-6 md:p-8 hover:border-gray-300 transition-all duration-200 flex flex-col">
+              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
+                <Shield className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Secure & Professional</h3>
+              <p className="text-muted-foreground flex-grow">
                 Enterprise-grade security with custom branding options.
               </p>
             </div>
@@ -408,12 +407,13 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-12 px-6">
+      <footer className="border-t border-border py-8 md:py-12 px-4 md:px-6">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          {/* Mobile: Compact with single column, Desktop: 4 columns */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
             {/* Brand */}
-            <div>
-              <div className="flex items-center mb-4">
+            <div className="text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start mb-4">
                 <img src="/logos/proposr-fulllogo.svg" alt="PROPOSR" className="h-6 w-auto" />
               </div>
               <p className="text-sm text-muted-foreground">
@@ -421,8 +421,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Product */}
-            <div>
+            {/* Product - Hidden on mobile, shown on desktop */}
+            <div className="hidden md:block">
               <h4 className="font-semibold mb-4 text-sm">Product</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#features" className="hover:text-foreground">Features</a></li>
@@ -434,8 +434,8 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Resources */}
-            <div>
+            {/* Resources - Hidden on mobile, shown on desktop */}
+            <div className="hidden md:block">
               <h4 className="font-semibold mb-4 text-sm">Resources</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#how-it-works" className="hover:text-foreground">How It Works</a></li>
@@ -444,8 +444,8 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Company */}
-            <div>
+            {/* Company - Hidden on mobile, shown on desktop */}
+            <div className="hidden md:block">
               <h4 className="font-semibold mb-4 text-sm">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link href="/#" className="hover:text-foreground">About</Link></li>
@@ -455,9 +455,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <div>© 2025 PROPOSR. Built for businesses that want to close more deals.</div>
-            <div className="flex gap-6">
+          {/* Mobile: Compact links row */}
+          <div className="flex md:hidden justify-center gap-4 mb-6 text-sm text-muted-foreground flex-wrap">
+            <a href="#features" className="hover:text-foreground">Features</a>
+            <Link href="/templates" className="hover:text-foreground">Templates</Link>
+            <a href="#pricing" className="hover:text-foreground">Pricing</a>
+            <Link href="/support" className="hover:text-foreground">Support</Link>
+            <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
+            <Link href="/terms" className="hover:text-foreground">Terms</Link>
+          </div>
+
+          <div className="pt-6 md:pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+            <div className="text-center md:text-left">© 2025 PROPOSR. Built for businesses that want to close more deals.</div>
+            <div className="flex gap-4 md:gap-6">
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">Twitter</a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">LinkedIn</a>
               <a href="https://github.com/BigManDrewskii/sd-tempo-manus-build" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">GitHub</a>
