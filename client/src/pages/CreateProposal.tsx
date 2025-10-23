@@ -186,23 +186,28 @@ export default function CreateProposal() {
   return (
     <div className="min-h-screen bg-white">
       {/* Main Content */}
-      <main className="container max-w-4xl mx-auto px-6 py-12">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Create New Proposal</h1>
-          <p className="text-gray-600">
+      <main className="container max-w-5xl mx-auto px-6 py-16">
+        <div className="mb-12">
+          <div className="flex items-center gap-4 mb-3">
+            <div className="p-3 bg-black rounded-lg">
+              <FileText className="w-7 h-7 text-white" />
+            </div>
+            <h1 className="text-5xl font-bold text-black">Create New Proposal</h1>
+          </div>
+          <p className="text-lg text-gray-600 ml-[68px]">
             Fill in the basic details to generate an interactive proposal.
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Proposal Details</CardTitle>
-            <CardDescription>
+        <Card className="border-gray-200 bg-white shadow-sm">
+          <CardHeader className="border-b border-gray-200 pb-6">
+            <CardTitle className="text-2xl font-bold text-black">Proposal Details</CardTitle>
+            <CardDescription className="text-base text-gray-600 mt-2">
               Start with the essentials. You can customize content after creation.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <CardContent className="pt-8">
+            <form onSubmit={handleSubmit} className="space-y-8">
               <div>
                 <Label htmlFor="title">Proposal Title *</Label>
                 <Input
@@ -253,7 +258,7 @@ export default function CreateProposal() {
                 />
               </div>
 
-              <div className="pt-4 border-t border-gray-200">
+              <div className="pt-6 border-t border-gray-100 mt-8">
                 <Button
                   type="button"
                   variant="outline"
@@ -269,7 +274,7 @@ export default function CreateProposal() {
                 </p>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-4 pt-6 border-t border-gray-100">
                 <Button
                   type="submit"
                   size="lg"

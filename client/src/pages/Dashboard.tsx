@@ -264,11 +264,16 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-white">
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-12">
+      <main className="container max-w-7xl mx-auto px-6 py-16">
         {/* Title */}
         <div className="mb-12">
-          <h1 className="text-3xl font-semibold tracking-tight text-gray-900 mb-2">Proposals</h1>
-          <p className="text-gray-500">Manage and track all your proposals</p>
+          <div className="flex items-center gap-4 mb-3">
+            <div className="p-3 bg-black rounded-lg">
+              <FileText className="w-7 h-7 text-white" />
+            </div>
+            <h1 className="text-5xl font-bold text-black">Proposals</h1>
+          </div>
+          <p className="text-lg text-gray-600 ml-[68px]">Manage and track all your proposals</p>
         </div>
 
         {/* Stats - Minimal Cards */}
