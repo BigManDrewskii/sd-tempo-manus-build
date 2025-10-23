@@ -64,18 +64,18 @@ export default function Templates() {
     <div className="min-h-screen bg-white">
 
       {/* Main Content */}
-      <main className="container max-w-7xl mx-auto px-6 py-16">
+      <main className="container max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 lg:py-16">
         {/* Title */}
-        <div className="mb-12">
-          <div className="flex items-center gap-4 mb-3">
-            <div className="p-3 bg-black rounded-lg">
-              <FileText className="w-7 h-7 text-white" />
+        <div className="mb-8 md:mb-10 lg:mb-12">
+          <div className="flex items-start gap-3 md:gap-4 mb-2 md:mb-3">
+            <div className="p-2 md:p-3 bg-black rounded-lg flex-shrink-0">
+              <FileText className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
             </div>
-            <h1 className="text-5xl font-bold text-black">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">
               Proposal Templates
             </h1>
           </div>
-          <p className="text-lg text-gray-600 ml-[68px]">
+          <p className="text-sm md:text-base lg:text-lg text-gray-600 md:ml-[60px] lg:ml-[68px]">
             Start with a professional template and customize it for your client
           </p>
         </div>

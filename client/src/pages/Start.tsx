@@ -25,19 +25,19 @@ export default function Start() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-8 py-16">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
         {/* Personalized Greeting */}
-        <div className="mb-12">
-          <h1 className="text-5xl font-bold text-black mb-3">
+        <div className="mb-8 md:mb-10 lg:mb-12">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-2 md:mb-3">
             {getGreeting()}, {user?.name?.split(" ")[0] || "there"}
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-base md:text-lg lg:text-xl text-gray-600">
             What will you build today?
           </p>
         </div>
 
         {/* Primary Actions */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10 md:mb-12 lg:mb-16">
           <Link href="/create-ai">
             <Card className="border-2 border-black bg-black text-white hover:bg-gray-900 transition-colors cursor-pointer group h-full">
               <CardHeader>

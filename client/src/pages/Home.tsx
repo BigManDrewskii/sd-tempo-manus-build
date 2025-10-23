@@ -27,7 +27,7 @@ export default function Home() {
             : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-16">
             <Link href="/">
               <div className="flex items-center gap-2 cursor-pointer">
@@ -90,13 +90,13 @@ export default function Home() {
             Interactive Proposal Platform
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Close More Deals with
             <br />
             Interactive Proposals
           </h1>
           
-          <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg lg:text-xl text-gray-600 mb-8 md:mb-10 max-w-2xl mx-auto">
             Transform static PDFs into engaging web experiences. Real-time pricing, digital signatures, 
             and analytics that help you win more business.
           </p>
@@ -164,15 +164,15 @@ export default function Home() {
           </div>
 
           {/* Bento Box Grid - Asymmetric Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-fr">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5 lg:gap-6 auto-rows-fr">
             {/* Hero Feature - Real-Time Pricing (Large, spans 7 columns, 2 rows) */}
-            <div className="md:col-span-7 md:row-span-2 bg-black text-white p-12 flex flex-col justify-between min-h-[480px]">
+            <div className="md:col-span-7 md:row-span-2 bg-black text-white p-8 md:p-10 lg:p-12 flex flex-col justify-between min-h-[400px] md:min-h-[480px]">
               <div>
                 <div className="w-16 h-16 bg-white text-black flex items-center justify-center mb-10">
                   <Zap className="w-8 h-8" />
                 </div>
-                <h3 className="text-3xl font-bold mb-6 leading-tight">Real-Time Pricing Calculator</h3>
-                <p className="text-gray-300 text-lg leading-relaxed max-w-lg">
+                <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 leading-tight">Real-Time Pricing Calculator</h3>
+                <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-lg">
                   Interactive calculators let clients customize packages and see pricing instantly. 
                   No more back-and-forth emails. Close deals faster with transparent, dynamic pricing that adapts to their needs.
                 </p>
@@ -184,7 +184,7 @@ export default function Home() {
             </div>
 
             {/* Secondary Feature - Digital Signatures (Medium, 5 columns, 1 row) */}
-            <div className="md:col-span-5 bg-white p-8 border border-gray-200 min-h-[230px] flex flex-col">
+            <div className="md:col-span-5 bg-white p-6 md:p-8 border border-gray-200 min-h-[200px] md:min-h-[230px] flex flex-col">
               <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
                 <FileText className="w-6 h-6" />
               </div>
@@ -195,7 +195,7 @@ export default function Home() {
             </div>
 
             {/* Secondary Feature - Analytics (Medium, 5 columns, 1 row) */}
-            <div className="md:col-span-5 bg-white p-8 border border-gray-200 min-h-[230px] flex flex-col">
+            <div className="md:col-span-5 bg-white p-6 md:p-8 border border-gray-200 min-h-[200px] md:min-h-[230px] flex flex-col">
               <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-6">
                 <BarChart3 className="w-6 h-6" />
               </div>
@@ -206,7 +206,7 @@ export default function Home() {
             </div>
 
             {/* Tertiary Feature - Email Tracking (Small, 4 columns) */}
-            <div className="md:col-span-4 bg-gray-50 p-7 border border-gray-200 min-h-[200px] hover:border-gray-300 transition-colors">
+            <div className="md:col-span-4 bg-gray-50 p-6 md:p-7 border border-gray-200 min-h-[180px] md:min-h-[200px] hover:border-gray-300 transition-colors">
               <Mail className="w-10 h-10 text-black mb-5" />
               <h3 className="text-lg font-semibold mb-2">Email Tracking</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -215,7 +215,7 @@ export default function Home() {
             </div>
 
             {/* Tertiary Feature - Templates (Small, 4 columns) */}
-            <div className="md:col-span-4 bg-gray-50 p-7 border border-gray-200 min-h-[200px] hover:border-gray-300 transition-colors">
+            <div className="md:col-span-4 bg-gray-50 p-6 md:p-7 border border-gray-200 min-h-[180px] md:min-h-[200px] hover:border-gray-300 transition-colors">
               <Users className="w-10 h-10 text-black mb-5" />
               <h3 className="text-lg font-semibold mb-2">Template Library</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -224,7 +224,7 @@ export default function Home() {
             </div>
 
             {/* Tertiary Feature - Security (Small, 4 columns) */}
-            <div className="md:col-span-4 bg-gray-50 p-7 border border-gray-200 min-h-[200px] hover:border-gray-300 transition-colors">
+            <div className="md:col-span-4 bg-gray-50 p-6 md:p-7 border border-gray-200 min-h-[180px] md:min-h-[200px] hover:border-gray-300 transition-colors">
               <Shield className="w-10 h-10 text-black mb-5" />
               <h3 className="text-lg font-semibold mb-2">Secure & Professional</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
