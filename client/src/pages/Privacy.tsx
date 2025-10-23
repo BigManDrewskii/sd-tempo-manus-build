@@ -25,7 +25,7 @@ export default function Privacy() {
           <section>
             <h2 className="text-2xl font-bold text-black mb-4">1. Introduction</h2>
             <p className="text-gray-700 leading-relaxed">
-              Tempo ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our interactive proposal builder service.
+              PROPOSR ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our interactive proposal builder service.
             </p>
           </section>
 

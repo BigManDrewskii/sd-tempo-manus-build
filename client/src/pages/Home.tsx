@@ -30,9 +30,8 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-16">
             <Link href="/">
-              <div className="flex items-center gap-2 cursor-pointer">
-                <FileText className="w-6 h-6" />
-                <span className="text-xl font-semibold">Tempo</span>
+              <div className="flex items-center cursor-pointer">
+                <img src="/logos/proposr-fulllogo.svg" alt="PROPOSR" className="h-7 w-auto" />
               </div>
             </Link>
 
@@ -414,9 +413,8 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <FileText className="w-5 h-5" />
-                <span className="font-semibold">Tempo</span>
+              <div className="flex items-center mb-4">
+                <img src="/logos/proposr-fulllogo.svg" alt="PROPOSR" className="h-6 w-auto" />
               </div>
               <p className="text-sm text-gray-600">
                 Interactive proposals that close deals faster.
@@ -458,7 +456,7 @@ export default function Home() {
           </div>
 
           <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
-            <div>© 2025 Tempo. Built for businesses that want to close more deals.</div>
+            <div>© 2025 PROPOSR. Built for businesses that want to close more deals.</div>
             <div className="flex gap-6">
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">Twitter</a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">LinkedIn</a>

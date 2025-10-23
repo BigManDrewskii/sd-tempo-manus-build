@@ -25,14 +25,14 @@ export default function Terms() {
           <section>
             <h2 className="text-2xl font-bold text-black mb-4">1. Acceptance of Terms</h2>
             <p className="text-gray-700 leading-relaxed">
-              By accessing and using Tempo ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
+              By accessing and using PROPOSR ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold text-black mb-4">2. Description of Service</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Tempo provides an interactive proposal builder platform that enables users to create, customize, send, and track business proposals. The Service includes features such as:
+              PROPOSR provides an interactive proposal builder platform that enables users to create, customize, send, and track business proposals. The Service includes features such as:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
               <li>AI-powered proposal generation</li>
@@ -78,7 +78,7 @@ export default function Terms() {
           <section>
             <h2 className="text-2xl font-bold text-black mb-4">5. Intellectual Property</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              The Service and its original content, features, and functionality are owned by Tempo and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
+              The Service and its original content, features, and functionality are owned by PROPOSR and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
             </p>
             <p className="text-gray-700 leading-relaxed">
               You retain all rights to the content you create using the Service. By using the Service, you grant us a limited license to host, store, and display your content solely for the purpose of providing the Service to you.
@@ -126,14 +126,14 @@ export default function Terms() {
               <li>Any errors in the Service will be corrected</li>
             </ul>
             <p className="text-gray-700 leading-relaxed mt-4">
-              To the maximum extent permitted by law, Tempo shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses.
+              To the maximum extent permitted by law, PROPOSR shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold text-black mb-4">10. Indemnification</h2>
             <p className="text-gray-700 leading-relaxed">
-              You agree to indemnify, defend, and hold harmless Tempo and its officers, directors, employees, and agents from any claims, liabilities, damages, losses, and expenses arising out of or in any way connected with your access to or use of the Service, your violation of these Terms, or your violation of any rights of another party.
+              You agree to indemnify, defend, and hold harmless PROPOSR and its officers, directors, employees, and agents from any claims, liabilities, damages, losses, and expenses arising out of or in any way connected with your access to or use of the Service, your violation of these Terms, or your violation of any rights of another party.
             </p>
           </section>
 
@@ -147,7 +147,7 @@ export default function Terms() {
           <section>
             <h2 className="text-2xl font-bold text-black mb-4">12. Governing Law</h2>
             <p className="text-gray-700 leading-relaxed">
-              These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which Tempo operates, without regard to its conflict of law provisions.
+              These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which PROPOSR operates, without regard to its conflict of law provisions.
             </p>
           </section>
 

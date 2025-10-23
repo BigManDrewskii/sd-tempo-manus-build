@@ -41,9 +41,8 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href={isAuthenticated ? "/start" : "/"}>
-            <div className="flex items-center gap-2 hover:opacity-70 transition-opacity cursor-pointer">
-              <FileText className="w-6 h-6 text-black" />
-              <span className="font-bold text-lg text-black">{APP_TITLE}</span>
+            <div className="flex items-center hover:opacity-70 transition-opacity cursor-pointer">
+              <img src="/logos/proposr-fulllogo.svg" alt="PROPOSR" className="h-7 w-auto" />
             </div>
           </Link>
 

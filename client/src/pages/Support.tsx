@@ -57,7 +57,7 @@ export default function Support() {
                 <CardTitle className="text-xl">Documentation</CardTitle>
               </div>
               <CardDescription>
-                Learn how to use Tempo with our guides
+                Learn how to use PROPOSR with our guides
               </CardDescription>
             </CardHeader>
             <CardContent>
