@@ -144,28 +144,30 @@ export default function CreateProposalAI() {
   return (
     <div className="min-h-screen bg-white">
       {/* Main Content */}
-      <main className="container max-w-4xl mx-auto px-6 py-12">
+      <main className="container max-w-5xl mx-auto px-6 py-16">
         {step === "input" && (
           <>
-            <div className="mb-8">
-              <div className="flex items-center gap-3 mb-2">
-                <Wand2 className="w-8 h-8 text-black" />
-                <h1 className="text-4xl font-bold">AI-Powered Proposal</h1>
+            <div className="mb-12">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="p-3 bg-black rounded-lg">
+                  <Wand2 className="w-7 h-7 text-white" />
+                </div>
+                <h1 className="text-5xl font-bold text-black">AI-Powered Proposal</h1>
               </div>
-              <p className="text-gray-600">
+              <p className="text-lg text-gray-600 ml-[68px]">
                 Describe your project and let AI generate a complete, professional proposal in seconds.
               </p>
             </div>
 
-            <Card className="border-gray-200 bg-white">
-              <CardHeader className="border-b border-gray-100">
-                <CardTitle className="text-xl font-bold text-black">Project Details</CardTitle>
-                <CardDescription className="text-gray-600">
+            <Card className="border-gray-200 bg-white shadow-sm">
+              <CardHeader className="border-b border-gray-200 pb-6">
+                <CardTitle className="text-2xl font-bold text-black">Project Details</CardTitle>
+                <CardDescription className="text-base text-gray-600 mt-2">
                   Provide information about your project and AI will create a tailored proposal.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <form onSubmit={handleGenerate} className="space-y-6">
+              <CardContent className="pt-8">
+                <form onSubmit={handleGenerate} className="space-y-8">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="clientName">Client Name *</Label>
@@ -275,7 +277,7 @@ export default function CreateProposalAI() {
                     </div>
                   </div>
 
-                  <div className="flex gap-4 pt-4">
+                  <div className="flex gap-4 pt-6 border-t border-gray-100 mt-8">
                     <Button
                       type="submit"
                       size="lg"
@@ -304,13 +306,13 @@ export default function CreateProposalAI() {
               </CardContent>
             </Card>
 
-            <Card className="mt-8 border-gray-200 bg-gray-50">
-              <CardContent className="p-6">
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Card className="mt-10 border-gray-200 bg-gray-50">
+              <CardContent className="p-8">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-black">
                   <Sparkles className="w-5 h-5" />
                   What AI Will Generate
                 </h3>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-3 text-base text-gray-600">
                   <li>• 3-4 specific client problems with descriptions</li>
                   <li>• 4-5 solution phases with realistic timelines</li>
                   <li>• 6-8 concrete deliverables</li>
